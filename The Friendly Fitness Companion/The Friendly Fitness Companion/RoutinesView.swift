@@ -3,6 +3,7 @@ import SwiftData
 
 struct RoutinesView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
     @Query(sort: \RoutineTemplate.name) private var routines: [RoutineTemplate]
     
     @State private var showingCreateRoutine = false
@@ -74,9 +75,13 @@ struct RoutinesView: View {
                                 }
                                 
                                 Button(action: {
-                                    // In the future, this would launch the routine into the Forge Logbook
                                     let impact = UIImpactFeedbackGenerator(style: .heavy)
                                     impact.impactOccurred()
+                                    
+                                    // Launch the routine
+                                    appState.activeRoutine = routine
+                                    appState.forgeQueue = routine.exercises
+                                    appState.selectedTab = 2 // The Forge
                                 }) {
                                     Text("LAUNCH ROUTINE")
                                         .font(.system(size: 12, weight: .black, design: .rounded))
@@ -132,8 +137,8 @@ struct RoutinesView: View {
                             ForEach(exerciseDatabase, id: \.self) { exercise in
                                 let isSelected = newRoutineExercises.contains(exercise)
                                 Button(action: {
-                                    if isSelected {
-                                        newRoutineExercises.removeAll(where: { $0 == exercise })
+                                    if let index = newRoutineExercises.firstIndex(of: exercise) {
+                                        newRoutineExercises.remove(at: index)
                                     } else {
                                         newRoutineExercises.append(exercise)
                                     }

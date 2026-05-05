@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = 0
+    @EnvironmentObject var appState: AppState
     
     init() {
         let appearance = UITabBarAppearance()
@@ -25,7 +25,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $appState.selectedTab) {
             // 1. Dashboard Tab
             DashboardView()
                 .tabItem {

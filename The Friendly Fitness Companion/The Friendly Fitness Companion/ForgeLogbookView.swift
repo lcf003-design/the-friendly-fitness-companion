@@ -4,6 +4,7 @@ import Combine
 
 struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
     @State private var exerciseName: String = "Select Movement"
@@ -91,17 +92,31 @@ struct ForgeLogbookView: View {
                             .tracking(1.5)
                         
                         // Exercise Name Button (Triggers Picker)
-                        Button(action: {
-                            isShowingExercisePicker = true
-                        }) {
-                            HStack {
-                                Text(exerciseName)
-                                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Image(systemName: "chevron.right.circle.fill")
-                                    .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.title2)
+                        HStack {
+                            Button(action: {
+                                isShowingExercisePicker = true
+                            }) {
+                                HStack {
+                                    Text(exerciseName)
+                                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    Image(systemName: "chevron.right.circle.fill")
+                                        .foregroundColor(FriendlyTheme.apexGreen)
+                                        .font(.title2)
+                                }
+                            }
+                            
+                            // Next Exercise Button if in a routine
+                            if !appState.forgeQueue.isEmpty {
+                                Button(action: advanceQueue) {
+                                    Image(systemName: "forward.end.fill")
+                                        .foregroundColor(.black)
+                                        .padding(12)
+                                        .background(FriendlyTheme.apexGreen)
+                                        .clipShape(Circle())
+                                }
+                                .padding(.leading, 8)
                             }
                         }
                         .padding(.bottom, 8)
@@ -325,6 +340,16 @@ struct ForgeLogbookView: View {
                 // Timer automatically catches up when app is foregrounded because it uses Date()
             }
         }
+        .onChange(of: appState.forgeQueue) { oldQueue, newQueue in
+            if let first = newQueue.first, exerciseName != first {
+                loadExerciseFromQueue(first)
+            }
+        }
+        .onAppear {
+            if let first = appState.forgeQueue.first, exerciseName == "Select Movement" {
+                loadExerciseFromQueue(first)
+            }
+        }
         .sheet(isPresented: $isShowingExercisePicker) {
             ExercisePickerView(
                 selectedExercise: $exerciseName,
@@ -418,6 +443,40 @@ struct ForgeLogbookView: View {
             restPause = false
             isTimerRunning = false
             timerEndTime = nil
+        }
+    }
+    
+    // MARK: - Queue Logic
+    private func loadExerciseFromQueue(_ exercise: String) {
+        exerciseName = exercise
+        
+        // Auto-load previous performance
+        for log in dailyLogs {
+            if let workout = log.workouts.first(where: { $0.exerciseName == exercise }),
+               let lastSet = workout.sets.last {
+                weight = String(Int(lastSet.weight))
+                baseReps = String(lastSet.baseReps)
+                return
+            }
+        }
+        
+        // If no history, clear it
+        weight = ""
+        baseReps = ""
+    }
+    
+    private func advanceQueue() {
+        if !appState.forgeQueue.isEmpty {
+            appState.forgeQueue.removeFirst()
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            if appState.forgeQueue.isEmpty {
+                appState.activeRoutine = nil
+                exerciseName = "Select Movement"
+                weight = ""
+                baseReps = ""
+            }
         }
     }
 }
