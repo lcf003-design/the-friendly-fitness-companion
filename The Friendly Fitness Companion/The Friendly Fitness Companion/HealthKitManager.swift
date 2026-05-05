@@ -1,5 +1,6 @@
 import Foundation
 import HealthKit
+import Combine
 
 class HealthKitManager: ObservableObject {
     static let shared = HealthKitManager()
@@ -76,7 +77,7 @@ class HealthKitManager: ObservableObject {
             for sample in categorySamples {
                 // value == 0 typically indicates InBed, value == 1 indicates Asleep
                 // For this MVP, we will count total Asleep time
-                if sample.value == HKCategoryValueSleepAnalysis.asleep.rawValue {
+                if sample.value == HKCategoryValueSleepAnalysis.asleepUnspecified.rawValue || sample.value == HKCategoryValueSleepAnalysis.asleepCore.rawValue || sample.value == HKCategoryValueSleepAnalysis.asleepDeep.rawValue || sample.value == HKCategoryValueSleepAnalysis.asleepREM.rawValue {
                     totalSleepMinutes += sample.endDate.timeIntervalSince(sample.startDate) / 60
                 }
             }
