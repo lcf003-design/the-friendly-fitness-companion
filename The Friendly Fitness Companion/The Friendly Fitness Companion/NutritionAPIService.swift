@@ -1,6 +1,35 @@
 import Foundation
 
-// MARK: - USDA FoodData Central Models
+// MARK: - OpenFoodFacts Models (UK / Global Primary)
+struct OFFResponse: Codable {
+    let products: [OFFProduct]
+}
+
+struct OFFProduct: Codable {
+    let productName: String?
+    let ingredientsText: String?
+    let nutriments: OFFNutriments?
+    
+    enum CodingKeys: String, CodingKey {
+        case productName = "product_name"
+        case ingredientsText = "ingredients_text"
+        case nutriments
+    }
+}
+
+struct OFFNutriments: Codable {
+    let fat100g: Double?
+    let proteins100g: Double?
+    let carbohydrates100g: Double?
+    
+    enum CodingKeys: String, CodingKey {
+        case fat100g = "fat_100g"
+        case proteins100g = "proteins_100g"
+        case carbohydrates100g = "carbohydrates_100g"
+    }
+}
+
+// MARK: - USDA FoodData Central Models (Fallback)
 struct USDAResponse: Codable {
     let foods: [USDAFood]
 }
@@ -33,12 +62,71 @@ struct FoodSearchResult: Identifiable {
 class NutritionAPIService {
     static let shared = NutritionAPIService()
     
-    // We are using the public USDA DEMO_KEY. It allows 30-50 requests per hour.
-    private let apiKey = "DEMO_KEY"
+    private let usdaApiKey = "DEMO_KEY"
     
     func searchFood(query: String) async throws -> [FoodSearchResult] {
+        // Attempt 1: OpenFoodFacts UK (Global database, rich ingredient lists)
+        do {
+            let ukResults = try await searchOpenFoodFactsUK(query: query)
+            if !ukResults.isEmpty {
+                return ukResults
+            }
+        } catch {
+            print("OpenFoodFacts UK failed or offline: \(error.localizedDescription)")
+            // Fall through to USDA
+        }
+        
+        // Attempt 2: USDA Fallback (Highly reliable, but US-biased)
+        print("Falling back to USDA Database...")
+        return try await searchUSDA(query: query)
+    }
+    
+    // MARK: - OpenFoodFacts (UK) Search
+    private func searchOpenFoodFactsUK(query: String) async throws -> [FoodSearchResult] {
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=\(apiKey)&query=\(encodedQuery)&pageSize=10") else {
+              let url = URL(string: "https://uk.openfoodfacts.org/api/v2/search?categories_tags_en=\(encodedQuery)&fields=product_name,ingredients_text,nutriments&page_size=10") else {
+            throw URLError(.badURL)
+        }
+        
+        var request = URLRequest(url: url)
+        request.setValue("FriendlyFitnessCompanion/1.0", forHTTPHeaderField: "User-Agent")
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let decodedResponse = try JSONDecoder().decode(OFFResponse.self, from: data)
+        
+        return decodedResponse.products.compactMap { product in
+            guard let name = product.productName, !name.isEmpty else { return nil }
+            
+            let fat = product.nutriments?.fat100g ?? 0.0
+            let protein = product.nutriments?.proteins100g ?? 0.0
+            let carbs = product.nutriments?.carbohydrates100g ?? 0.0
+            let ingredients = (product.ingredientsText ?? "").lowercased()
+            
+            let hasSeedOils = FriendlyScanner.containsSeedOils(in: ingredients)
+            let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
+            let tier = FriendlyScanner.determineTier(hasSeedOils: hasSeedOils, hasSugars: hasSugars, ingredients: ingredients)
+            
+            return FoodSearchResult(
+                name: name.capitalized,
+                fatGrams: fat,
+                proteinGrams: protein,
+                carbsGrams: carbs,
+                tier: tier,
+                containsSeedOils: hasSeedOils,
+                containsRefinedSugars: hasSugars
+            )
+        }
+    }
+    
+    // MARK: - USDA Search
+    private func searchUSDA(query: String) async throws -> [FoodSearchResult] {
+        guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=\(usdaApiKey)&query=\(encodedQuery)&pageSize=10") else {
             throw URLError(.badURL)
         }
         
@@ -47,13 +135,7 @@ class NutritionAPIService {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw URLError(.badServerResponse)
-        }
-        
-        // Handle rate limiting or server errors
-        if httpResponse.statusCode != 200 {
-            print("API Error: Status Code \(httpResponse.statusCode)")
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
         
@@ -62,7 +144,6 @@ class NutritionAPIService {
         return decodedResponse.foods.compactMap { food in
             guard let name = food.description, !name.isEmpty else { return nil }
             
-            // Extract Macros
             var fat = 0.0
             var protein = 0.0
             var carbs = 0.0
@@ -70,24 +151,16 @@ class NutritionAPIService {
             if let nutrients = food.foodNutrients {
                 for nutrient in nutrients {
                     let nName = nutrient.nutrientName?.lowercased() ?? ""
-                    if nName.contains("protein") {
-                        protein = nutrient.value ?? 0.0
-                    } else if nName.contains("lipid (fat)") || nName.contains("total fat") {
-                        fat = nutrient.value ?? 0.0
-                    } else if nName.contains("carbohydrate") {
-                        carbs = nutrient.value ?? 0.0
-                    }
+                    if nName.contains("protein") { protein = nutrient.value ?? 0.0 }
+                    else if nName.contains("lipid (fat)") || nName.contains("total fat") { fat = nutrient.value ?? 0.0 }
+                    else if nName.contains("carbohydrate") { carbs = nutrient.value ?? 0.0 }
                 }
             }
             
-            let ingredientList = (food.ingredients ?? "").lowercased()
-            
-            // Scan for Hateful Eight & Sugars
-            let hasSeedOils = FriendlyScanner.containsSeedOils(in: ingredientList)
-            let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredientList)
-            
-            // Determine Tier
-            let tier = FriendlyScanner.determineTier(hasSeedOils: hasSeedOils, hasSugars: hasSugars, ingredients: ingredientList)
+            let ingredients = (food.ingredients ?? "").lowercased()
+            let hasSeedOils = FriendlyScanner.containsSeedOils(in: ingredients)
+            let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
+            let tier = FriendlyScanner.determineTier(hasSeedOils: hasSeedOils, hasSugars: hasSugars, ingredients: ingredients)
             
             return FoodSearchResult(
                 name: name.capitalized,
@@ -106,7 +179,7 @@ class NutritionAPIService {
 struct FriendlyScanner {
     static let hatefulEight = [
         "soybean", "corn oil", "cottonseed", "sunflower", 
-        "safflower", "grapeseed", "rice bran", "canola", "rapeseed"
+        "safflower", "grapeseed", "rice bran", "canola", "rapeseed", "vegetable oil"
     ]
     
     static let refinedSugars = [
@@ -125,21 +198,9 @@ struct FriendlyScanner {
     }
     
     static func determineTier(hasSeedOils: Bool, hasSugars: Bool, ingredients: String) -> String {
-        // If it has toxic modern ingredients, it automatically drops to Modern
-        if hasSeedOils || hasSugars {
-            return "Modern"
-        }
-        
-        // Very rudimentary logic for Apex vs Ancestral
-        if ingredients.contains("beef") || ingredients.contains("egg") || ingredients.contains("butter") || ingredients.contains("tallow") || ingredients.contains("pork") || ingredients.contains("chicken") {
-            return "Apex"
-        }
-        
-        if ingredients.contains("fruit") || ingredients.contains("honey") || ingredients.contains("milk") || ingredients.contains("water") {
-            return "Ancestral"
-        }
-        
-        // Default fallback
-        return "Ancestral"
+        if hasSeedOils || hasSugars { return "Modern" }
+        if ingredients.contains("beef") || ingredients.contains("egg") || ingredients.contains("butter") || ingredients.contains("tallow") || ingredients.contains("pork") || ingredients.contains("chicken") { return "Apex" }
+        if ingredients.contains("fruit") || ingredients.contains("honey") || ingredients.contains("milk") || ingredients.contains("water") { return "Ancestral" }
+        return "Ancestral" // Default clean
     }
 }
