@@ -8,8 +8,13 @@ struct ForgeLogbookView: View {
     
     @State private var exerciseName: String = "Select Movement"
     @State private var weight: String = ""
-    @State private var reps: String = ""
+    @State private var unit: String = "lbs"
+    @State private var baseReps: String = ""
     @State private var rpe: Double = 8.0
+    
+    // Rest-Pause Tracking
+    @State private var currentRestPauseExtraReps: String = ""
+    @State private var completedRestPauseReps: [Int] = []
     
     @State private var isShowingExercisePicker: Bool = false
     
@@ -104,22 +109,42 @@ struct ForgeLogbookView: View {
                         // Weight and Reps
                         HStack(spacing: 16) {
                             VStack(alignment: .leading) {
-                                Text("WEIGHT (LBS)")
-                                    .font(.system(size: 10, weight: .bold))
-                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                HStack {
+                                    Text("WEIGHT")
+                                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                    Spacer()
+                                    // Unit Toggle
+                                    Button(action: {
+                                        unit = (unit == "lbs") ? "kg" : "lbs"
+                                        let impact = UIImpactFeedbackGenerator(style: .light)
+                                        impact.impactOccurred()
+                                    }) {
+                                        Text(unit.uppercased())
+                                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 2)
+                                            .background(FriendlyTheme.apexGreen.opacity(0.2))
+                                            .cornerRadius(4)
+                                    }
+                                }
+                                
                                 TextField("0", text: $weight)
                                     .keyboardType(.decimalPad)
-                                    .font(.system(size: 28, weight: .bold))
+                                    .font(.system(size: 28, weight: .bold, design: .rounded))
                                     .foregroundColor(FriendlyTheme.apexGreen)
                             }
                             
                             VStack(alignment: .leading) {
-                                Text("REPS")
-                                    .font(.system(size: 10, weight: .bold))
+                                Text("BASE REPS")
+                                    .font(.system(size: 10, weight: .bold, design: .rounded))
                                     .foregroundColor(FriendlyTheme.textSecondary)
-                                TextField("0", text: $reps)
+                                    .padding(.top, 4)
+                                
+                                TextField("0", text: $baseReps)
                                     .keyboardType(.numberPad)
-                                    .font(.system(size: 28, weight: .bold))
+                                    .font(.system(size: 28, weight: .bold, design: .rounded))
                                     .foregroundColor(.white)
                             }
                         }
@@ -154,22 +179,61 @@ struct ForgeLogbookView: View {
                             IntensityButton(title: "NEGATIVES", isSelected: $negatives)
                         }
                         
-                        // Rest-Pause Timer Button
-                        Button(action: toggleRestPause) {
-                            HStack {
-                                Image(systemName: "timer")
-                                Text(restPause ? (isTimerRunning ? "REST-PAUSE: \(restPauseTimer)s" : "REST-PAUSE LOGGED") : "REST-PAUSE")
+                        // Rest-Pause Engine
+                        VStack(spacing: 12) {
+                            // If we have completed some rest pause reps, show them
+                            if !completedRestPauseReps.isEmpty {
+                                HStack {
+                                    Text("REST-PAUSE LOG:")
+                                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.mutedAmber)
+                                    Spacer()
+                                    let log = completedRestPauseReps.map { "\($0)" }.joined(separator: " + ")
+                                    Text("+ \(log) reps")
+                                        .font(.system(size: 12, weight: .black, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.mutedAmber)
+                                }
                             }
-                            .font(.system(size: 14, weight: .bold))
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(restPause ? FriendlyTheme.mutedAmber : FriendlyTheme.midnightMatte)
-                            .foregroundColor(restPause ? FriendlyTheme.midnightMatte : FriendlyTheme.mutedAmber)
-                            .cornerRadius(16)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(FriendlyTheme.mutedAmber, lineWidth: restPause ? 0 : 2)
-                            )
+                            
+                            // Timer Button
+                            Button(action: toggleRestPause) {
+                                HStack {
+                                    Image(systemName: "timer")
+                                    Text(isTimerRunning ? "REST: \(restPauseTimer)s" : "START REST-PAUSE")
+                                }
+                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(isTimerRunning ? FriendlyTheme.mutedAmber : Color.clear)
+                                .foregroundColor(isTimerRunning ? FriendlyTheme.midnightMatte : FriendlyTheme.mutedAmber)
+                                .cornerRadius(16)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(FriendlyTheme.mutedAmber, lineWidth: isTimerRunning ? 0 : 2)
+                                )
+                            }
+                            
+                            // If timer has run at least once or is running, allow logging extra reps
+                            if !isTimerRunning && (!completedRestPauseReps.isEmpty || restPause) {
+                                HStack {
+                                    TextField("Extra Reps", text: $currentRestPauseExtraReps)
+                                        .keyboardType(.numberPad)
+                                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color(white: 0.15))
+                                        .cornerRadius(12)
+                                    
+                                    Button(action: logRestPauseRep) {
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 16, weight: .bold))
+                                            .foregroundColor(.black)
+                                            .padding()
+                                            .background(FriendlyTheme.mutedAmber)
+                                            .cornerRadius(12)
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding(24)
@@ -216,11 +280,11 @@ struct ForgeLogbookView: View {
                                             
                                             Spacer()
                                             
-                                            Text("\(Int(set.weight)) lbs × \(set.reps)")
+                                            Text("\(Int(set.weight)) \(set.unit) × \(set.displayReps)")
                                                 .font(.system(size: 16, weight: .bold, design: .rounded))
                                                 .foregroundColor(.white)
                                             
-                                            if set.restPause || set.forcedReps || set.negatives {
+                                            if !set.restPauseReps.isEmpty || set.forcedReps || set.negatives {
                                                 Image(systemName: "flame.fill")
                                                     .foregroundColor(FriendlyTheme.mutedAmber)
                                                     .font(.system(size: 12))
@@ -265,7 +329,7 @@ struct ForgeLogbookView: View {
             ExercisePickerView(
                 selectedExercise: $exerciseName,
                 suggestedWeight: $weight,
-                suggestedReps: $reps
+                suggestedReps: $baseReps
             )
         }
     }
@@ -285,16 +349,17 @@ struct ForgeLogbookView: View {
             modelContext.insert(workoutEntry)
         }
         
-        let repCount = Int(reps) ?? 0
+        let baseRepCount = Int(baseReps) ?? 0
         let weightAmount = Double(weight) ?? 0.0
         
         let newSet = ExerciseSet(
-            reps: repCount,
             weight: weightAmount,
+            unit: unit,
+            baseReps: baseRepCount,
+            restPauseReps: completedRestPauseReps,
             rpe: rpe,
             forcedReps: forcedReps,
             negatives: negatives,
-            restPause: restPause,
             recruitment: recruitmentPercentage
         )
         
@@ -303,7 +368,7 @@ struct ForgeLogbookView: View {
         modelContext.insert(newSet)
         
         // Update Daily Summary
-        let setVolume = Double(repCount) * weightAmount
+        let setVolume = Double(newSet.totalReps) * weightAmount
         todayLog.totalVolume += setVolume
         if recruitmentPercentage > todayLog.maxMotorUnitRecruitment {
             todayLog.maxMotorUnitRecruitment = recruitmentPercentage
@@ -323,8 +388,22 @@ struct ForgeLogbookView: View {
         impactMed.impactOccurred()
         
         withAnimation { showSuccessFeedback = true }
+        // Reset mini-state for the next set
+        completedRestPauseReps.removeAll()
+        currentRestPauseExtraReps = ""
+        restPause = false
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             withAnimation { showSuccessFeedback = false }
+        }
+    }
+    
+    private func logRestPauseRep() {
+        if let extra = Int(currentRestPauseExtraReps), extra > 0 {
+            completedRestPauseReps.append(extra)
+            currentRestPauseExtraReps = ""
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
         }
     }
     

@@ -7,11 +7,9 @@ class DailyLog {
     @Attribute(.unique) var id: String // Formatted as "YYYY-MM-DD"
     var date: Date
     
-    // Summary Metrics
     var totalVolume: Double
     var maxMotorUnitRecruitment: Double
     
-    // Relationships (Cascade delete ensures workouts are deleted if the day is deleted)
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
     
     init(date: Date = Date()) {
@@ -31,7 +29,6 @@ class WorkoutEntry {
     var exerciseName: String
     var timestamp: Date
     
-    // Nested relationship for sets
     @Relationship(deleteRule: .cascade) var sets: [ExerciseSet] = []
     var dailyLog: DailyLog?
     
@@ -45,24 +42,59 @@ class WorkoutEntry {
 @Model
 class ExerciseSet {
     var id: UUID
-    var reps: Int
     var weight: Double
+    var unit: String // "lbs" or "kg"
+    
+    // Core Heavy Duty Rep Tracking
+    var baseReps: Int
+    var restPauseReps: [Int] // Tracks the reps achieved after each 15s rest pause e.g., [2, 1]
+    
     var rpe: Double // 1.0 - 10.0
     var forcedReps: Bool
     var negatives: Bool
-    var restPause: Bool
+    
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
     var workoutEntry: WorkoutEntry?
     
-    init(reps: Int, weight: Double, rpe: Double, forcedReps: Bool, negatives: Bool, restPause: Bool, recruitment: Double) {
+    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool, negatives: Bool, recruitment: Double) {
         self.id = UUID()
-        self.reps = reps
         self.weight = weight
+        self.unit = unit
+        self.baseReps = baseReps
+        self.restPauseReps = restPauseReps
         self.rpe = rpe
         self.forcedReps = forcedReps
         self.negatives = negatives
-        self.restPause = restPause
         self.motorUnitRecruitment = recruitment
+    }
+    
+    // Helper to calculate total reps in the set
+    var totalReps: Int {
+        return baseReps + restPauseReps.reduce(0, +)
+    }
+    
+    // Helper to format the display string (e.g., "8 + 2 + 1")
+    var displayReps: String {
+        if restPauseReps.isEmpty {
+            return "\(baseReps)"
+        }
+        let pauses = restPauseReps.map { "\($0)" }.joined(separator: " + ")
+        return "\(baseReps) + \(pauses)"
+    }
+}
+
+// MARK: - Routine Templates (The Program Builder)
+@Model
+class RoutineTemplate {
+    var id: UUID
+    var name: String // e.g., "Upper Body", "Chest & Back"
+    var exercises: [String] // Ordered list of exercise names
+    var lastPerformed: Date?
+    
+    init(name: String, exercises: [String]) {
+        self.id = UUID()
+        self.name = name
+        self.exercises = exercises
     }
 }

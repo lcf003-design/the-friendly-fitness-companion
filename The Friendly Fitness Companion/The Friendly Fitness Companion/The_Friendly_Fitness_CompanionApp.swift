@@ -11,7 +11,8 @@ struct The_Friendly_Fitness_CompanionApp: App {
         .modelContainer(for: [
             DailyLog.self,
             WorkoutEntry.self,
-            ExerciseSet.self
+            ExerciseSet.self,
+            RoutineTemplate.self
         ])
     }
 }

@@ -34,21 +34,37 @@ struct ContentView: View {
                 }
                 .tag(0)
             
-            // 2. The Forge Tab
+            // 2. Routines Tab
+            RoutinesView()
+                .tabItem {
+                    Image(systemName: "list.bullet.clipboard.fill")
+                    Text("Routines")
+                }
+                .tag(1)
+            
+            // 3. The Forge Tab
             ForgeLogbookView()
                 .tabItem {
                     Image(systemName: "dumbbell.fill")
                     Text("The Forge")
                 }
-                .tag(1)
+                .tag(2)
             
-            // 3. Tools Tab
+            // 4. Progress Tab
+            ProgressViewTab()
+                .tabItem {
+                    Image(systemName: "chart.xyaxis.line")
+                    Text("Progress")
+                }
+                .tag(3)
+            
+            // 5. Tools Tab
             ToolsView()
                 .tabItem {
                     Image(systemName: "wrench.and.screwdriver.fill")
                     Text("Tools")
                 }
-                .tag(2)
+                .tag(4)
         }
         .preferredColorScheme(.dark)
         .accentColor(Color(red: 0, green: 1, blue: 0)) // Apex Green fallback
