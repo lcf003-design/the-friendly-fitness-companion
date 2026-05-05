@@ -1,50 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = 0
-    
-    // We use an init block here to force the TabBar to adapt to our Midnight Matte theme
-    init() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 10/255, green: 10/255, blue: 10/255, alpha: 1) // Midnight Matte
-        
-        let itemAppearance = UITabBarItemAppearance()
-        itemAppearance.selected.iconColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1) // Apex Green
-        itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(red: 0, green: 1, blue: 0, alpha: 1)]
-        itemAppearance.normal.iconColor = UIColor.gray
-        itemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
-        
-        appearance.stackedLayoutAppearance = itemAppearance
-        appearance.inlineLayoutAppearance = itemAppearance
-        appearance.compactInlineLayoutAppearance = itemAppearance
-        
-        UITabBar.appearance().standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
-    }
-    
     var body: some View {
-        TabView(selection: $selectedTab) {
-            // 1. Dashboard Tab
-            DashboardView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text("Dashboard")
-                }
-                .tag(0)
-            
-            // 2. The Forge Tab
-            ForgeLogbookView()
-                .tabItem {
-                    Image(systemName: "dumbbell.fill")
-                    Text("The Forge")
-                }
-                .tag(1)
-        }
-        .preferredColorScheme(.dark)
-        .accentColor(Color(red: 0, green: 1, blue: 0)) // Apex Green for active tab tint fallback
+        ForgeLogbookView()
+            .preferredColorScheme(.dark)
     }
 }
 

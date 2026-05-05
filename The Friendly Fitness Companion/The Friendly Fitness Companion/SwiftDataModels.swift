@@ -8,14 +8,10 @@ class DailyLog {
     var date: Date
     
     // Summary Metrics
-    var totalFatGrams: Double
-    var totalProteinGrams: Double
-    var totalCarbsGrams: Double
     var totalVolume: Double
     var maxMotorUnitRecruitment: Double
     
-    // Relationships (Cascade delete ensures meals/workouts are deleted if the day is deleted)
-    @Relationship(deleteRule: .cascade) var meals: [MealEntry] = []
+    // Relationships (Cascade delete ensures workouts are deleted if the day is deleted)
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
     
     init(date: Date = Date()) {
@@ -23,40 +19,8 @@ class DailyLog {
         formatter.dateFormat = "yyyy-MM-dd"
         self.id = formatter.string(from: date)
         self.date = date
-        self.totalFatGrams = 0
-        self.totalProteinGrams = 0
-        self.totalCarbsGrams = 0
         self.totalVolume = 0
         self.maxMotorUnitRecruitment = 0
-    }
-}
-
-// MARK: - The Kitchen Entries
-@Model
-class MealEntry {
-    var id: UUID
-    var name: String
-    var tierRawValue: String? // Made optional and deprecated
-    var fatGrams: Double
-    var proteinGrams: Double
-    var carbsGrams: Double
-    var containsSeedOils: Bool
-    var containsRefinedSugars: Bool
-    var timestamp: Date
-    
-    // Inverse relationship (Optional, helps SwiftData map the graph)
-    var dailyLog: DailyLog?
-    
-    init(name: String, fat: Double, protein: Double, carbs: Double, hasSeedOils: Bool, hasSugars: Bool) {
-        self.id = UUID()
-        self.name = name
-        self.tierRawValue = nil
-        self.fatGrams = fat
-        self.proteinGrams = protein
-        self.carbsGrams = carbs
-        self.containsSeedOils = hasSeedOils
-        self.containsRefinedSugars = hasSugars
-        self.timestamp = Date()
     }
 }
 

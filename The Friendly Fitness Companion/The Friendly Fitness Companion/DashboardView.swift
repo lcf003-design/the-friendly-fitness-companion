@@ -95,7 +95,7 @@ struct HennemanMeterView: View {
                     )
                     .frame(width: 250, height: 250)
                     .rotationEffect(.degrees(180))
-                    .shadow(color: FriendlyTheme.apexGreen.opacity(0.6), radius: 20, x: 0, y: 0)
+                    .shadow(color: FriendlyTheme.apexGreen.opacity(0.5), radius: 15, x: 0, y: 0)
                     .animation(.spring(response: 0.8, dampingFraction: 0.7), value: recruitmentLevel)
                 
                 // Percentage Text
@@ -135,8 +135,9 @@ struct RecoveryBalanceView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(24)
-        .background(FriendlyTheme.midnightMatteLight)
+        .background(.ultraThinMaterial)
         .cornerRadius(30)
+        .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
         .padding(.horizontal, 20)
     }
 }

@@ -58,8 +58,8 @@ struct ForgeLogbookView: View {
                         Image(systemName: "flame.fill")
                             .foregroundColor(FriendlyTheme.apexGreen)
                         Text("THE FORGE")
-                            .font(.system(size: 16, weight: .bold))
-                            .tracking(1.2)
+                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .tracking(2.5)
                             .foregroundColor(.white)
                         Spacer()
                         
@@ -161,8 +161,9 @@ struct ForgeLogbookView: View {
                         }
                     }
                     .padding(24)
-                    .background(FriendlyTheme.midnightMatteLight)
+                    .background(.ultraThinMaterial)
                     .cornerRadius(30)
+                    .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                     .padding(.horizontal, 20)
                     
                     // Log Set Button (SwiftData Save)
@@ -217,8 +218,9 @@ struct ForgeLogbookView: View {
                                     }
                                 }
                                 .padding(20)
-                                .background(Color(white: 0.12))
+                                .background(.ultraThinMaterial)
                                 .cornerRadius(24)
+                                .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                                 .padding(.horizontal, 20)
                             }
                         }
@@ -329,17 +331,19 @@ struct IntensityButton: View {
     var body: some View {
         Button(action: {
             isSelected.toggle()
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
         }) {
             Text(title)
                 .font(.system(size: 12, weight: .bold))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
-                .background(isSelected ? FriendlyTheme.apexGreen : FriendlyTheme.midnightMatte)
+                .background(isSelected ? FriendlyTheme.apexGreen : Color.clear)
                 .foregroundColor(isSelected ? .black : .white)
                 .cornerRadius(12)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(FriendlyTheme.apexGreen, lineWidth: isSelected ? 0 : 1)
+                        .stroke(isSelected ? Color.clear : Color.white.opacity(0.2), lineWidth: 0.5)
                 )
         }
     }
