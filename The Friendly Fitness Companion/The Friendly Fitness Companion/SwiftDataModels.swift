@@ -36,7 +36,7 @@ class DailyLog {
 class MealEntry {
     var id: UUID
     var name: String
-    var tierRawValue: String // "Apex", "Ancestral", "Modern"
+    var tierRawValue: String? // Made optional and deprecated
     var fatGrams: Double
     var proteinGrams: Double
     var carbsGrams: Double
@@ -47,10 +47,10 @@ class MealEntry {
     // Inverse relationship (Optional, helps SwiftData map the graph)
     var dailyLog: DailyLog?
     
-    init(name: String, tier: String, fat: Double, protein: Double, carbs: Double, hasSeedOils: Bool, hasSugars: Bool) {
+    init(name: String, fat: Double, protein: Double, carbs: Double, hasSeedOils: Bool, hasSugars: Bool) {
         self.id = UUID()
         self.name = name
-        self.tierRawValue = tier
+        self.tierRawValue = nil
         self.fatGrams = fat
         self.proteinGrams = protein
         self.carbsGrams = carbs

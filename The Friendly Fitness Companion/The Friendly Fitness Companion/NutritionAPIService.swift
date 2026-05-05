@@ -53,7 +53,6 @@ struct FoodSearchResult: Identifiable {
     let fatGrams: Double
     let proteinGrams: Double
     let carbsGrams: Double
-    let tier: String // "Apex", "Ancestral", "Modern"
     let containsSeedOils: Bool
     let containsRefinedSugars: Bool
 }
@@ -109,14 +108,12 @@ class NutritionAPIService {
             
             let hasSeedOils = FriendlyScanner.containsSeedOils(in: ingredients)
             let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
-            let tier = FriendlyScanner.determineTier(hasSeedOils: hasSeedOils, hasSugars: hasSugars, ingredients: ingredients)
             
             return FoodSearchResult(
                 name: name.capitalized,
                 fatGrams: fat,
                 proteinGrams: protein,
                 carbsGrams: carbs,
-                tier: tier,
                 containsSeedOils: hasSeedOils,
                 containsRefinedSugars: hasSugars
             )
@@ -160,14 +157,12 @@ class NutritionAPIService {
             let ingredients = (food.ingredients ?? "").lowercased()
             let hasSeedOils = FriendlyScanner.containsSeedOils(in: ingredients)
             let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
-            let tier = FriendlyScanner.determineTier(hasSeedOils: hasSeedOils, hasSugars: hasSugars, ingredients: ingredients)
             
             return FoodSearchResult(
                 name: name.capitalized,
                 fatGrams: fat,
                 proteinGrams: protein,
                 carbsGrams: carbs,
-                tier: tier,
                 containsSeedOils: hasSeedOils,
                 containsRefinedSugars: hasSugars
             )
@@ -195,12 +190,5 @@ struct FriendlyScanner {
     static func containsRefinedSugars(in ingredients: String) -> Bool {
         guard !ingredients.isEmpty else { return false }
         return refinedSugars.contains { ingredients.contains($0) }
-    }
-    
-    static func determineTier(hasSeedOils: Bool, hasSugars: Bool, ingredients: String) -> String {
-        if hasSeedOils || hasSugars { return "Modern" }
-        if ingredients.contains("beef") || ingredients.contains("egg") || ingredients.contains("butter") || ingredients.contains("tallow") || ingredients.contains("pork") || ingredients.contains("chicken") { return "Apex" }
-        if ingredients.contains("fruit") || ingredients.contains("honey") || ingredients.contains("milk") || ingredients.contains("water") { return "Ancestral" }
-        return "Ancestral" // Default clean
     }
 }

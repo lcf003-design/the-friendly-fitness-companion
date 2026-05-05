@@ -1,6 +1,22 @@
 import SwiftUI
 import SwiftData
 
+// Enum for standard units
+enum ServingUnit: String, CaseIterable {
+    case grams = "g"
+    case ounces = "oz"
+    case pounds = "lb"
+    
+    // Multiplier to convert to grams
+    var multiplierToGrams: Double {
+        switch self {
+        case .grams: return 1.0
+        case .ounces: return 28.3495
+        case .pounds: return 453.592
+        }
+    }
+}
+
 struct KitchenSearchView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
@@ -34,7 +50,7 @@ struct KitchenSearchView: View {
                     .padding(.top, 10)
                     .padding(.bottom, 20)
                     
-                    // Search Bar (Premium Glassmorphism Feel)
+                    // Search Bar
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .font(.system(size: 18, weight: .medium))
@@ -73,7 +89,7 @@ struct KitchenSearchView: View {
                                     Image(systemName: "magnifyingglass.circle")
                                         .font(.system(size: 40, weight: .ultraLight))
                                         .foregroundColor(FriendlyTheme.textSecondary)
-                                    Text("Hit 'Return' to search the global database.")
+                                    Text("Hit 'Return' to search the database.")
                                         .foregroundColor(FriendlyTheme.textSecondary)
                                         .font(.system(size: 14, weight: .medium))
                                 }
@@ -96,7 +112,6 @@ struct KitchenSearchView: View {
         .preferredColorScheme(.dark)
     }
     
-    // MARK: - API Logic
     private func performSearch() {
         guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         isLoading = true
@@ -105,7 +120,6 @@ struct KitchenSearchView: View {
         Task {
             do {
                 let results = try await NutritionAPIService.shared.searchFood(query: searchText)
-                // Use main actor to update UI swiftly
                 await MainActor.run {
                     self.searchResults = results
                     self.isLoading = false
@@ -132,10 +146,9 @@ struct FoodListRow: View {
                     .fill(Color(white: 0.1))
                     .frame(width: 48, height: 48)
                 
-                Image(systemName: result.tier == "Apex" ? "flame.fill" : (result.tier == "Modern" ? "exclamationmark.triangle.fill" : "leaf.fill"))
+                Image(systemName: "fork.knife")
                     .font(.system(size: 18))
-                    .foregroundColor(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Modern" ? FriendlyTheme.mutedAmber : FriendlyTheme.apexGreen))
-                    .shadow(color: (result.tier == "Apex" ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen).opacity(0.3), radius: 5)
+                    .foregroundColor(FriendlyTheme.textSecondary)
             }
             
             VStack(alignment: .leading, spacing: 6) {
@@ -144,7 +157,7 @@ struct FoodListRow: View {
                     .foregroundColor(.white)
                     .lineLimit(1)
                 
-                Text("Generic • \(result.tier)")
+                Text("Generic")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundColor(FriendlyTheme.textSecondary)
             }
@@ -156,7 +169,7 @@ struct FoodListRow: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text("\(Int(estimatedCals)) cals")
                     .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(.blue) // MyNetDiary style blue cals
+                    .foregroundColor(.blue) 
                 
                 Text("100g")
                     .font(.system(size: 12, weight: .medium))
@@ -186,11 +199,14 @@ struct FoodDetailView: View {
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
     var result: FoodSearchResult
-    @State private var servingSizeGrams: String = "100"
+    
+    @State private var servingSizeValue: String = "100"
+    @State private var selectedUnit: ServingUnit = .grams
     
     private var scaleFactor: Double {
-        let grams = Double(servingSizeGrams) ?? 100.0
-        return grams / 100.0
+        let inputtedAmount = Double(servingSizeValue) ?? 100.0
+        let totalGrams = inputtedAmount * selectedUnit.multiplierToGrams
+        return totalGrams / 100.0
     }
     
     private var scaledFat: Double { result.fatGrams * scaleFactor }
@@ -222,13 +238,12 @@ struct FoodDetailView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    // 1. Premium Hero Header (Abstract Blur Design)
+                    // 1. Premium Hero Header
                     ZStack(alignment: .bottomLeading) {
-                        // Dynamic Abstract Background
                         ZStack {
                             Color(white: 0.05)
                             Circle()
-                                .fill(result.tier == "Apex" ? FriendlyTheme.limeSignal.opacity(0.2) : FriendlyTheme.apexGreen.opacity(0.2))
+                                .fill(FriendlyTheme.apexGreen.opacity(0.15))
                                 .frame(width: 250, height: 250)
                                 .blur(radius: 50)
                                 .offset(x: 100, y: -50)
@@ -239,49 +254,55 @@ struct FoodDetailView: View {
                                 .blur(radius: 60)
                                 .offset(x: -80, y: 50)
                         }
-                        .frame(height: 280)
+                        .frame(height: 250)
                         .clipped()
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Spacer()
-                            
-                            HStack(alignment: .bottom) {
-                                Text(result.name)
-                                    .font(.system(size: 32, weight: .black, design: .rounded))
-                                    .foregroundColor(.white)
-                                    .lineLimit(3)
-                                    .shadow(color: .black.opacity(0.8), radius: 10, x: 0, y: 5)
-                                
-                                Spacer()
-                                
-                                // Premium Tier Badge
-                                Text(result.tier)
-                                    .font(.system(size: 14, weight: .heavy, design: .rounded))
-                                    .foregroundColor(result.tier == "Apex" ? .black : .white)
-                                    .padding(.horizontal, 14)
-                                    .padding(.vertical, 8)
-                                    .background(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? Color.blue : FriendlyTheme.mutedAmber))
-                                    .cornerRadius(12)
-                                    .shadow(color: (result.tier == "Apex" ? FriendlyTheme.limeSignal : .clear).opacity(0.4), radius: 8, x: 0, y: 4)
-                            }
+                            Text(result.name)
+                                .font(.system(size: 32, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                                .lineLimit(3)
+                                .shadow(color: .black.opacity(0.8), radius: 10, x: 0, y: 5)
                         }
                         .padding(24)
                     }
                     
                     VStack(spacing: 30) {
-                        // 2. Quantity & Calories (Glass Panel)
+                        // 2. Unit Selection Grid (MyNetDiary Style)
+                        HStack(spacing: 12) {
+                            ForEach(ServingUnit.allCases, id: \.self) { unit in
+                                Button(action: {
+                                    withAnimation {
+                                        selectedUnit = unit
+                                    }
+                                }) {
+                                    Text(unit.rawValue)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(selectedUnit == unit ? .black : FriendlyTheme.apexGreen)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(selectedUnit == unit ? FriendlyTheme.apexGreen : Color(white: 0.15))
+                                        .cornerRadius(12)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                        
+                        // 3. Quantity & Calories
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
-                                Text("Weight (g)")
+                                Text("Amount")
                                     .font(.system(size: 13, weight: .semibold))
                                     .foregroundColor(FriendlyTheme.textSecondary)
                                 
                                 HStack {
-                                    TextField("100", text: $servingSizeGrams)
+                                    TextField("100", text: $servingSizeValue)
                                         .keyboardType(.decimalPad)
                                         .font(.system(size: 28, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
-                                    Text("g")
+                                    Text(selectedUnit.rawValue)
                                         .font(.system(size: 18, weight: .medium))
                                         .foregroundColor(FriendlyTheme.textSecondary)
                                 }
@@ -304,8 +325,9 @@ struct FoodDetailView: View {
                         .background(Color(white: 0.12))
                         .cornerRadius(24)
                         .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.05), lineWidth: 1))
+                        .padding(.horizontal, 20)
                         
-                        // 3. Macros
+                        // 4. Macros
                         HStack(spacing: 20) {
                             MacroStatView(label: "FAT", value: "\(Int(scaledFat))g", color: FriendlyTheme.mutedAmber, percent: scaledFat / totalMacros)
                             MacroStatView(label: "PROTEIN", value: "\(Int(scaledProtein))g", color: FriendlyTheme.apexGreen, percent: scaledProtein / totalMacros)
@@ -315,18 +337,22 @@ struct FoodDetailView: View {
                         .background(Color(white: 0.12))
                         .cornerRadius(24)
                         .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.05), lineWidth: 1))
+                        .padding(.horizontal, 20)
                         
-                        // 4. Alerts
-                        if result.containsSeedOils {
-                            FriendlyAlertView(message: "Contains Seed Oils. Not the friendliest choice for your gut! Try tallow or butter instead?")
+                        // 5. Alerts
+                        VStack(spacing: 12) {
+                            if result.containsSeedOils {
+                                FriendlyAlertView(message: "Contains Seed Oils. Not the friendliest choice for your gut! Try tallow or butter instead?")
+                            }
+                            if result.containsRefinedSugars {
+                                FriendlyAlertView(message: "Contains refined sugars. An Ancestral sweetener like raw honey might be better!")
+                            }
                         }
-                        if result.containsRefinedSugars {
-                            FriendlyAlertView(message: "Contains refined sugars. An Ancestral sweetener like raw honey might be better!")
-                        }
+                        .padding(.horizontal, 20)
                         
                         Spacer(minLength: 20)
                         
-                        // 5. Action Buttons
+                        // 6. Action Buttons
                         Button(action: saveMeal) {
                             HStack {
                                 Text("Log to Daily Tracker")
@@ -342,28 +368,28 @@ struct FoodDetailView: View {
                             .cornerRadius(24)
                             .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, x: 0, y: 5)
                         }
+                        .padding(.horizontal, 20)
                     }
-                    .padding(20)
-                    .offset(y: -20) // Overlap the header slightly
+                    .offset(y: -20)
                 }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        // Hidden navigation bar background for pure edge-to-edge feel
         .toolbarBackground(.hidden, for: .navigationBar)
     }
     
     private func saveMeal() {
         let todayLog = getOrCreateTodayLog()
+        
         let newMeal = MealEntry(
             name: result.name,
-            tier: result.tier,
             fat: scaledFat,
             protein: scaledProtein,
             carbs: scaledCarbs,
             hasSeedOils: result.containsSeedOils,
             hasSugars: result.containsRefinedSugars
         )
+        
         newMeal.dailyLog = todayLog
         todayLog.meals.append(newMeal)
         modelContext.insert(newMeal)
