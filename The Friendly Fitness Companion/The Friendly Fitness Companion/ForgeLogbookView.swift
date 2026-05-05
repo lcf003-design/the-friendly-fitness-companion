@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Combine
 
 struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
@@ -179,7 +180,8 @@ struct ForgeLogbookView: View {
                     .padding(.horizontal, 20)
                     
                     // Workout History List
-                    if let todayLog = getOrCreateTodayLog(), !todayLog.workouts.isEmpty {
+                    let todayLog = getOrCreateTodayLog()
+                    if !todayLog.workouts.isEmpty {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("TODAY'S FORGE")
                                 .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -240,7 +242,7 @@ struct ForgeLogbookView: View {
                 restPauseTimer = Int(ceil(remaining))
             }
         }
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 // Timer automatically catches up when app is foregrounded because it uses Date()
             }
