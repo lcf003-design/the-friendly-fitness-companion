@@ -42,11 +42,11 @@ struct ContentView: View {
                 }
                 .tag(1)
             
-            // 3. Progress Tab
-            ProgressViewTab()
+            // 3. Tools Tab
+            ToolsView()
                 .tabItem {
-                    Image(systemName: "chart.xyaxis.line")
-                    Text("Progress")
+                    Image(systemName: "wrench.and.screwdriver.fill")
+                    Text("Tools")
                 }
                 .tag(2)
         }
