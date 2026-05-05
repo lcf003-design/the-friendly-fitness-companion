@@ -67,21 +67,9 @@ class NutritionAPIService {
     private let usdaApiKey = "DEMO_KEY"
     
     func searchFood(query: String) async throws -> [FoodSearchResult] {
-        var results: [FoodSearchResult] = []
-        
-        do {
-            let ukResults = try await searchOpenFoodFactsUK(query: query)
-            if !ukResults.isEmpty {
-                results = ukResults
-            }
-        } catch {
-            print("OpenFoodFacts UK failed or offline: \(error.localizedDescription)")
-        }
-        
-        if results.isEmpty {
-            print("Falling back to USDA Database...")
-            results = try await searchUSDA(query: query)
-        }
+        // Hitting USDA directly for instant speed. 
+        // Previously, waiting for OpenFoodFacts to return a 502 was causing massive latency.
+        let results = try await searchUSDA(query: query)
         
         // Filter out duplicate names
         var uniqueNames = Set<String>()

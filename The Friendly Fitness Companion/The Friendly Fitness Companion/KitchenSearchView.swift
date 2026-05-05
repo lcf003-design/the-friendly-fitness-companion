@@ -50,36 +50,8 @@ struct KitchenSearchView: View {
                     .padding(.top, 10)
                     .padding(.bottom, 20)
                     
-                    // Search Bar
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                        
-                        TextField("Search foods...", text: $searchText)
-                            .font(.system(size: 18, weight: .regular))
-                            .foregroundColor(.white)
-                            .submitLabel(.search)
-                            .onSubmit {
-                                performSearch()
-                            }
-                        
-                        if isLoading {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: FriendlyTheme.apexGreen))
-                                .scaleEffect(0.8)
-                        }
-                    }
-                    .padding(.vertical, 16)
-                    .padding(.horizontal, 20)
-                    .background(Color(white: 0.15).opacity(0.8))
-                    .cornerRadius(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                    )
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
+                    // Search Bar (Isolated for performance)
+                    IsolatedSearchBar(searchText: $searchText, isLoading: isLoading, onSearch: performSearch)
                     
                     // Result List
                     ScrollView {
@@ -189,6 +161,46 @@ struct FoodListRow: View {
             RoundedRectangle(cornerRadius: 16)
                 .stroke(Color.white.opacity(0.05), lineWidth: 1)
         )
+    }
+}
+
+// MARK: - Isolated Search Bar Component
+// This prevents the massive KitchenSearchView (and its @Query) from re-rendering on every keystroke.
+struct IsolatedSearchBar: View {
+    @Binding var searchText: String
+    var isLoading: Bool
+    var onSearch: () -> Void
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(FriendlyTheme.textSecondary)
+            
+            TextField("Search foods...", text: $searchText)
+                .font(.system(size: 18, weight: .regular))
+                .foregroundColor(.white)
+                .submitLabel(.search)
+                .onSubmit {
+                    onSearch()
+                }
+            
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: FriendlyTheme.apexGreen))
+                    .scaleEffect(0.8)
+            }
+        }
+        .padding(.vertical, 16)
+        .padding(.horizontal, 20)
+        .background(Color(white: 0.15).opacity(0.8))
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+        )
+        .padding(.horizontal, 20)
+        .padding(.bottom, 20)
     }
 }
 
