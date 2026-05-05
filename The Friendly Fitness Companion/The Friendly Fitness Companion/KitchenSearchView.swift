@@ -254,3 +254,68 @@ struct FoodResultCard: View {
         )
     }
 }
+
+// MARK: - Subcomponents
+
+struct MacroStatView: View {
+    var label: String
+    var value: String
+    var color: Color
+    var percent: Double
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 4) {
+                Image(systemName: "flame.fill")
+                    .font(.system(size: 12))
+                Text(label)
+                    .font(.system(size: 12, weight: .bold))
+            }
+            .foregroundColor(color)
+            
+            Text(value)
+                .font(.system(size: 20, weight: .bold))
+                .foregroundColor(.white)
+            
+            // Progress Bar
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(FriendlyTheme.midnightMatte)
+                        .frame(height: 4)
+                    
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(color)
+                        .frame(width: geometry.size.width * CGFloat(percent), height: 4)
+                }
+            }
+            .frame(height: 4)
+            
+            Text("\(Int(percent * 100))%")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(color)
+        }
+    }
+}
+
+struct FriendlyAlertView: View {
+    var message: String
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(FriendlyTheme.mutedAmber)
+                .font(.system(size: 16))
+                .padding(.top, 2)
+            
+            Text(message)
+                .font(.system(size: 13))
+                .foregroundColor(FriendlyTheme.mutedAmber)
+                .lineSpacing(4)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(red: 51/255, green: 37/255, blue: 19/255))
+        .cornerRadius(16)
+    }
+}
