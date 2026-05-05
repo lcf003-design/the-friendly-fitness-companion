@@ -16,28 +16,12 @@ struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
-    // Timer state for the Recovery Clock to constantly update
-    @State private var now = Date()
-    let timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
-    
     // Average Recruitment (Last 3 Workouts)
     private var averageRecruitment: Double {
         let lastThree = dailyLogs.filter { $0.maxMotorUnitRecruitment > 0 }.prefix(3)
         guard !lastThree.isEmpty else { return 0.0 }
         let sum = lastThree.reduce(0.0) { $0 + $1.maxMotorUnitRecruitment }
         return sum / Double(lastThree.count)
-    }
-    
-    // Find the timestamp of the absolutely most recent workout set
-    private var lastWorkoutTimestamp: Date? {
-        for log in dailyLogs {
-            for workout in log.workouts {
-                if let lastSet = workout.sets.last {
-                    return lastSet.workoutEntry?.timestamp ?? workout.timestamp
-                }
-            }
-        }
-        return nil
     }
     
     var body: some View {
@@ -76,73 +60,10 @@ struct DashboardView: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .tracking(1.5)
                     }
-                    
-                    // Recovery Clock (Secondary Gauge)
-                    RecoveryClockView(lastWorkout: lastWorkoutTimestamp, now: now)
                 }
                 .padding(.bottom, 100)
             }
         }
-        .onReceive(timer) { _ in
-            now = Date()
-        }
-    }
-}
-
-// MARK: - Recovery Clock Component
-struct RecoveryClockView: View {
-    var lastWorkout: Date?
-    var now: Date
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            Text("RECOVERY CLOCK")
-                .font(.system(size: 12, weight: .bold, design: .rounded))
-                .foregroundColor(FriendlyTheme.textSecondary)
-                .tracking(2.0)
-            
-            HStack(spacing: 20) {
-                Image(systemName: "clock.arrow.circlepath")
-                    .font(.system(size: 32, weight: .light))
-                    .foregroundColor(isRecovered ? FriendlyTheme.apexGreen : FriendlyTheme.mutedAmber)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(timeSinceString)
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .contentTransition(.numericText())
-                    
-                    Text(isRecovered ? "READY FOR WAR" : "RECOVERING")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .foregroundColor(isRecovered ? FriendlyTheme.apexGreen : FriendlyTheme.mutedAmber)
-                        .tracking(1.5)
-                }
-                Spacer()
-            }
-        }
-        .padding(24)
-        .background(.ultraThinMaterial)
-        .cornerRadius(30)
-        .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
-        .padding(.horizontal, 20)
-    }
-    
-    private var isRecovered: Bool {
-        guard let last = lastWorkout else { return true }
-        let hoursSince = now.timeIntervalSince(last) / 3600
-        return hoursSince >= 48.0
-    }
-    
-    private var timeSinceString: String {
-        guard let last = lastWorkout else { return "00:00:00" }
-        let diff = Int(now.timeIntervalSince(last))
-        guard diff > 0 else { return "00:00:00" }
-        
-        let hours = diff / 3600
-        let minutes = (diff % 3600) / 60
-        let seconds = (diff % 3600) % 60
-        
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
 
