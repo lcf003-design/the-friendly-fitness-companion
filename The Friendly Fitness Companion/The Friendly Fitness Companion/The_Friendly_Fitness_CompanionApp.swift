@@ -19,3 +19,12 @@ struct The_Friendly_Fitness_CompanionApp: App {
         ])
     }
 }
+
+// MARK: - Global App State
+class AppState: ObservableObject {
+    @Published var selectedTab: Int = 0
+    @Published var activeRoutine: RoutineTemplate? = nil
+    
+    // The active queue of exercises to perform
+    @Published var forgeQueue: [String] = []
+}
