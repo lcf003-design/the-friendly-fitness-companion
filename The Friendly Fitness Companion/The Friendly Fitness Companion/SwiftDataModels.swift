@@ -1,5 +1,7 @@
 import Foundation
 import SwiftData
+import SwiftUI
+import Combine
 
 // MARK: - Core Daily Log
 @Model
