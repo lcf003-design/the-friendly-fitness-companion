@@ -6,10 +6,12 @@ struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
-    @State private var exerciseName: String = "Incline Machine Press"
-    @State private var weight: String = "225"
-    @State private var reps: String = "8"
+    @State private var exerciseName: String = "Select Movement"
+    @State private var weight: String = ""
+    @State private var reps: String = ""
     @State private var rpe: Double = 8.0
+    
+    @State private var isShowingExercisePicker: Bool = false
     
     // Intensity Modifiers
     @State private var forcedReps: Bool = false
@@ -83,11 +85,21 @@ struct ForgeLogbookView: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .tracking(1.5)
                         
-                        // Exercise Name
-                        TextField("Exercise Name", text: $exerciseName)
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.bottom, 8)
+                        // Exercise Name Button (Triggers Picker)
+                        Button(action: {
+                            isShowingExercisePicker = true
+                        }) {
+                            HStack {
+                                Text(exerciseName)
+                                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                                    .foregroundColor(.white)
+                                Spacer()
+                                Image(systemName: "chevron.right.circle.fill")
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .font(.title2)
+                            }
+                        }
+                        .padding(.bottom, 8)
                         
                         // Weight and Reps
                         HStack(spacing: 16) {
@@ -248,6 +260,13 @@ struct ForgeLogbookView: View {
             if newPhase == .active {
                 // Timer automatically catches up when app is foregrounded because it uses Date()
             }
+        }
+        .sheet(isPresented: $isShowingExercisePicker) {
+            ExercisePickerView(
+                selectedExercise: $exerciseName,
+                suggestedWeight: $weight,
+                suggestedReps: $reps
+            )
         }
     }
     
