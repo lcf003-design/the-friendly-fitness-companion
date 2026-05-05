@@ -1,17 +1,16 @@
-# friendly_companion
+# The Friendly Fitness Companion (Native iOS)
 
-A new Flutter project.
+A sleek, premium fitness application built natively in SwiftUI. This app serves as an extension of the Friendly Carnivore brand, prioritizing high-end aesthetics (Midnight Matte, Apex Green), biological intuition, and seamless HealthKit integration.
 
-## Getting Started
+## Core Modules
+- **The Dashboard**: A unified physiological command center.
+- **The Kitchen**: An ancestral nutrition tracker featuring a real-time Gram-for-Gram Fat:Protein dial, and Muted Amber alerts for "Hateful Eight" seed oils and refined sugars.
+- **The Forge**: A Heavy Duty workout logbook featuring the dynamic Henneman Motor Unit Recruitment Meter and integrated Rest-Pause timers.
 
-This project is a starting point for a Flutter application.
+## Tech Stack
+- **UI Framework**: Native SwiftUI
+- **Backend**: Firebase / Firestore (Codable Models)
+- **Health Data**: Native Apple HealthKit (HKHealthStore)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Xcode Setup
+Ensure you drag the `.swift` views into your Xcode project navigator so they are registered in the `.pbxproj` build target.
