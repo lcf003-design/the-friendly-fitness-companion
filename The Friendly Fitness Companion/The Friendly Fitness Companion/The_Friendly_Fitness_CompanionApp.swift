@@ -10,7 +10,6 @@ struct The_Friendly_Fitness_CompanionApp: App {
         // Inject SwiftData Model Container for our schemas
         .modelContainer(for: [
             DailyLog.self,
-            MealEntry.self,
             WorkoutEntry.self,
             ExerciseSet.self
         ])
