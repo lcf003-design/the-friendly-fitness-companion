@@ -14,29 +14,34 @@ struct KitchenSearchView: View {
             ZStack {
                 FriendlyTheme.midnightMatte.ignoresSafeArea()
                 
-                VStack(alignment: .leading, spacing: 20) {
+                VStack(alignment: .leading, spacing: 0) {
                     // Header
                     HStack {
                         Image(systemName: "person.circle")
-                            .font(.title2)
+                            .font(.system(size: 24, weight: .light))
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Spacer()
                         Text("THE KITCHEN")
-                            .font(.system(size: 16, weight: .bold))
-                            .tracking(1.2)
+                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .tracking(2.0)
                             .foregroundColor(.white)
                         Spacer()
                         Image(systemName: "bell")
-                            .font(.title2)
+                            .font(.system(size: 24, weight: .light))
                             .foregroundColor(FriendlyTheme.textSecondary)
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 10)
+                    .padding(.bottom, 20)
                     
-                    // Search Bar
+                    // Search Bar (Premium Glassmorphism Feel)
                     HStack {
                         Image(systemName: "magnifyingglass")
+                            .font(.system(size: 18, weight: .medium))
                             .foregroundColor(FriendlyTheme.textSecondary)
+                        
                         TextField("Search foods...", text: $searchText)
+                            .font(.system(size: 18, weight: .regular))
                             .foregroundColor(.white)
                             .submitLabel(.search)
                             .onSubmit {
@@ -46,34 +51,44 @@ struct KitchenSearchView: View {
                         if isLoading {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: FriendlyTheme.apexGreen))
-                        } else {
-                            Image(systemName: "barcode.viewfinder")
-                                .foregroundColor(FriendlyTheme.apexGreen)
+                                .scaleEffect(0.8)
                         }
                     }
-                    .padding()
-                    .background(FriendlyTheme.midnightMatteLight)
-                    .cornerRadius(12)
-                    .padding(.horizontal)
+                    .padding(.vertical, 16)
+                    .padding(.horizontal, 20)
+                    .background(Color(white: 0.15).opacity(0.8))
+                    .cornerRadius(16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                    )
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                     
-                    // Compact Result List
+                    // Result List
                     ScrollView {
-                        VStack(spacing: 0) {
+                        LazyVStack(spacing: 12) {
                             if searchResults.isEmpty && !isLoading && !searchText.isEmpty {
-                                Text("Hit 'Return' to search the global database.")
-                                    .foregroundColor(FriendlyTheme.textSecondary)
-                                    .font(.system(size: 14))
-                                    .padding(.top, 40)
+                                VStack(spacing: 12) {
+                                    Image(systemName: "magnifyingglass.circle")
+                                        .font(.system(size: 40, weight: .ultraLight))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                    Text("Hit 'Return' to search the global database.")
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .font(.system(size: 14, weight: .medium))
+                                }
+                                .padding(.top, 60)
                             }
                             
                             ForEach(searchResults) { result in
                                 NavigationLink(destination: FoodDetailView(result: result)) {
                                     FoodListRow(result: result)
                                 }
-                                Divider().background(Color.white.opacity(0.1))
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 40)
                     }
                 }
             }
@@ -84,20 +99,20 @@ struct KitchenSearchView: View {
     // MARK: - API Logic
     private func performSearch() {
         guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
-        
         isLoading = true
         searchResults = []
         
         Task {
             do {
                 let results = try await NutritionAPIService.shared.searchFood(query: searchText)
-                DispatchQueue.main.async {
+                // Use main actor to update UI swiftly
+                await MainActor.run {
                     self.searchResults = results
                     self.isLoading = false
                 }
             } catch {
                 print("Search failed: \(error.localizedDescription)")
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.isLoading = false
                 }
             }
@@ -105,59 +120,66 @@ struct KitchenSearchView: View {
     }
 }
 
-// MARK: - Compact List Row
+// MARK: - Premium List Row
 struct FoodListRow: View {
     var result: FoodSearchResult
     
     var body: some View {
         HStack(spacing: 16) {
-            // Generic Icon based on Tier
-            Circle()
-                .fill(FriendlyTheme.midnightMatteLight)
-                .frame(width: 40, height: 40)
-                .overlay(
-                    Image(systemName: result.tier == "Apex" ? "flame.fill" : (result.tier == "Modern" ? "exclamationmark.triangle.fill" : "leaf.fill"))
-                        .foregroundColor(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Modern" ? FriendlyTheme.mutedAmber : FriendlyTheme.apexGreen))
-                        .font(.system(size: 14))
-                )
+            // Elegant Icon
+            ZStack {
+                Circle()
+                    .fill(Color(white: 0.1))
+                    .frame(width: 48, height: 48)
+                
+                Image(systemName: result.tier == "Apex" ? "flame.fill" : (result.tier == "Modern" ? "exclamationmark.triangle.fill" : "leaf.fill"))
+                    .font(.system(size: 18))
+                    .foregroundColor(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Modern" ? FriendlyTheme.mutedAmber : FriendlyTheme.apexGreen))
+                    .shadow(color: (result.tier == "Apex" ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen).opacity(0.3), radius: 5)
+            }
             
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(result.name)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: 16, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
                     .lineLimit(1)
                 
-                Text(result.tier)
-                    .font(.system(size: 12))
+                Text("Generic • \(result.tier)")
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(FriendlyTheme.textSecondary)
             }
             
             Spacer()
             
-            // Basic Cals/Macros preview (Estimating cals from macros for display)
             let estimatedCals = (result.fatGrams * 9) + (result.proteinGrams * 4) + (result.carbsGrams * 4)
             
             VStack(alignment: .trailing, spacing: 4) {
                 Text("\(Int(estimatedCals)) cals")
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(FriendlyTheme.apexGreen)
-                Text("per 100g")
-                    .font(.system(size: 12))
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundColor(.blue) // MyNetDiary style blue cals
+                
+                Text("100g")
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundColor(FriendlyTheme.textSecondary)
             }
             
-            // Empty Circle like MyNetDiary
-            Circle()
-                .stroke(FriendlyTheme.textSecondary.opacity(0.5), lineWidth: 1.5)
-                .frame(width: 20, height: 20)
-                .padding(.leading, 8)
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
+                .padding(.leading, 4)
         }
-        .padding(.vertical, 12)
-        .contentShape(Rectangle()) // Makes the whole row tappable
+        .padding(.vertical, 14)
+        .padding(.horizontal, 16)
+        .background(Color(white: 0.12))
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white.opacity(0.05), lineWidth: 1)
+        )
     }
 }
 
-// MARK: - Dedicated Detail Screen
+// MARK: - Premium Detail Screen
 struct FoodDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -166,7 +188,6 @@ struct FoodDetailView: View {
     var result: FoodSearchResult
     @State private var servingSizeGrams: String = "100"
     
-    // Scaled Macros based on input serving size
     private var scaleFactor: Double {
         let grams = Double(servingSizeGrams) ?? 100.0
         return grams / 100.0
@@ -201,70 +222,88 @@ struct FoodDetailView: View {
             
             ScrollView {
                 VStack(spacing: 0) {
-                    // 1. Hero Header
+                    // 1. Premium Hero Header (Abstract Blur Design)
                     ZStack(alignment: .bottomLeading) {
-                        // Placeholder Image (Gradient for premium feel)
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color(red: 20/255, green: 20/255, blue: 25/255), FriendlyTheme.midnightMatte]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .frame(height: 250)
-                        
-                        // Icon Overlay in center
-                        Image(systemName: "fork.knife.circle")
-                            .font(.system(size: 80))
-                            .foregroundColor(.white.opacity(0.1))
-                            .position(x: UIScreen.main.bounds.width/2, y: 125)
-                        
-                        HStack(alignment: .bottom) {
-                            Text(result.name)
-                                .font(.system(size: 28, weight: .bold))
-                                .foregroundColor(.white)
-                                .lineLimit(2)
-                                .shadow(radius: 5)
+                        // Dynamic Abstract Background
+                        ZStack {
+                            Color(white: 0.05)
+                            Circle()
+                                .fill(result.tier == "Apex" ? FriendlyTheme.limeSignal.opacity(0.2) : FriendlyTheme.apexGreen.opacity(0.2))
+                                .frame(width: 250, height: 250)
+                                .blur(radius: 50)
+                                .offset(x: 100, y: -50)
                             
+                            Circle()
+                                .fill(Color.blue.opacity(0.15))
+                                .frame(width: 200, height: 200)
+                                .blur(radius: 60)
+                                .offset(x: -80, y: 50)
+                        }
+                        .frame(height: 280)
+                        .clipped()
+                        
+                        VStack(alignment: .leading, spacing: 8) {
                             Spacer()
                             
-                            // Tier Badge
-                            Text(result.tier)
-                                .font(.system(size: 14, weight: .heavy))
-                                .foregroundColor(result.tier == "Apex" ? .black : .white)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? Color.blue : FriendlyTheme.mutedAmber))
-                                .cornerRadius(8)
+                            HStack(alignment: .bottom) {
+                                Text(result.name)
+                                    .font(.system(size: 32, weight: .black, design: .rounded))
+                                    .foregroundColor(.white)
+                                    .lineLimit(3)
+                                    .shadow(color: .black.opacity(0.8), radius: 10, x: 0, y: 5)
+                                
+                                Spacer()
+                                
+                                // Premium Tier Badge
+                                Text(result.tier)
+                                    .font(.system(size: 14, weight: .heavy, design: .rounded))
+                                    .foregroundColor(result.tier == "Apex" ? .black : .white)
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 8)
+                                    .background(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? Color.blue : FriendlyTheme.mutedAmber))
+                                    .cornerRadius(12)
+                                    .shadow(color: (result.tier == "Apex" ? FriendlyTheme.limeSignal : .clear).opacity(0.4), radius: 8, x: 0, y: 4)
+                            }
                         }
-                        .padding()
+                        .padding(24)
                     }
                     
-                    VStack(spacing: 24) {
-                        // 2. Quantity & Calories
+                    VStack(spacing: 30) {
+                        // 2. Quantity & Calories (Glass Panel)
                         HStack {
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 8) {
                                 Text("Weight (g)")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 13, weight: .semibold))
                                     .foregroundColor(FriendlyTheme.textSecondary)
-                                TextField("100", text: $servingSizeGrams)
-                                    .keyboardType(.decimalPad)
-                                    .font(.system(size: 24, weight: .medium))
-                                    .foregroundColor(.white)
-                                Divider().background(Color.white.opacity(0.2))
+                                
+                                HStack {
+                                    TextField("100", text: $servingSizeGrams)
+                                        .keyboardType(.decimalPad)
+                                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Text("g")
+                                        .font(.system(size: 18, weight: .medium))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
                             }
-                            .frame(width: 100)
                             
                             Spacer()
                             
-                            HStack(alignment: .firstTextBaseline, spacing: 4) {
-                                Text("\(Int(estimatedCals))")
-                                    .font(.system(size: 40, weight: .light))
-                                    .foregroundColor(.blue) // MyNetDiary style blue cals
-                                Text("cals")
-                                    .font(.system(size: 14, weight: .bold))
-                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            VStack(alignment: .trailing, spacing: 4) {
+                                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                    Text("\(Int(estimatedCals))")
+                                        .font(.system(size: 46, weight: .light, design: .rounded))
+                                        .foregroundColor(.blue)
+                                    Text("cals")
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
                             }
                         }
-                        .padding(.top, 20)
+                        .padding(24)
+                        .background(Color(white: 0.12))
+                        .cornerRadius(24)
+                        .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.05), lineWidth: 1))
                         
                         // 3. Macros
                         HStack(spacing: 20) {
@@ -272,6 +311,10 @@ struct FoodDetailView: View {
                             MacroStatView(label: "PROTEIN", value: "\(Int(scaledProtein))g", color: FriendlyTheme.apexGreen, percent: scaledProtein / totalMacros)
                             MacroStatView(label: "CARBS", value: "\(Int(scaledCarbs))g", color: .blue, percent: scaledCarbs / totalMacros)
                         }
+                        .padding(24)
+                        .background(Color(white: 0.12))
+                        .cornerRadius(24)
+                        .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.05), lineWidth: 1))
                         
                         // 4. Alerts
                         if result.containsSeedOils {
@@ -281,39 +324,37 @@ struct FoodDetailView: View {
                             FriendlyAlertView(message: "Contains refined sugars. An Ancestral sweetener like raw honey might be better!")
                         }
                         
-                        Spacer(minLength: 40)
+                        Spacer(minLength: 20)
                         
                         // 5. Action Buttons
-                        HStack {
-                            Text("The Kitchen")
-                                .font(.system(size: 14, weight: .bold))
-                                .foregroundColor(FriendlyTheme.apexGreen)
-                            
-                            Spacer()
-                            
-                            Button(action: saveMeal) {
-                                Text("Log")
-                                    .font(.system(size: 16, weight: .bold))
-                                    .padding(.horizontal, 40)
-                                    .padding(.vertical, 12)
-                                    .background(FriendlyTheme.apexGreen)
-                                    .foregroundColor(.black)
-                                    .cornerRadius(20)
+                        Button(action: saveMeal) {
+                            HStack {
+                                Text("Log to Daily Tracker")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                                Spacer()
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 20))
                             }
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 18)
+                            .background(FriendlyTheme.apexGreen)
+                            .foregroundColor(.black)
+                            .cornerRadius(24)
+                            .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, x: 0, y: 5)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(20)
+                    .offset(y: -20) // Overlap the header slightly
                 }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        // Custom Back button appearance implicitly handled by iOS
+        // Hidden navigation bar background for pure edge-to-edge feel
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
     
-    // MARK: - Persistence
     private func saveMeal() {
         let todayLog = getOrCreateTodayLog()
-        
         let newMeal = MealEntry(
             name: result.name,
             tier: result.tier,
@@ -323,7 +364,6 @@ struct FoodDetailView: View {
             hasSeedOils: result.containsSeedOils,
             hasSugars: result.containsRefinedSugars
         )
-        
         newMeal.dailyLog = todayLog
         todayLog.meals.append(newMeal)
         modelContext.insert(newMeal)
@@ -336,7 +376,7 @@ struct FoodDetailView: View {
             try modelContext.save()
             let impactMed = UIImpactFeedbackGenerator(style: .medium)
             impactMed.impactOccurred()
-            dismiss() // Pop back to search view
+            dismiss()
         } catch {
             print("Failed to save meal: \(error.localizedDescription)")
         }
@@ -351,35 +391,30 @@ struct MacroStatView: View {
     var percent: Double
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 4) {
-                Image(systemName: "flame.fill")
-                    .font(.system(size: 12))
+                Circle().fill(color).frame(width: 8, height: 8)
                 Text(label)
-                    .font(.system(size: 12, weight: .bold))
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundColor(color)
             }
-            .foregroundColor(color)
             
             Text(value)
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: 22, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
             
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(FriendlyTheme.midnightMatteLight)
-                        .frame(height: 4)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color(white: 0.2))
+                        .frame(height: 6)
                     
-                    RoundedRectangle(cornerRadius: 2)
+                    RoundedRectangle(cornerRadius: 3)
                         .fill(color)
-                        .frame(width: max(0, geometry.size.width * CGFloat(percent)), height: 4)
+                        .frame(width: max(0, geometry.size.width * CGFloat(percent)), height: 6)
                 }
             }
-            .frame(height: 4)
-            
-            Text("\(Int(percent * 100))%")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(color)
+            .frame(height: 6)
         }
     }
 }
@@ -388,21 +423,23 @@ struct FriendlyAlertView: View {
     var message: String
     
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 14) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundColor(FriendlyTheme.mutedAmber)
-                .font(.system(size: 16))
+                .font(.system(size: 20))
                 .padding(.top, 2)
+                .shadow(color: FriendlyTheme.mutedAmber.opacity(0.5), radius: 5)
             
             Text(message)
-                .font(.system(size: 13))
+                .font(.system(size: 14, weight: .medium))
                 .foregroundColor(FriendlyTheme.mutedAmber)
                 .lineSpacing(4)
         }
-        .padding(16)
+        .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(red: 51/255, green: 37/255, blue: 19/255))
-        .cornerRadius(12)
+        .background(Color(red: 40/255, green: 30/255, blue: 15/255))
+        .cornerRadius(20)
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(FriendlyTheme.mutedAmber.opacity(0.3), lineWidth: 1))
     }
 }
 
