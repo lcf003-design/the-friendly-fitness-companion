@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Charts
 
 struct ProgressViewTab: View {
     @Environment(\.modelContext) private var modelContext
@@ -74,10 +75,162 @@ struct ProgressViewTab: View {
                     .cornerRadius(30)
                     .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                     .padding(.horizontal, 20)
+                    
+                    // Deep Analytics: 1RM Progression Chart
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
+                            Text("1RM PROGRESSION")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .tracking(2.0)
+                            Spacer()
+                            // Just showing an indicator that this is 90-day data
+                            Text("ALL TIME")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.apexGreen)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(FriendlyTheme.apexGreen.opacity(0.2))
+                                .cornerRadius(6)
+                        }
+                        
+                        let chartData = generateChartData()
+                        
+                        if chartData.isEmpty {
+                            Text("Log more sets in the Forge to generate analytics.")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .padding(.top, 10)
+                        } else {
+                            // Picker to filter by exercise
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    ForEach(Array(Set(chartData.map { $0.exercise })).sorted(), id: \.self) { exercise in
+                                        Button(action: {
+                                            selectedChartExercise = exercise
+                                            let impact = UIImpactFeedbackGenerator(style: .light)
+                                            impact.impactOccurred()
+                                        }) {
+                                            Text(exercise)
+                                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                                .padding(.horizontal, 16)
+                                                .padding(.vertical, 8)
+                                                .background(selectedChartExercise == exercise ? FriendlyTheme.apexGreen : Color(white: 0.15))
+                                                .foregroundColor(selectedChartExercise == exercise ? .black : .white)
+                                                .cornerRadius(20)
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // The actual Chart
+                            Chart {
+                                ForEach(chartData.filter { selectedChartExercise == nil || $0.exercise == selectedChartExercise }) { point in
+                                    LineMark(
+                                        x: .value("Date", point.date),
+                                        y: .value("1RM (Lbs)", point.calculated1RM)
+                                    )
+                                    .interpolationMethod(.catmullRom) // Smooth curves
+                                    .foregroundStyle(FriendlyTheme.apexGreen)
+                                    .lineStyle(StrokeStyle(lineWidth: 3))
+                                    
+                                    AreaMark(
+                                        x: .value("Date", point.date),
+                                        y: .value("1RM (Lbs)", point.calculated1RM)
+                                    )
+                                    .interpolationMethod(.catmullRom)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [FriendlyTheme.apexGreen.opacity(0.3), Color.clear],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                                    
+                                    PointMark(
+                                        x: .value("Date", point.date),
+                                        y: .value("1RM (Lbs)", point.calculated1RM)
+                                    )
+                                    .foregroundStyle(FriendlyTheme.limeSignal)
+                                    .symbolSize(50)
+                                }
+                            }
+                            .frame(height: 250)
+                            .chartXAxis {
+                                AxisMarks(values: .stride(by: .day, count: 7)) {
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5)).foregroundStyle(Color.white.opacity(0.1))
+                                    AxisValueLabel(format: .dateTime.month().day(), anchor: .top)
+                                        .foregroundStyle(FriendlyTheme.textSecondary)
+                                }
+                            }
+                            .chartYAxis {
+                                AxisMarks(position: .leading) {
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5)).foregroundStyle(Color.white.opacity(0.1))
+                                    AxisValueLabel()
+                                        .foregroundStyle(FriendlyTheme.textSecondary)
+                                }
+                            }
+                        }
+                    }
+                    .padding(24)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(30)
+                    .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+                    .padding(.horizontal, 20)
                 }
                 .padding(.bottom, 50)
             }
         }
+        .onAppear {
+            // Auto-select the first exercise if available
+            let data = generateChartData()
+            if selectedChartExercise == nil, let first = data.first {
+                selectedChartExercise = first.exercise
+            }
+        }
+    }
+    
+    // MARK: - Analytics Data Engine
+    @State private var selectedChartExercise: String? = nil
+    
+    struct ChartDataPoint: Identifiable {
+        let id = UUID()
+        let date: Date
+        let exercise: String
+        let calculated1RM: Double
+    }
+    
+    private func generateChartData() -> [ChartDataPoint] {
+        var dataPoints: [ChartDataPoint] = []
+        
+        for log in dailyLogs {
+            for workout in log.workouts {
+                // Find the best set for this workout to represent the 1RM
+                var best1RM: Double = 0
+                for set in workout.sets {
+                    // Brzycki: Weight / (1.0278 - (0.0278 * Reps))
+                    // Using totalReps to account for Rest-Pause
+                    let r = Double(set.totalReps)
+                    let w = set.weight
+                    guard r > 0 else { continue }
+                    
+                    let current1RM = w / (1.0278 - (0.0278 * r))
+                    if current1RM > best1RM {
+                        best1RM = current1RM
+                    }
+                }
+                
+                if best1RM > 0 {
+                    dataPoints.append(ChartDataPoint(
+                        date: log.date,
+                        exercise: workout.exerciseName,
+                        calculated1RM: best1RM
+                    ))
+                }
+            }
+        }
+        
+        return dataPoints.sorted(by: { $0.date < $1.date })
     }
 }
 
