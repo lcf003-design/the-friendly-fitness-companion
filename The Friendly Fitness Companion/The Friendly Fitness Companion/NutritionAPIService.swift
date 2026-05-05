@@ -7,11 +7,13 @@ struct OFFResponse: Codable {
 
 struct OFFProduct: Codable {
     let productName: String?
+    let brands: String?
     let ingredientsText: String?
     let nutriments: OFFNutriments?
     
     enum CodingKeys: String, CodingKey {
         case productName = "product_name"
+        case brands
         case ingredientsText = "ingredients_text"
         case nutriments
     }
@@ -36,6 +38,7 @@ struct USDAResponse: Codable {
 
 struct USDAFood: Codable {
     let description: String?
+    let brandOwner: String?
     let ingredients: String?
     let foodNutrients: [USDANutrient]?
 }
@@ -64,26 +67,39 @@ class NutritionAPIService {
     private let usdaApiKey = "DEMO_KEY"
     
     func searchFood(query: String) async throws -> [FoodSearchResult] {
-        // Attempt 1: OpenFoodFacts UK (Global database, rich ingredient lists)
+        var results: [FoodSearchResult] = []
+        
         do {
             let ukResults = try await searchOpenFoodFactsUK(query: query)
             if !ukResults.isEmpty {
-                return ukResults
+                results = ukResults
             }
         } catch {
             print("OpenFoodFacts UK failed or offline: \(error.localizedDescription)")
-            // Fall through to USDA
         }
         
-        // Attempt 2: USDA Fallback (Highly reliable, but US-biased)
-        print("Falling back to USDA Database...")
-        return try await searchUSDA(query: query)
+        if results.isEmpty {
+            print("Falling back to USDA Database...")
+            results = try await searchUSDA(query: query)
+        }
+        
+        // Filter out duplicate names
+        var uniqueNames = Set<String>()
+        var deduplicatedResults: [FoodSearchResult] = []
+        
+        for result in results {
+            if !uniqueNames.contains(result.name) {
+                uniqueNames.insert(result.name)
+                deduplicatedResults.append(result)
+            }
+        }
+        
+        return deduplicatedResults
     }
     
-    // MARK: - OpenFoodFacts (UK) Search
     private func searchOpenFoodFactsUK(query: String) async throws -> [FoodSearchResult] {
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "https://uk.openfoodfacts.org/api/v2/search?categories_tags_en=\(encodedQuery)&fields=product_name,ingredients_text,nutriments&page_size=10") else {
+              let url = URL(string: "https://uk.openfoodfacts.org/api/v2/search?categories_tags_en=\(encodedQuery)&fields=product_name,brands,ingredients_text,nutriments&page_size=20") else {
             throw URLError(.badURL)
         }
         
@@ -101,6 +117,9 @@ class NutritionAPIService {
         return decodedResponse.products.compactMap { product in
             guard let name = product.productName, !name.isEmpty else { return nil }
             
+            let brand = product.brands ?? ""
+            let finalName = brand.isEmpty ? name.capitalized : "\(brand.capitalized) - \(name.capitalized)"
+            
             let fat = product.nutriments?.fat100g ?? 0.0
             let protein = product.nutriments?.proteins100g ?? 0.0
             let carbs = product.nutriments?.carbohydrates100g ?? 0.0
@@ -110,7 +129,7 @@ class NutritionAPIService {
             let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
             
             return FoodSearchResult(
-                name: name.capitalized,
+                name: finalName,
                 fatGrams: fat,
                 proteinGrams: protein,
                 carbsGrams: carbs,
@@ -120,10 +139,10 @@ class NutritionAPIService {
         }
     }
     
-    // MARK: - USDA Search
     private func searchUSDA(query: String) async throws -> [FoodSearchResult] {
+        // We request a larger page size so we can filter duplicates effectively
         guard let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=\(usdaApiKey)&query=\(encodedQuery)&pageSize=10") else {
+              let url = URL(string: "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=\(usdaApiKey)&query=\(encodedQuery)&pageSize=25") else {
             throw URLError(.badURL)
         }
         
@@ -140,6 +159,9 @@ class NutritionAPIService {
         
         return decodedResponse.foods.compactMap { food in
             guard let name = food.description, !name.isEmpty else { return nil }
+            
+            let brand = food.brandOwner ?? ""
+            let finalName = brand.isEmpty ? name.capitalized : "\(brand.capitalized) - \(name.capitalized)"
             
             var fat = 0.0
             var protein = 0.0
@@ -159,7 +181,7 @@ class NutritionAPIService {
             let hasSugars = FriendlyScanner.containsRefinedSugars(in: ingredients)
             
             return FoodSearchResult(
-                name: name.capitalized,
+                name: finalName,
                 fatGrams: fat,
                 proteinGrams: protein,
                 carbsGrams: carbs,
