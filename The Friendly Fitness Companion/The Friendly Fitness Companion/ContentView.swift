@@ -35,21 +35,13 @@ struct ContentView: View {
                 }
                 .tag(0)
             
-            // 2. The Kitchen Tab
-            KitchenSearchView()
-                .tabItem {
-                    Image(systemName: "applelogo") // You can use "fork.knife" if you prefer
-                    Text("Kitchen")
-                }
-                .tag(1)
-            
-            // 3. The Forge Tab
+            // 2. The Forge Tab
             ForgeLogbookView()
                 .tabItem {
                     Image(systemName: "dumbbell.fill")
                     Text("The Forge")
                 }
-                .tag(2)
+                .tag(1)
         }
         .preferredColorScheme(.dark)
         .accentColor(Color(red: 0, green: 1, blue: 0)) // Apex Green for active tab tint fallback

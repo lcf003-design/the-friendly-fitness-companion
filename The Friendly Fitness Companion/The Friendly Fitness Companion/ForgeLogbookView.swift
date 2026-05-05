@@ -20,6 +20,11 @@ struct ForgeLogbookView: View {
     // UI Feedback
     @State private var showSuccessFeedback: Bool = false
     
+    // Background-Resilient Timer
+    @State private var timerEndTime: Date?
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @Environment(\.scenePhase) private var scenePhase
+    
     // Calculated Henneman Recruitment
     var recruitmentPercentage: Double {
         var base = min(rpe / 10.0, 0.90) // Caps at 90% without intensity techniques
@@ -162,17 +167,82 @@ struct ForgeLogbookView: View {
                     // Log Set Button (SwiftData Save)
                     Button(action: saveSet) {
                         Text("LOG SET")
-                            .font(.system(size: 16, weight: .bold))
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .tracking(1.5)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(FriendlyTheme.apexGreen)
                             .foregroundColor(.black)
                             .cornerRadius(30)
+                            .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, y: 5)
                     }
                     .padding(.horizontal, 20)
+                    
+                    // Workout History List
+                    if let todayLog = getOrCreateTodayLog(), !todayLog.workouts.isEmpty {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("TODAY'S FORGE")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .tracking(1.5)
+                                .padding(.horizontal, 24)
+                            
+                            ForEach(todayLog.workouts) { workout in
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text(workout.exerciseName)
+                                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.apexGreen)
+                                    
+                                    ForEach(Array(workout.sets.enumerated()), id: \.element.id) { index, set in
+                                        HStack {
+                                            Text("Set \(index + 1)")
+                                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                            
+                                            Spacer()
+                                            
+                                            Text("\(Int(set.weight)) lbs × \(set.reps)")
+                                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                                .foregroundColor(.white)
+                                            
+                                            if set.restPause || set.forcedReps || set.negatives {
+                                                Image(systemName: "flame.fill")
+                                                    .foregroundColor(FriendlyTheme.mutedAmber)
+                                                    .font(.system(size: 12))
+                                            }
+                                        }
+                                        Divider().background(Color.white.opacity(0.1))
+                                    }
+                                }
+                                .padding(20)
+                                .background(Color(white: 0.12))
+                                .cornerRadius(24)
+                                .padding(.horizontal, 20)
+                            }
+                        }
+                        .padding(.top, 20)
+                    }
                 }
                 .padding(.bottom, 50)
+            }
+        }
+        .onReceive(timer) { _ in
+            guard isTimerRunning, let endTime = timerEndTime else { return }
+            let remaining = endTime.timeIntervalSinceNow
+            
+            if remaining <= 0 {
+                restPauseTimer = 0
+                isTimerRunning = false
+                timerEndTime = nil
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
+            } else {
+                restPauseTimer = Int(ceil(remaining))
+            }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                // Timer automatically catches up when app is foregrounded because it uses Date()
             }
         }
     }
@@ -235,27 +305,17 @@ struct ForgeLogbookView: View {
         }
     }
     
-    // MARK: - Timer Logic
+    // MARK: - Resilient Timer Logic
     private func toggleRestPause() {
         if !restPause {
             restPause = true
             isTimerRunning = true
             restPauseTimer = 15
-            startTimer()
+            timerEndTime = Date().addingTimeInterval(15.0)
         } else {
             restPause = false
             isTimerRunning = false
-        }
-    }
-    
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-            if !isTimerRunning || restPauseTimer <= 0 {
-                isTimerRunning = false
-                timer.invalidate()
-            } else {
-                restPauseTimer -= 1
-            }
+            timerEndTime = nil
         }
     }
 }

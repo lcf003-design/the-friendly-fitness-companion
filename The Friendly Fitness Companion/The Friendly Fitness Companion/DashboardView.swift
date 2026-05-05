@@ -30,14 +30,6 @@ struct DashboardView: View {
         todayLog?.maxMotorUnitRecruitment ?? 0.0
     }
     
-    private var fatGrams: Double {
-        todayLog?.totalFatGrams ?? 0.0
-    }
-    
-    private var proteinGrams: Double {
-        todayLog?.totalProteinGrams ?? 0.0
-    }
-    
     var body: some View {
         ZStack {
             // Background
@@ -69,9 +61,6 @@ struct DashboardView: View {
                     
                     // The Forge: Henneman Meter
                     HennemanMeterView(recruitmentLevel: motorUnitRecruitment)
-                    
-                    // The Kitchen: Fat to Protein Ratio
-                    FatProteinDialView(fat: fatGrams, protein: proteinGrams)
                     
                     // Optional Recovery/HealthKit Data
                     RecoveryBalanceView()
@@ -130,80 +119,7 @@ struct HennemanMeterView: View {
     }
 }
 
-// MARK: - Fat to Protein Dial Component
-struct FatProteinDialView: View {
-    var fat: Double
-    var protein: Double
-    
-    var body: some View {
-        VStack {
-            Text("FAT:PROTEIN RATIO")
-                .font(.system(size: 14, weight: .bold))
-                .foregroundColor(.white)
-                .tracking(1.0)
-                .padding(.bottom, 16)
-            
-            HStack(spacing: 30) {
-                // Fat Stat
-                VStack(alignment: .trailing) {
-                    Text("FAT")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(FriendlyTheme.limeSignal)
-                    Text("\(Int(fat))g")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
-                        .contentTransition(.numericText())
-                }
-                
-                // Center Dial (1:1 Indicator)
-                ZStack {
-                    Circle()
-                        .fill(FriendlyTheme.midnightMatte)
-                        .frame(width: 100, height: 100)
-                        .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
-                    
-                    // Simple representation of the dial
-                    Circle()
-                        .trim(from: 0, to: 0.5)
-                        .stroke(FriendlyTheme.limeSignal, lineWidth: 15)
-                        .rotationEffect(.degrees(90))
-                    
-                    Circle()
-                        .trim(from: 0.5, to: 1.0)
-                        .stroke(FriendlyTheme.apexGreen, lineWidth: 15)
-                        .rotationEffect(.degrees(90))
-                    
-                    VStack {
-                        Image(systemName: "flame.fill")
-                            .foregroundColor(.orange)
-                            .font(.system(size: 14))
-                        Text("1:1")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.white)
-                        Text("RATIO")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                    }
-                }
-                
-                // Protein Stat
-                VStack(alignment: .leading) {
-                    Text("PROTEIN")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(FriendlyTheme.apexGreen)
-                    Text("\(Int(protein))g")
-                        .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(.white)
-                        .contentTransition(.numericText())
-                }
-            }
-        }
-        .padding(24)
-        .background(FriendlyTheme.midnightMatteLight)
-        .cornerRadius(30)
-        .padding(.horizontal, 20)
-    }
-}
+
 
 // MARK: - Recovery Balance Placeholder
 struct RecoveryBalanceView: View {
