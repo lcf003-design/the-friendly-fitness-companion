@@ -1,9 +1,14 @@
 import SwiftUI
+import SwiftData
 
 struct KitchenSearchView: View {
-    @State private var searchText: String = ""
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
-    // Mock Data for display
+    @State private var searchText: String = ""
+    @State private var showSuccessFeedback: Bool = false
+    
+    // Mock Data for display (Pending API Hookup)
     let mockResultName = "Chicken Fajitas (Bowl)"
     let mockResultWeight = "190g"
     let mockTier = "Modern"
@@ -16,6 +21,17 @@ struct KitchenSearchView: View {
     let proteinPercent = 0.48
     let carbsGrams = 11.0
     let carbsPercent = 0.21
+    
+    private func getOrCreateTodayLog() -> DailyLog {
+        let calendar = Calendar.current
+        if let todayLog = dailyLogs.first(where: { calendar.isDateInToday($0.date) }) {
+            return todayLog
+        } else {
+            let newLog = DailyLog()
+            modelContext.insert(newLog)
+            return newLog
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -55,7 +71,7 @@ struct KitchenSearchView: View {
                 
                 // Result Card
                 ScrollView {
-                    VStack {
+                    VStack(spacing: 20) {
                         FoodResultCard(
                             name: mockResultName,
                             weight: mockResultWeight,
@@ -69,12 +85,70 @@ struct KitchenSearchView: View {
                             hasSeedOils: hasSeedOils,
                             hasRefinedSugars: hasRefinedSugars
                         )
+                        
+                        // Log Meal Button
+                        Button(action: saveMeal) {
+                            HStack {
+                                Text(showSuccessFeedback ? "LOGGED TO DAILY LOG" : "LOG MEAL")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .tracking(1.5)
+                                if showSuccessFeedback {
+                                    Image(systemName: "checkmark.circle.fill")
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(showSuccessFeedback ? FriendlyTheme.midnightMatteLight : FriendlyTheme.apexGreen)
+                            .foregroundColor(showSuccessFeedback ? FriendlyTheme.apexGreen : .black)
+                            .cornerRadius(30)
+                        }
                     }
                     .padding(.horizontal)
                 }
             }
         }
         .preferredColorScheme(.dark)
+    }
+    
+    // MARK: - SwiftData Persistence
+    private func saveMeal() {
+        let todayLog = getOrCreateTodayLog()
+        
+        let newMeal = MealEntry(
+            name: mockResultName,
+            tier: mockTier,
+            fat: fatGrams,
+            protein: proteinGrams,
+            carbs: carbsGrams,
+            hasSeedOils: hasSeedOils,
+            hasSugars: hasRefinedSugars
+        )
+        
+        newMeal.dailyLog = todayLog
+        todayLog.meals.append(newMeal)
+        modelContext.insert(newMeal)
+        
+        // Update Daily Summary
+        todayLog.totalFatGrams += fatGrams
+        todayLog.totalProteinGrams += proteinGrams
+        todayLog.totalCarbsGrams += carbsGrams
+        
+        do {
+            try modelContext.save()
+            triggerSuccessFeedback()
+        } catch {
+            print("Failed to save meal: \(error.localizedDescription)")
+        }
+    }
+    
+    private func triggerSuccessFeedback() {
+        let impactMed = UIImpactFeedbackGenerator(style: .medium)
+        impactMed.impactOccurred()
+        
+        withAnimation { showSuccessFeedback = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showSuccessFeedback = false }
+        }
     }
 }
 
@@ -217,13 +291,12 @@ struct FriendlyAlertView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(red: 51/255, green: 37/255, blue: 19/255)) // FriendlyTheme.mutedAmberBg
+        .background(Color(red: 51/255, green: 37/255, blue: 19/255))
         .cornerRadius(16)
     }
 }
 
-struct KitchenSearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        KitchenSearchView()
-    }
+#Preview {
+    KitchenSearchView()
+        .modelContainer(for: DailyLog.self, inMemory: true)
 }

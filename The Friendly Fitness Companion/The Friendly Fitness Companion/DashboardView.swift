@@ -1,6 +1,9 @@
 import SwiftUI
+import SwiftData
 
-// MARK: - Theme Definitions
+// MARK: - Theme Definitions (Moved here or to a shared file, assuming shared if already present)
+// If FriendlyTheme is redefined, we keep it, otherwise it's global.
+// I will keep it here to ensure it compiles if it's the only place it exists.
 struct FriendlyTheme {
     static let midnightMatte = Color(red: 10/255, green: 10/255, blue: 10/255)
     static let midnightMatteLight = Color(red: 26/255, green: 26/255, blue: 26/255)
@@ -12,9 +15,28 @@ struct FriendlyTheme {
 
 // MARK: - Main Dashboard View
 struct DashboardView: View {
-    @State private var motorUnitRecruitment: Double = 0.88
-    @State private var fatGrams: Double = 120
-    @State private var proteinGrams: Double = 120
+    @Environment(\.modelContext) private var modelContext
+    
+    // Fetch logs, ordered by date descending (newest first)
+    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    
+    // Derived Data for Today
+    private var todayLog: DailyLog? {
+        let calendar = Calendar.current
+        return dailyLogs.first(where: { calendar.isDateInToday($0.date) })
+    }
+    
+    private var motorUnitRecruitment: Double {
+        todayLog?.maxMotorUnitRecruitment ?? 0.0
+    }
+    
+    private var fatGrams: Double {
+        todayLog?.totalFatGrams ?? 0.0
+    }
+    
+    private var proteinGrams: Double {
+        todayLog?.totalProteinGrams ?? 0.0
+    }
     
     var body: some View {
         ZStack {
@@ -85,12 +107,14 @@ struct HennemanMeterView: View {
                     .frame(width: 250, height: 250)
                     .rotationEffect(.degrees(180))
                     .shadow(color: FriendlyTheme.apexGreen.opacity(0.6), radius: 20, x: 0, y: 0)
+                    .animation(.spring(response: 0.8, dampingFraction: 0.7), value: recruitmentLevel)
                 
                 // Percentage Text
                 VStack(spacing: -4) {
                     Text("\(Int(recruitmentLevel * 100))%")
                         .font(.system(size: 56, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.apexGreen)
+                        .contentTransition(.numericText())
                     
                     Text("MOTOR UNIT\nRECRUITMENT")
                         .font(.system(size: 12, weight: .semibold))
@@ -128,6 +152,7 @@ struct FatProteinDialView: View {
                     Text("\(Int(fat))g")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
+                        .contentTransition(.numericText())
                 }
                 
                 // Center Dial (1:1 Indicator)
@@ -169,6 +194,7 @@ struct FatProteinDialView: View {
                     Text("\(Int(protein))g")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
+                        .contentTransition(.numericText())
                 }
             }
         }
@@ -199,9 +225,7 @@ struct RecoveryBalanceView: View {
     }
 }
 
-// MARK: - Previews
-struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        DashboardView()
-    }
+#Preview {
+    DashboardView()
+        .modelContainer(for: DailyLog.self, inMemory: true)
 }
