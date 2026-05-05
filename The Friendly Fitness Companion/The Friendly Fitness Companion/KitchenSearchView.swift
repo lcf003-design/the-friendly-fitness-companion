@@ -9,102 +9,71 @@ struct KitchenSearchView: View {
     @State private var searchResults: [FoodSearchResult] = []
     @State private var isLoading: Bool = false
     
-    // Track which item triggered the success flash
-    @State private var loggedItemId: UUID? = nil
-    
-    private func getOrCreateTodayLog() -> DailyLog {
-        let calendar = Calendar.current
-        if let todayLog = dailyLogs.first(where: { calendar.isDateInToday($0.date) }) {
-            return todayLog
-        } else {
-            let newLog = DailyLog()
-            modelContext.insert(newLog)
-            return newLog
-        }
-    }
-    
     var body: some View {
-        ZStack {
-            FriendlyTheme.midnightMatte.ignoresSafeArea()
-            
-            VStack(alignment: .leading, spacing: 20) {
-                // Header
-                HStack {
-                    Image(systemName: "person.circle")
-                        .font(.title2)
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                    Spacer()
-                    Text("THE KITCHEN")
-                        .font(.system(size: 16, weight: .bold))
-                        .tracking(1.2)
-                        .foregroundColor(.white)
-                    Spacer()
-                    Image(systemName: "bell")
-                        .font(.title2)
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                }
-                .padding(.horizontal)
+        NavigationStack {
+            ZStack {
+                FriendlyTheme.midnightMatte.ignoresSafeArea()
                 
-                // Search Bar
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                    TextField("Search for Food...", text: $searchText)
-                        .foregroundColor(.white)
-                        .submitLabel(.search)
-                        .onSubmit {
-                            performSearch()
-                        }
-                    
-                    if isLoading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: FriendlyTheme.apexGreen))
-                    } else {
-                        Image(systemName: "barcode.viewfinder")
-                            .foregroundColor(FriendlyTheme.apexGreen)
+                VStack(alignment: .leading, spacing: 20) {
+                    // Header
+                    HStack {
+                        Image(systemName: "person.circle")
+                            .font(.title2)
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        Spacer()
+                        Text("THE KITCHEN")
+                            .font(.system(size: 16, weight: .bold))
+                            .tracking(1.2)
+                            .foregroundColor(.white)
+                        Spacer()
+                        Image(systemName: "bell")
+                            .font(.title2)
+                            .foregroundColor(FriendlyTheme.textSecondary)
                     }
-                }
-                .padding()
-                .background(FriendlyTheme.midnightMatteLight)
-                .cornerRadius(30)
-                .padding(.horizontal)
-                
-                // Result List
-                ScrollView {
-                    VStack(spacing: 20) {
-                        if searchResults.isEmpty && !isLoading && !searchText.isEmpty {
-                            Text("Hit 'Return' to search the global database.")
-                                .foregroundColor(FriendlyTheme.textSecondary)
-                                .font(.system(size: 14))
-                                .padding(.top, 40)
-                        }
-                        
-                        ForEach(searchResults) { result in
-                            VStack(spacing: 20) {
-                                FoodResultCard(result: result)
-                                
-                                // Log Meal Button
-                                Button(action: {
-                                    saveMeal(result: result)
-                                }) {
-                                    HStack {
-                                        Text(loggedItemId == result.id ? "LOGGED TO DAILY LOG" : "LOG MEAL")
-                                            .font(.system(size: 16, weight: .bold))
-                                            .tracking(1.5)
-                                        if loggedItemId == result.id {
-                                            Image(systemName: "checkmark.circle.fill")
-                                        }
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .background(loggedItemId == result.id ? FriendlyTheme.midnightMatteLight : FriendlyTheme.apexGreen)
-                                    .foregroundColor(loggedItemId == result.id ? FriendlyTheme.apexGreen : .black)
-                                    .cornerRadius(30)
-                                }
+                    .padding(.horizontal)
+                    
+                    // Search Bar
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        TextField("Search foods...", text: $searchText)
+                            .foregroundColor(.white)
+                            .submitLabel(.search)
+                            .onSubmit {
+                                performSearch()
                             }
-                            .padding(.horizontal)
-                            .padding(.bottom, 20)
+                        
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: FriendlyTheme.apexGreen))
+                        } else {
+                            Image(systemName: "barcode.viewfinder")
+                                .foregroundColor(FriendlyTheme.apexGreen)
                         }
+                    }
+                    .padding()
+                    .background(FriendlyTheme.midnightMatteLight)
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+                    
+                    // Compact Result List
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            if searchResults.isEmpty && !isLoading && !searchText.isEmpty {
+                                Text("Hit 'Return' to search the global database.")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                    .font(.system(size: 14))
+                                    .padding(.top, 40)
+                            }
+                            
+                            ForEach(searchResults) { result in
+                                NavigationLink(destination: FoodDetailView(result: result)) {
+                                    FoodListRow(result: result)
+                                }
+                                Divider().background(Color.white.opacity(0.1))
+                            }
+                        }
+                        .padding(.horizontal)
                     }
                 }
             }
@@ -134,17 +103,223 @@ struct KitchenSearchView: View {
             }
         }
     }
+}
+
+// MARK: - Compact List Row
+struct FoodListRow: View {
+    var result: FoodSearchResult
     
-    // MARK: - SwiftData Persistence
-    private func saveMeal(result: FoodSearchResult) {
+    var body: some View {
+        HStack(spacing: 16) {
+            // Generic Icon based on Tier
+            Circle()
+                .fill(FriendlyTheme.midnightMatteLight)
+                .frame(width: 40, height: 40)
+                .overlay(
+                    Image(systemName: result.tier == "Apex" ? "flame.fill" : (result.tier == "Modern" ? "exclamationmark.triangle.fill" : "leaf.fill"))
+                        .foregroundColor(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Modern" ? FriendlyTheme.mutedAmber : FriendlyTheme.apexGreen))
+                        .font(.system(size: 14))
+                )
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(result.name)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                Text(result.tier)
+                    .font(.system(size: 12))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+            }
+            
+            Spacer()
+            
+            // Basic Cals/Macros preview (Estimating cals from macros for display)
+            let estimatedCals = (result.fatGrams * 9) + (result.proteinGrams * 4) + (result.carbsGrams * 4)
+            
+            VStack(alignment: .trailing, spacing: 4) {
+                Text("\(Int(estimatedCals)) cals")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(FriendlyTheme.apexGreen)
+                Text("per 100g")
+                    .font(.system(size: 12))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+            }
+            
+            // Empty Circle like MyNetDiary
+            Circle()
+                .stroke(FriendlyTheme.textSecondary.opacity(0.5), lineWidth: 1.5)
+                .frame(width: 20, height: 20)
+                .padding(.leading, 8)
+        }
+        .padding(.vertical, 12)
+        .contentShape(Rectangle()) // Makes the whole row tappable
+    }
+}
+
+// MARK: - Dedicated Detail Screen
+struct FoodDetailView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    
+    var result: FoodSearchResult
+    @State private var servingSizeGrams: String = "100"
+    
+    // Scaled Macros based on input serving size
+    private var scaleFactor: Double {
+        let grams = Double(servingSizeGrams) ?? 100.0
+        return grams / 100.0
+    }
+    
+    private var scaledFat: Double { result.fatGrams * scaleFactor }
+    private var scaledProtein: Double { result.proteinGrams * scaleFactor }
+    private var scaledCarbs: Double { result.carbsGrams * scaleFactor }
+    private var totalMacros: Double {
+        let total = scaledFat + scaledProtein + scaledCarbs
+        return total > 0 ? total : 1.0
+    }
+    
+    private var estimatedCals: Double {
+        return (scaledFat * 9) + (scaledProtein * 4) + (scaledCarbs * 4)
+    }
+    
+    private func getOrCreateTodayLog() -> DailyLog {
+        let calendar = Calendar.current
+        if let todayLog = dailyLogs.first(where: { calendar.isDateInToday($0.date) }) {
+            return todayLog
+        } else {
+            let newLog = DailyLog()
+            modelContext.insert(newLog)
+            return newLog
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            FriendlyTheme.midnightMatte.ignoresSafeArea()
+            
+            ScrollView {
+                VStack(spacing: 0) {
+                    // 1. Hero Header
+                    ZStack(alignment: .bottomLeading) {
+                        // Placeholder Image (Gradient for premium feel)
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color(red: 20/255, green: 20/255, blue: 25/255), FriendlyTheme.midnightMatte]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 250)
+                        
+                        // Icon Overlay in center
+                        Image(systemName: "fork.knife.circle")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white.opacity(0.1))
+                            .position(x: UIScreen.main.bounds.width/2, y: 125)
+                        
+                        HStack(alignment: .bottom) {
+                            Text(result.name)
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(.white)
+                                .lineLimit(2)
+                                .shadow(radius: 5)
+                            
+                            Spacer()
+                            
+                            // Tier Badge
+                            Text(result.tier)
+                                .font(.system(size: 14, weight: .heavy))
+                                .foregroundColor(result.tier == "Apex" ? .black : .white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? Color.blue : FriendlyTheme.mutedAmber))
+                                .cornerRadius(8)
+                        }
+                        .padding()
+                    }
+                    
+                    VStack(spacing: 24) {
+                        // 2. Quantity & Calories
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Weight (g)")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                TextField("100", text: $servingSizeGrams)
+                                    .keyboardType(.decimalPad)
+                                    .font(.system(size: 24, weight: .medium))
+                                    .foregroundColor(.white)
+                                Divider().background(Color.white.opacity(0.2))
+                            }
+                            .frame(width: 100)
+                            
+                            Spacer()
+                            
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text("\(Int(estimatedCals))")
+                                    .font(.system(size: 40, weight: .light))
+                                    .foregroundColor(.blue) // MyNetDiary style blue cals
+                                Text("cals")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                        }
+                        .padding(.top, 20)
+                        
+                        // 3. Macros
+                        HStack(spacing: 20) {
+                            MacroStatView(label: "FAT", value: "\(Int(scaledFat))g", color: FriendlyTheme.mutedAmber, percent: scaledFat / totalMacros)
+                            MacroStatView(label: "PROTEIN", value: "\(Int(scaledProtein))g", color: FriendlyTheme.apexGreen, percent: scaledProtein / totalMacros)
+                            MacroStatView(label: "CARBS", value: "\(Int(scaledCarbs))g", color: .blue, percent: scaledCarbs / totalMacros)
+                        }
+                        
+                        // 4. Alerts
+                        if result.containsSeedOils {
+                            FriendlyAlertView(message: "Contains Seed Oils. Not the friendliest choice for your gut! Try tallow or butter instead?")
+                        }
+                        if result.containsRefinedSugars {
+                            FriendlyAlertView(message: "Contains refined sugars. An Ancestral sweetener like raw honey might be better!")
+                        }
+                        
+                        Spacer(minLength: 40)
+                        
+                        // 5. Action Buttons
+                        HStack {
+                            Text("The Kitchen")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(FriendlyTheme.apexGreen)
+                            
+                            Spacer()
+                            
+                            Button(action: saveMeal) {
+                                Text("Log")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .padding(.horizontal, 40)
+                                    .padding(.vertical, 12)
+                                    .background(FriendlyTheme.apexGreen)
+                                    .foregroundColor(.black)
+                                    .cornerRadius(20)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        // Custom Back button appearance implicitly handled by iOS
+    }
+    
+    // MARK: - Persistence
+    private func saveMeal() {
         let todayLog = getOrCreateTodayLog()
         
         let newMeal = MealEntry(
             name: result.name,
             tier: result.tier,
-            fat: result.fatGrams,
-            protein: result.proteinGrams,
-            carbs: result.carbsGrams,
+            fat: scaledFat,
+            protein: scaledProtein,
+            carbs: scaledCarbs,
             hasSeedOils: result.containsSeedOils,
             hasSugars: result.containsRefinedSugars
         )
@@ -153,110 +328,22 @@ struct KitchenSearchView: View {
         todayLog.meals.append(newMeal)
         modelContext.insert(newMeal)
         
-        // Update Daily Summary
-        todayLog.totalFatGrams += result.fatGrams
-        todayLog.totalProteinGrams += result.proteinGrams
-        todayLog.totalCarbsGrams += result.carbsGrams
+        todayLog.totalFatGrams += scaledFat
+        todayLog.totalProteinGrams += scaledProtein
+        todayLog.totalCarbsGrams += scaledCarbs
         
         do {
             try modelContext.save()
-            triggerSuccessFeedback(for: result.id)
+            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+            impactMed.impactOccurred()
+            dismiss() // Pop back to search view
         } catch {
             print("Failed to save meal: \(error.localizedDescription)")
         }
     }
-    
-    private func triggerSuccessFeedback(for id: UUID) {
-        let impactMed = UIImpactFeedbackGenerator(style: .medium)
-        impactMed.impactOccurred()
-        
-        withAnimation { loggedItemId = id }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            withAnimation { loggedItemId = nil }
-        }
-    }
 }
 
-struct FoodResultCard: View {
-    var result: FoodSearchResult
-    
-    // Helper to calculate percentages for the progress bars
-    private var totalMacros: Double {
-        let total = result.fatGrams + result.proteinGrams + result.carbsGrams
-        return total > 0 ? total : 1.0 // prevent division by zero
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            // Header Info & Badge
-            HStack(alignment: .top) {
-                // Image Placeholder
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.black)
-                    .frame(width: 60, height: 60)
-                    .overlay(
-                        Image(systemName: "fork.knife")
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                    )
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(result.name)
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundColor(.white)
-                        .lineLimit(2)
-                    Text("Per 100g")
-                        .font(.system(size: 14))
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                }
-                .padding(.leading, 8)
-                
-                Spacer()
-                
-                // Tier Badge
-                HStack(spacing: 4) {
-                    Image(systemName: "checkmark.seal.fill")
-                        .font(.system(size: 12))
-                    Text(result.tier)
-                        .font(.system(size: 12, weight: .bold))
-                }
-                .foregroundColor(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? .white : FriendlyTheme.apexGreen))
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(FriendlyTheme.midnightMatte)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(result.tier == "Apex" ? FriendlyTheme.limeSignal : (result.tier == "Ancestral" ? .white : FriendlyTheme.apexGreen), lineWidth: 1)
-                )
-            }
-            
-            // Macros
-            HStack(spacing: 20) {
-                MacroStatView(label: "FAT", value: "\(Int(result.fatGrams))g", color: FriendlyTheme.mutedAmber, percent: result.fatGrams / totalMacros)
-                MacroStatView(label: "PROTEIN", value: "\(Int(result.proteinGrams))g", color: FriendlyTheme.apexGreen, percent: result.proteinGrams / totalMacros)
-                MacroStatView(label: "CARBS", value: "\(Int(result.carbsGrams))g", color: .blue, percent: result.carbsGrams / totalMacros)
-            }
-            
-            // Alerts
-            if result.containsSeedOils {
-                FriendlyAlertView(message: "Not the friendliest choice for your gut! Try tallow or butter instead?")
-            }
-            if result.containsRefinedSugars {
-                FriendlyAlertView(message: "Contains refined sugars. An Ancestral sweetener like raw honey might be better!")
-            }
-        }
-        .padding(20)
-        .background(FriendlyTheme.midnightMatteLight)
-        .cornerRadius(24)
-        .shadow(color: FriendlyTheme.apexGreen.opacity(0.05), radius: 20, x: 0, y: 0)
-        .overlay(
-            RoundedRectangle(cornerRadius: 24)
-                .stroke(FriendlyTheme.apexGreen.opacity(0.1), lineWidth: 1)
-        )
-    }
-}
-
-// MARK: - Subcomponents
-
+// MARK: - Shared UI Components
 struct MacroStatView: View {
     var label: String
     var value: String
@@ -277,16 +364,15 @@ struct MacroStatView: View {
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
             
-            // Progress Bar
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(FriendlyTheme.midnightMatte)
+                        .fill(FriendlyTheme.midnightMatteLight)
                         .frame(height: 4)
                     
                     RoundedRectangle(cornerRadius: 2)
                         .fill(color)
-                        .frame(width: geometry.size.width * CGFloat(percent), height: 4)
+                        .frame(width: max(0, geometry.size.width * CGFloat(percent)), height: 4)
                 }
             }
             .frame(height: 4)
@@ -316,6 +402,11 @@ struct FriendlyAlertView: View {
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(red: 51/255, green: 37/255, blue: 19/255))
-        .cornerRadius(16)
+        .cornerRadius(12)
     }
+}
+
+#Preview {
+    KitchenSearchView()
+        .modelContainer(for: DailyLog.self, inMemory: true)
 }
