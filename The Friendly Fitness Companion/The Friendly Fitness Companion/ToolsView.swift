@@ -23,9 +23,14 @@ struct ToolsView: View {
         return max
     }
     
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
     var body: some View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
+                .onTapGesture { dismissKeyboard() }
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -171,10 +176,18 @@ struct ToolsView: View {
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.top, 10)
                         } else {
+                            let actualWeight = (platesNeeded.reduce(0, +) * 2) + barWeight
+                            
                             VStack(alignment: .leading, spacing: 12) {
-                                Text("LOAD PER SIDE:")
-                                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                HStack {
+                                    Text("LOAD PER SIDE:")
+                                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.apexGreen)
+                                    Spacer()
+                                    Text("ACTUAL: \(actualWeight == floor(actualWeight) ? "\(Int(actualWeight))" : String(format: "%.1f", actualWeight)) LBS")
+                                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
                                 
                                 // Visual Barbell representation
                                 HStack(spacing: 4) {
@@ -223,7 +236,10 @@ struct ToolsView: View {
                     .cornerRadius(30)
                     .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                     .padding(.horizontal, 20)
+                    .padding(.horizontal, 20)
                 }
+                .scrollDismissesKeyboard(.interactively)
+                .onTapGesture { dismissKeyboard() }
                 .padding(.bottom, 100)
             }
         }
@@ -242,7 +258,8 @@ struct ToolsView: View {
         var plates: [Double] = []
         
         for plate in availablePlates {
-            while weightToFillPerSide >= plate {
+            // Epsilon added to prevent floating point inaccuracy
+            while weightToFillPerSide >= (plate - 0.001) {
                 plates.append(plate)
                 weightToFillPerSide -= plate
             }
