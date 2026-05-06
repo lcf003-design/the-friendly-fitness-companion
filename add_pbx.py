@@ -6,25 +6,7 @@ project = XcodeProject.load(project_path)
 
 source_dir = "The Friendly Fitness Companion/The Friendly Fitness Companion"
 
-# Files reported missing by user
-missing_files = [
-    "TrainingLedgerView.swift",
-    "HapticManager.swift",
-    "ActiveSessionBanner.swift",
-    "ShortcutsMenuSheet.swift",
-    "ForgeSessionView.swift",
-    "MacroDialView.swift",
-    "WeeklyAdherenceView.swift",
-    "DietToolsView.swift",
-    "FoodActionSheetView.swift",
-    "FoodComparisonEngine.swift",
-    "FoodConsumptionHistoryView.swift",
-    "ManageMyFoodsView.swift",
-    "TechnicalFoodLabelView.swift",
-    "NutritionAPIManager.swift",
-    "DocumentVaultView.swift",
-    "RestaurantScanView.swift"
-]
+missing_files = ["HennemanMeterView.swift"]
 
 target = project.get_target_by_name("The Friendly Fitness Companion")
 

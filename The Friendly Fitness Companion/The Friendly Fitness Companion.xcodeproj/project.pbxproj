@@ -6,16 +6,49 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		03D94A3ABF9A8DA287853FC3 /* MacroDialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99EC47EB9E929A83607CFA75 /* MacroDialView.swift */; };
+		04A2478CBF15DF30769DCB86 /* TrainingLedgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DD4FF5A653EF647F65446D /* TrainingLedgerView.swift */; };
+		3BEB4B52B8D765A378D72A75 /* ActiveSessionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38044FCFBD4FE2B73EA95660 /* ActiveSessionBanner.swift */; };
+		426B4B9F936C633C81322462 /* TechnicalFoodLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6842AE94538CE8B5D4D2CB /* TechnicalFoodLabelView.swift */; };
+		500444BB942149C86DFB9F2C /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC84423B4959CB214A89CE3 /* HapticManager.swift */; };
+		611441E0BB291BAC76039C41 /* ManageMyFoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13634B18AF64D17186DCC881 /* ManageMyFoodsView.swift */; };
+		77324C27B46E0972F0A1D599 /* HennemanMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF13432A87C9045A0ADB9BEE /* HennemanMeterView.swift */; };
+		77B34EBBB01E06E25A555C83 /* DocumentVaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9C43B0AB4FB5FB642E3F16 /* DocumentVaultView.swift */; };
+		92C642BDAD727F4C98208176 /* RestaurantScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25174A77B1B72B6E56F49FC9 /* RestaurantScanView.swift */; };
+		9A1E42C88F28A62D2AF5A0DC /* FoodComparisonEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C48518FD9A755C598A578 /* FoodComparisonEngine.swift */; };
+		AF194A4C8DA725D08421C9CD /* NutritionAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5B4A538035FE62EC06EB39 /* NutritionAPIManager.swift */; };
+		C0EA421CA7EC32BF67DE5262 /* ForgeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64154579873E6815FA79158B /* ForgeSessionView.swift */; };
+		C5804F0AB75B2F1245D7C297 /* FoodActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56804C32B1B5096E09B41DDF /* FoodActionSheetView.swift */; };
+		DE8043589232337665868DFC /* FoodConsumptionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767C48EBAEF35050AEA9492C /* FoodConsumptionHistoryView.swift */; };
+		E94D462CB3C4D44FF22A7877 /* ShortcutsMenuSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD2A4EB9B5AB6F519781548B /* ShortcutsMenuSheet.swift */; };
+		F0D54168B5905DA68DF8AE2F /* DietToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E954CA5B4F5C856D68B7ADA /* DietToolsView.swift */; };
+		FE1D47ADAA17892F04B1DB44 /* WeeklyAdherenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2441DE97535648586D29E3 /* WeeklyAdherenceView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		0CC84423B4959CB214A89CE3 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HapticManager.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/HapticManager.swift"; sourceTree = SOURCE_ROOT; };
+		13634B18AF64D17186DCC881 /* ManageMyFoodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ManageMyFoodsView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/ManageMyFoodsView.swift"; sourceTree = SOURCE_ROOT; };
+		25174A77B1B72B6E56F49FC9 /* RestaurantScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestaurantScanView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/RestaurantScanView.swift"; sourceTree = SOURCE_ROOT; };
+		2E5B4A538035FE62EC06EB39 /* NutritionAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutritionAPIManager.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/NutritionAPIManager.swift"; sourceTree = SOURCE_ROOT; };
+		38044FCFBD4FE2B73EA95660 /* ActiveSessionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActiveSessionBanner.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/ActiveSessionBanner.swift"; sourceTree = SOURCE_ROOT; };
+		4C6842AE94538CE8B5D4D2CB /* TechnicalFoodLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TechnicalFoodLabelView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/TechnicalFoodLabelView.swift"; sourceTree = SOURCE_ROOT; };
+		56804C32B1B5096E09B41DDF /* FoodActionSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoodActionSheetView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/FoodActionSheetView.swift"; sourceTree = SOURCE_ROOT; };
+		5B1C48518FD9A755C598A578 /* FoodComparisonEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoodComparisonEngine.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/FoodComparisonEngine.swift"; sourceTree = SOURCE_ROOT; };
+		64154579873E6815FA79158B /* ForgeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ForgeSessionView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/ForgeSessionView.swift"; sourceTree = SOURCE_ROOT; };
+		68DD4FF5A653EF647F65446D /* TrainingLedgerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrainingLedgerView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/TrainingLedgerView.swift"; sourceTree = SOURCE_ROOT; };
+		767C48EBAEF35050AEA9492C /* FoodConsumptionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FoodConsumptionHistoryView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/FoodConsumptionHistoryView.swift"; sourceTree = SOURCE_ROOT; };
+		7E954CA5B4F5C856D68B7ADA /* DietToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DietToolsView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/DietToolsView.swift"; sourceTree = SOURCE_ROOT; };
+		99EC47EB9E929A83607CFA75 /* MacroDialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MacroDialView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/MacroDialView.swift"; sourceTree = SOURCE_ROOT; };
+		AD2A4EB9B5AB6F519781548B /* ShortcutsMenuSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShortcutsMenuSheet.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/ShortcutsMenuSheet.swift"; sourceTree = SOURCE_ROOT; };
 		B16AB3DA2FAA74BA0068D7DA /* The Friendly Fitness Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Friendly Fitness Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC2441DE97535648586D29E3 /* WeeklyAdherenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WeeklyAdherenceView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/WeeklyAdherenceView.swift"; sourceTree = SOURCE_ROOT; };
+		EF13432A87C9045A0ADB9BEE /* HennemanMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HennemanMeterView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/HennemanMeterView.swift"; sourceTree = SOURCE_ROOT; };
+		FF9C43B0AB4FB5FB642E3F16 /* DocumentVaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DocumentVaultView.swift; path = "The Friendly Fitness Companion/The Friendly Fitness Companion/DocumentVaultView.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "The Friendly Fitness Companion";
-			sourceTree = "<group>";
-		};
+		B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */ = {isa = PBXFileSystemSynchronizedRootGroup; path = "The Friendly Fitness Companion"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +67,7 @@
 			children = (
 				B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */,
 				B16AB3DB2FAA74BA0068D7DA /* Products */,
+				BB6A4CBB9CECF98E6A5D27DE /* The Friendly Fitness Companion */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +77,30 @@
 				B16AB3DA2FAA74BA0068D7DA /* The Friendly Fitness Companion.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BB6A4CBB9CECF98E6A5D27DE /* The Friendly Fitness Companion */ = {
+			isa = PBXGroup;
+			children = (
+				68DD4FF5A653EF647F65446D /* TrainingLedgerView.swift */,
+				0CC84423B4959CB214A89CE3 /* HapticManager.swift */,
+				38044FCFBD4FE2B73EA95660 /* ActiveSessionBanner.swift */,
+				AD2A4EB9B5AB6F519781548B /* ShortcutsMenuSheet.swift */,
+				64154579873E6815FA79158B /* ForgeSessionView.swift */,
+				99EC47EB9E929A83607CFA75 /* MacroDialView.swift */,
+				CC2441DE97535648586D29E3 /* WeeklyAdherenceView.swift */,
+				7E954CA5B4F5C856D68B7ADA /* DietToolsView.swift */,
+				56804C32B1B5096E09B41DDF /* FoodActionSheetView.swift */,
+				5B1C48518FD9A755C598A578 /* FoodComparisonEngine.swift */,
+				767C48EBAEF35050AEA9492C /* FoodConsumptionHistoryView.swift */,
+				13634B18AF64D17186DCC881 /* ManageMyFoodsView.swift */,
+				4C6842AE94538CE8B5D4D2CB /* TechnicalFoodLabelView.swift */,
+				2E5B4A538035FE62EC06EB39 /* NutritionAPIManager.swift */,
+				FF9C43B0AB4FB5FB642E3F16 /* DocumentVaultView.swift */,
+				25174A77B1B72B6E56F49FC9 /* RestaurantScanView.swift */,
+				EF13432A87C9045A0ADB9BEE /* HennemanMeterView.swift */,
+			);
+			name = "The Friendly Fitness Companion";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,6 +175,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04A2478CBF15DF30769DCB86 /* TrainingLedgerView.swift in Sources */,
+				500444BB942149C86DFB9F2C /* HapticManager.swift in Sources */,
+				3BEB4B52B8D765A378D72A75 /* ActiveSessionBanner.swift in Sources */,
+				E94D462CB3C4D44FF22A7877 /* ShortcutsMenuSheet.swift in Sources */,
+				C0EA421CA7EC32BF67DE5262 /* ForgeSessionView.swift in Sources */,
+				03D94A3ABF9A8DA287853FC3 /* MacroDialView.swift in Sources */,
+				FE1D47ADAA17892F04B1DB44 /* WeeklyAdherenceView.swift in Sources */,
+				F0D54168B5905DA68DF8AE2F /* DietToolsView.swift in Sources */,
+				C5804F0AB75B2F1245D7C297 /* FoodActionSheetView.swift in Sources */,
+				9A1E42C88F28A62D2AF5A0DC /* FoodComparisonEngine.swift in Sources */,
+				DE8043589232337665868DFC /* FoodConsumptionHistoryView.swift in Sources */,
+				611441E0BB291BAC76039C41 /* ManageMyFoodsView.swift in Sources */,
+				426B4B9F936C633C81322462 /* TechnicalFoodLabelView.swift in Sources */,
+				AF194A4C8DA725D08421C9CD /* NutritionAPIManager.swift in Sources */,
+				77B34EBBB01E06E25A555C83 /* DocumentVaultView.swift in Sources */,
+				92C642BDAD727F4C98208176 /* RestaurantScanView.swift in Sources */,
+				77324C27B46E0972F0A1D599 /* HennemanMeterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
