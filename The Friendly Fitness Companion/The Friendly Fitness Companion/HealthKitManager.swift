@@ -21,8 +21,9 @@ class HealthKitManager: ObservableObject {
         }
         
         let typesToRead: Set<HKObjectType> = [activeEnergyType, sleepAnalysisType]
+        let typesToWrite: Set<HKSampleType> = [HKObjectType.workoutType()]
         
-        healthStore.requestAuthorization(toShare: nil, read: typesToRead) { [weak self] success, error in
+        healthStore.requestAuthorization(toShare: typesToWrite, read: typesToRead) { [weak self] success, error in
             DispatchQueue.main.async {
                 if success {
                     self?.isAuthorized = true
@@ -88,5 +89,41 @@ class HealthKitManager: ObservableObject {
         }
         
         healthStore.execute(query)
+    }
+    
+    // Save workout to Apple Health
+    func saveWorkout(workout: WorkoutEntry, startDate: Date, endDate: Date) {
+        guard isAuthorized else { return }
+        
+        // Calculate total sets and volume
+        let totalSets = workout.sets.count
+        let totalVolume = workout.sets.reduce(0) { $0 + ($1.weight * Double($1.totalReps)) }
+        
+        // Custom metadata mapping
+        let metadata: [String: Any] = [
+            HKMetadataKeyIndoorWorkout: true,
+            "TotalVolumeLbs": totalVolume,
+            "TotalSets": totalSets,
+            "ExerciseName": workout.exerciseName
+        ]
+        
+        let hkWorkout = HKWorkout(
+            activityType: .traditionalStrengthTraining,
+            start: startDate,
+            end: endDate,
+            duration: endDate.timeIntervalSince(startDate),
+            totalEnergyBurned: nil, // Could be estimated based on volume
+            totalDistance: nil,
+            device: HKDevice.local(),
+            metadata: metadata
+        )
+        
+        healthStore.save(hkWorkout) { success, error in
+            if success {
+                print("Successfully saved workout '\(workout.exerciseName)' to HealthKit.")
+            } else {
+                print("Failed to save workout to HealthKit: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
     }
 }

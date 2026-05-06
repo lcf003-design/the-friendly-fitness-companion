@@ -25,6 +25,27 @@ struct DashboardView: View {
         return sum / Double(lastThree.count)
     }
     
+    // Recovery Logic
+    private var recoveryStatus: (title: String, color: Color, message: String) {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let recentLogs = dailyLogs.filter { $0.totalVolume > 0 && calendar.dateComponents([.day], from: calendar.startOfDay(for: $0.date), to: today).day ?? 0 <= 5 }
+        
+        if recentLogs.count >= 3 {
+            return ("OVERTRAINING RISK", .red, "You've trained \(recentLogs.count) times in the last 5 days. Heavy Duty requires absolute recovery. Take a break.")
+        } else if let lastWorkout = dailyLogs.first(where: { $0.totalVolume > 0 }) {
+            let daysSince = calendar.dateComponents([.day], from: calendar.startOfDay(for: lastWorkout.date), to: today).day ?? 0
+            if daysSince == 0 {
+                return ("RECOVERING", FriendlyTheme.mutedAmber, "You trained today. CNS recovery is actively occurring. Do not train again.")
+            } else if daysSince == 1 {
+                return ("RECOVERING", FriendlyTheme.mutedAmber, "It has only been 1 day since your last session. Growth happens during rest.")
+            } else {
+                return ("READY TO FORGE", FriendlyTheme.apexGreen, "System fully recovered. Proceed with maximum intensity.")
+            }
+        }
+        return ("READY TO FORGE", FriendlyTheme.apexGreen, "No recent sessions. Time to begin.")
+    }
+    
     var body: some View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
@@ -119,6 +140,85 @@ struct DashboardView: View {
                                 .foregroundColor(FriendlyTheme.textSecondary)
                         }
                         .padding(.top, 40)
+                    }
+                    
+                    // Heavy Duty Intensity & Recovery Section
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("HEAVY DUTY INTENSITY")
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                            .tracking(2.0)
+                            .padding(.horizontal, 24)
+                        
+                        // Motor Unit Recruitment Trend Chart
+                        if dailyLogs.filter({ $0.maxMotorUnitRecruitment > 0 }).count > 0 {
+                            Chart {
+                                let validLogs = dailyLogs.filter { $0.maxMotorUnitRecruitment > 0 }.prefix(7).reversed()
+                                ForEach(Array(validLogs), id: \.id) { log in
+                                    LineMark(
+                                        x: .value("Date", log.date, unit: .day),
+                                        y: .value("Recruitment", log.maxMotorUnitRecruitment * 100)
+                                    )
+                                    .foregroundStyle(FriendlyTheme.limeSignal)
+                                    .symbol(Circle().strokeBorder(lineWidth: 2))
+                                    .interpolationMethod(.monotone)
+                                }
+                            }
+                            .chartXAxis {
+                                AxisMarks(values: .stride(by: .day)) { _ in
+                                    AxisValueLabel(format: .dateTime.weekday(.narrow))
+                                        .foregroundStyle(FriendlyTheme.textSecondary)
+                                }
+                            }
+                            .chartYAxis {
+                                AxisMarks(position: .leading, values: .stride(by: 25)) { value in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4]))
+                                        .foregroundStyle(Color.white.opacity(0.1))
+                                    if let pct = value.as(Double.self) {
+                                        AxisValueLabel {
+                                            Text("\(Int(pct))%")
+                                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                        }
+                                    }
+                                }
+                            }
+                            .chartYScale(domain: 0...100)
+                            .frame(height: 150)
+                            .padding(20)
+                            .background(FriendlyTheme.midnightMatteLight)
+                            .cornerRadius(24)
+                            .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                            .padding(.horizontal, 20)
+                        }
+                        
+                        // Recovery Recommendation Card
+                        VStack(alignment: .leading, spacing: 12) {
+                            let status = recoveryStatus
+                            HStack {
+                                Image(systemName: status.color == FriendlyTheme.apexGreen ? "checkmark.circle.fill" : (status.color == .red ? "exclamationmark.triangle.fill" : "moon.zzz.fill"))
+                                    .foregroundColor(status.color)
+                                Text("RECOVERY STATUS")
+                                    .font(.system(size: 10, weight: .black, design: .rounded))
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                    .tracking(1.5)
+                            }
+                            
+                            Text(status.title)
+                                .font(.system(size: 18, weight: .black, design: .rounded))
+                                .foregroundColor(status.color)
+                            
+                            Text(status.message)
+                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                .foregroundColor(.white)
+                                .lineSpacing(4)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(20)
+                        .background(Color.white.opacity(0.05))
+                        .cornerRadius(20)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                        .padding(.horizontal, 20)
                     }
                 }
                 .padding(.bottom, 100)
