@@ -57,13 +57,15 @@ struct TechnicalFoodLabelView: View {
                             
                             Spacer()
                             
-                            VStack {
-                                Text("Grade")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(.gray)
-                                Text("A")
-                                    .font(.system(size: 22, weight: .black, design: .rounded))
-                                    .foregroundColor(FriendlyTheme.apexGreen)
+                            if let grade = food.grade, !grade.isEmpty {
+                                VStack {
+                                    Text("Grade")
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.gray)
+                                    Text(grade)
+                                        .font(.system(size: 22, weight: .black, design: .rounded))
+                                        .foregroundColor(grade == "A" || grade == "B" ? FriendlyTheme.apexGreen : (grade == "C" ? .yellow : .red))
+                                }
                             }
                         }
                         .padding(.horizontal, 20)

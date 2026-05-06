@@ -80,7 +80,9 @@ struct FoodLoggerModal: View {
                                                 carbs: result.carbs,
                                                 sodium: result.sodium,
                                                 isVerified: true,
-                                                servingSize: result.servingSize
+                                                servingSize: result.servingSize,
+                                                grade: result.grade,
+                                                imageUrl: result.imageUrl
                                             )
                                         }
                                     }
@@ -162,8 +164,17 @@ struct FoodLoggerModal: View {
                 }
             }
             .sheet(item: $selectedFood) { food in
-                TechnicalFoodLabelView(food: food) {
-                    logFood(name: food.name, cal: Int(food.calories), pro: Int(food.protein), fat: Int(food.fat), carb: Int(food.carbs), sod: Int(food.sodium), pot: 0, mag: 0)
+                FoodActionSheetView(food: food) { multiplier in
+                    logFood(
+                        name: food.name,
+                        cal: Int(food.calories * multiplier),
+                        pro: Int(food.protein * multiplier),
+                        fat: Int(food.fat * multiplier),
+                        carb: Int(food.carbs * multiplier),
+                        sod: Int(food.sodium * multiplier),
+                        pot: 0,
+                        mag: 0
+                    )
                 }
             }
         }

@@ -12,6 +12,7 @@ struct APIFoodItem: Identifiable, Hashable {
     let sodium: Double
     let imageUrl: String?
     var servingSize: String? = "100g"
+    var grade: String? = nil
 }
 
 class NutritionAPIManager: ObservableObject {
@@ -84,6 +85,10 @@ class NutritionAPIManager: ObservableObject {
                         let carbs = nutriments["carbohydrates" + suffix] as? Double ?? 0.0
                         let sodium = nutriments["sodium" + suffix] as? Double ?? 0.0
                         
+                        let nutriscore = product["nutriscore_grade"] as? String
+                        let grade = nutriscore?.uppercased()
+                        let fullImageUrl = product["image_url"] as? String ?? imageUrl
+                        
                         let item = APIFoodItem(
                             name: name,
                             brand: brand,
@@ -92,8 +97,9 @@ class NutritionAPIManager: ObservableObject {
                             fat: fat,
                             carbs: carbs,
                             sodium: sodium * 1000, // convert g to mg
-                            imageUrl: imageUrl,
-                            servingSize: finalServingSize
+                            imageUrl: fullImageUrl,
+                            servingSize: finalServingSize,
+                            grade: grade == "UNKNOWN" ? nil : grade
                         )
                         results.append(item)
                     }
@@ -114,9 +120,9 @@ class NutritionAPIManager: ObservableObject {
     private func fallbackMockData(query: String) {
         DispatchQueue.main.async {
             self.searchResults = [
-                APIFoodItem(name: "\(query.capitalized) Premium Cuts", brand: "Apex Farms", calories: 240, protein: 26, fat: 15, carbs: 0, sodium: 50, imageUrl: nil),
-                APIFoodItem(name: "Organic \(query.capitalized)", brand: "Origin Bio", calories: 120, protein: 12, fat: 5, carbs: 2, sodium: 30, imageUrl: nil),
-                APIFoodItem(name: "Raw \(query.capitalized)", brand: "Nature's Vault", calories: 300, protein: 20, fat: 22, carbs: 1, sodium: 10, imageUrl: nil)
+                APIFoodItem(name: "\(query.capitalized) Premium Cuts", brand: "Apex Farms", calories: 240, protein: 26, fat: 15, carbs: 0, sodium: 50, imageUrl: nil, grade: "A"),
+                APIFoodItem(name: "Organic \(query.capitalized)", brand: "Origin Bio", calories: 120, protein: 12, fat: 5, carbs: 2, sodium: 30, imageUrl: nil, grade: "A"),
+                APIFoodItem(name: "Raw \(query.capitalized)", brand: "Nature's Vault", calories: 300, protein: 20, fat: 22, carbs: 1, sodium: 10, imageUrl: nil, grade: "A")
             ]
             self.isSearching = false
         }
