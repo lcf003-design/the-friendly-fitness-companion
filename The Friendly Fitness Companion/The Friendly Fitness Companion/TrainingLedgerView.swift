@@ -63,6 +63,7 @@ struct TrainingLedgerView: View {
 struct LedgerRowView: View {
     let date: Date
     let workout: WorkoutEntry
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     @State private var showSummary = false
     

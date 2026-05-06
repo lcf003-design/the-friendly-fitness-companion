@@ -203,6 +203,7 @@ struct OverviewCard: View {
     let title: String
     let value: String
     let icon: String
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     var body: some View {
         HStack {
@@ -236,6 +237,7 @@ struct WeightAndCaloriesTab: View {
     @Binding var targetWeight: Double
     @Binding var targetDays: Int
     @Binding var dailyCalories: Int
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     @State private var currentWeight: Double = 180.0
     @State private var targetDate: Date = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
@@ -587,6 +589,7 @@ struct ExercisePlanTab: View {
     
     @Query private var routines: [RoutineTemplate]
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     private var currentProtocolName: String {
         routines.first?.name ?? "Heavy Duty HIT - 3 Day Split"
