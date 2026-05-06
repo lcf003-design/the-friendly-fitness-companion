@@ -13,8 +13,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = "The Friendly Fitness Companion";
 			sourceTree = "<group>";
 		};
