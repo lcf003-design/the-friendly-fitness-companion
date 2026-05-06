@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import Combine
+import Charts
 
 // MARK: - Theme Definitions
 struct FriendlyTheme {
@@ -59,6 +60,65 @@ struct DashboardView: View {
                             .font(.system(size: 12, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .tracking(1.5)
+                    }
+                    .padding(.bottom, 10)
+                    
+                    // Analytics: Tonnage Volume Chart
+                    if dailyLogs.filter({ $0.totalVolume > 0 }).count > 0 {
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("WORKOUT VOLUME TRENDS")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .tracking(2.0)
+                                .padding(.horizontal, 24)
+                            
+                            Chart {
+                                let validLogs = dailyLogs.filter { $0.totalVolume > 0 }.prefix(7).reversed()
+                                ForEach(Array(validLogs), id: \.id) { log in
+                                    BarMark(
+                                        x: .value("Date", log.date, unit: .day),
+                                        y: .value("Volume", log.totalVolume)
+                                    )
+                                    .foregroundStyle(FriendlyTheme.apexGreen.gradient)
+                                    .cornerRadius(6)
+                                }
+                            }
+                            .chartXAxis {
+                                AxisMarks(values: .stride(by: .day)) { value in
+                                    AxisValueLabel(format: .dateTime.weekday(.narrow))
+                                        .foregroundStyle(FriendlyTheme.textSecondary)
+                                }
+                            }
+                            .chartYAxis {
+                                AxisMarks(position: .leading) { value in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4]))
+                                        .foregroundStyle(Color.white.opacity(0.1))
+                                    if let volume = value.as(Double.self) {
+                                        AxisValueLabel {
+                                            Text("\(Int(volume / 1000))k")
+                                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                        }
+                                    }
+                                }
+                            }
+                            .frame(height: 200)
+                            .padding(20)
+                            .background(.ultraThinMaterial)
+                            .cornerRadius(24)
+                            .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+                            .padding(.horizontal, 20)
+                        }
+                    } else {
+                        VStack(spacing: 12) {
+                            Image(systemName: "chart.bar.xaxis")
+                                .font(.system(size: 40))
+                                .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
+                            Text("NO DATA YET")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                        }
+                        .padding(.top, 40)
                     }
                 }
                 .padding(.bottom, 100)

@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import Combine
+import AVFoundation
 
 struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
@@ -258,6 +259,9 @@ struct ExerciseLogCard: View {
     @State private var previousSetReps: String?
     @State private var previousSetUnit: String?
     
+    // Voice Coach Engine
+    private let synthesizer = AVSpeechSynthesizer()
+    
     var recruitmentPercentage: Double {
         if isWarmup { return 0.0 }
         var base = min(rpe / 10.0, 0.90)
@@ -303,28 +307,51 @@ struct ExerciseLogCard: View {
             
             // Premium Ghost Set Display (Industry Standard for Progressive Overload)
             if let prevWeight = previousSetWeight, let prevReps = previousSetReps, let prevUnit = previousSetUnit {
-                Button(action: {
-                    // Auto-fill from Ghost Set
-                    weight = prevWeight
-                    baseReps = prevReps
-                    unit = prevUnit
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                }) {
-                    HStack {
-                        Image(systemName: "clock.arrow.circlepath")
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                        Text("LAST WORKOUT:")
-                            .font(.system(size: 10, weight: .bold, design: .rounded))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                        Spacer()
-                        Text("\(prevWeight) \(prevUnit) × \(prevReps)")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
+                HStack(spacing: 0) {
+                    // Standard Autofill Button
+                    Button(action: {
+                        weight = prevWeight
+                        baseReps = prevReps
+                        unit = prevUnit
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    }) {
+                        HStack {
+                            Image(systemName: "clock.arrow.circlepath")
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                            Text("LAST:")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                            Text("\(prevWeight) \(prevUnit) × \(prevReps)")
+                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
-                    .background(Color.white.opacity(0.05))
+                    
+                    Divider().background(Color.white.opacity(0.1))
+                    
+                    // Progressive Overload Auto-Suggest (The "BEAT IT" Button)
+                    Button(action: {
+                        if let w = Double(prevWeight) {
+                            weight = String(w + 2.5) // Auto-progress 2.5 lbs
+                        }
+                        baseReps = prevReps
+                        unit = prevUnit
+                        UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                    }) {
+                        HStack(spacing: 4) {
+                            Text("BEAT IT")
+                                .font(.system(size: 12, weight: .black, design: .rounded))
+                            Image(systemName: "flame.fill")
+                        }
+                        .foregroundColor(FriendlyTheme.mutedAmber)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
+                    }
                 }
+                .background(Color.white.opacity(0.05))
             }
             
             Divider().background(Color.white.opacity(0.1))
@@ -536,6 +563,13 @@ struct ExerciseLogCard: View {
                 isTimerRunning = false
                 timerEndTime = nil
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
+                
+                // Voice Coach System
+                let utterance = AVSpeechUtterance(string: "Time to lift. Let's go.")
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                utterance.rate = 0.5
+                utterance.pitchMultiplier = 0.9 // slightly deeper, aggressive tone
+                synthesizer.speak(utterance)
                 
                 if completedRestPauseReps.isEmpty {
                     completedRestPauseReps.append(0)
