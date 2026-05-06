@@ -56,29 +56,7 @@ struct ToolsView: View {
                                     )
                                 }
                             } else {
-                                Button(action: { showDietGoal = true }) {
-                                    ToolMenuCard(
-                                        title: "MY DIET",
-                                        subtitle: "Manage your metabolic strategy, macros, and calorie budget.",
-                                        systemImage: "fork.knife"
-                                    )
-                                }
-                                
-                                NavigationLink(destination: FastingHubView()) {
-                                    ToolMenuCard(
-                                        title: "INTERMITTENT FASTING",
-                                        subtitle: "Track fasting stages and metabolic intelligence windows.",
-                                        systemImage: "hourglass"
-                                    )
-                                }
-                                
-                                NavigationLink(destination: SupplementVaultView()) {
-                                    ToolMenuCard(
-                                        title: "SUPPLEMENT VAULT",
-                                        subtitle: "Track daily electrolytes and bio-stack elements.",
-                                        systemImage: "pills.fill"
-                                    )
-                                }
+                                DietToolsView(showDietGoal: $showDietGoal)
                             }
                         }
                         .padding(.bottom, 100)
