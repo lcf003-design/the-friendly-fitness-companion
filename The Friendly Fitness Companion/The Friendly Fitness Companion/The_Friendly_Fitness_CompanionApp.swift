@@ -15,7 +15,8 @@ struct The_Friendly_Fitness_CompanionApp: App {
             DailyLog.self,
             WorkoutEntry.self,
             ExerciseSet.self,
-            RoutineTemplate.self
+            RoutineTemplate.self,
+            CustomExercise.self
         ])
     }
 }

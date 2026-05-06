@@ -8,6 +8,9 @@ struct ExercisePickerView: View {
     // Fetch all daily logs to search for past performance
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
+    // Fetch custom exercises
+    @Query(sort: \CustomExercise.name) private var customExercises: [CustomExercise]
+    
     @Binding var selectedExercise: String
     @Binding var suggestedWeight: String
     @Binding var suggestedReps: String
@@ -30,11 +33,16 @@ struct ExercisePickerView: View {
         "Shoulder Press"
     ]
     
+    var allExercises: [String] {
+        let customNames = customExercises.map { $0.name }
+        return Array(Set(hitExercises + customNames)).sorted()
+    }
+    
     var filteredExercises: [String] {
         if searchText.isEmpty {
-            return hitExercises
+            return allExercises
         } else {
-            return hitExercises.filter { $0.localizedCaseInsensitiveContains(searchText) }
+            return allExercises.filter { $0.localizedCaseInsensitiveContains(searchText) }
         }
     }
     
@@ -72,6 +80,26 @@ struct ExercisePickerView: View {
                 // List
                 ScrollView {
                     VStack(spacing: 12) {
+                        // "Add New" Button
+                        if !searchText.isEmpty && !allExercises.contains(where: { $0.caseInsensitiveCompare(searchText) == .orderedSame }) {
+                            Button(action: {
+                                addCustomExercise()
+                            }) {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                        .foregroundColor(FriendlyTheme.apexGreen)
+                                    Text("Add \"\(searchText)\"")
+                                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.apexGreen)
+                                    Spacer()
+                                }
+                                .padding(20)
+                                .background(FriendlyTheme.apexGreen.opacity(0.15))
+                                .cornerRadius(20)
+                                .overlay(RoundedRectangle(cornerRadius: 20).stroke(FriendlyTheme.apexGreen, lineWidth: 1))
+                            }
+                        }
+                        
                         ForEach(filteredExercises, id: \.self) { exercise in
                             Button(action: {
                                 selectExercise(exercise)
@@ -105,6 +133,17 @@ struct ExercisePickerView: View {
                 }
             }
         }
+    }
+    
+    private func addCustomExercise() {
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        
+        let newCustom = CustomExercise(name: trimmed)
+        modelContext.insert(newCustom)
+        
+        // Directly select it and close
+        selectExercise(trimmed)
     }
     
     private func selectExercise(_ exercise: String) {

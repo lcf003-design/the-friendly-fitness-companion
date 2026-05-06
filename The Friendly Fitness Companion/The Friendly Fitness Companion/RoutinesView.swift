@@ -5,17 +5,23 @@ struct RoutinesView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
     @Query(sort: \RoutineTemplate.name) private var routines: [RoutineTemplate]
+    @Query(sort: \CustomExercise.name) private var customExercises: [CustomExercise]
     
     @State private var showingCreateRoutine = false
     @State private var newRoutineName = ""
     @State private var newRoutineExercises: [String] = []
     
     // Available exercises to add to a routine
-    let exerciseDatabase = [
+    let baseExercises = [
         "Incline Machine Press", "Pec Deck Fly", "Nautilus Pullover", "Lat Pulldown",
         "Machine Row", "Lateral Raise", "Shoulder Press", "Leg Press", "Hack Squat",
         "Leg Extension", "Lying Leg Curl", "Dips", "Bicep Curls", "Lat Rows"
     ]
+    
+    var allExercises: [String] {
+        let customNames = customExercises.map { $0.name }
+        return Array(Set(baseExercises + customNames)).sorted()
+    }
     
     var body: some View {
         ZStack {
@@ -137,7 +143,7 @@ struct RoutinesView: View {
                     
                     ScrollView {
                         VStack(spacing: 12) {
-                            ForEach(exerciseDatabase, id: \.self) { exercise in
+                            ForEach(allExercises, id: \.self) { exercise in
                                 ExerciseSelectionRow(exercise: exercise, selectedExercises: $newRoutineExercises)
                             }
                         }

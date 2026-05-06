@@ -109,3 +109,13 @@ class AppState: ObservableObject {
     // The active queue of exercises to perform
     @Published var forgeQueue: [String] = []
 }
+
+// MARK: - Custom User Exercises
+@Model
+class CustomExercise {
+    @Attribute(.unique) var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+}
