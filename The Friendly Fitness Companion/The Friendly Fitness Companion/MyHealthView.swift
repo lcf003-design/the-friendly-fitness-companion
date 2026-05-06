@@ -465,8 +465,7 @@ struct AestheticRatiosView: View {
     var profile: UserProfile?
     
     var whtr: Double? { // Waist-to-Height Ratio
-        guard let heightInCm = profile?.heightInCm, heightInCm > 0 else { return nil }
-        let heightInInches = heightInCm / 2.54
+        guard let heightInInches = profile?.heightInInches, heightInInches > 0 else { return nil }
         guard let waist = records.compactMap({ $0.waistSize }).last else { return nil }
         return waist / heightInInches
     }

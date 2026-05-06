@@ -154,17 +154,51 @@ class CustomExercise {
 @Model
 class UserProfile {
     @Attribute(.unique) var id: UUID
-    var dateOfBirth: Date?
-    var heightInCm: Double?
-    var activityLevel: String
+    var sex: String
+    var heightInInches: Double
+    var dateOfBirth: Date
+    var activityLevelIndex: Int
     
     @Relationship(deleteRule: .cascade) var healthRecords: [HealthRecord] = []
     
-    init(dateOfBirth: Date? = nil, heightInCm: Double? = nil, activityLevel: String = "Sedentary") {
+    var age: Int {
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.year], from: dateOfBirth, to: Date())
+        return ageComponents.year ?? 0
+    }
+    
+    var activityMultiplier: Double {
+        switch activityLevelIndex {
+        case 0: return 1.2
+        case 1: return 1.375
+        case 2: return 1.55
+        case 3: return 1.725
+        case 4: return 1.9
+        default: return 1.2
+        }
+    }
+    
+    func calculateTDEE(weightInLbs: Double) -> Int {
+        // Mifflin-St Jeor
+        let weightKg = weightInLbs * 0.453592
+        let heightCm = heightInInches * 2.54
+        
+        var bmr = (10.0 * weightKg) + (6.25 * heightCm) - (5.0 * Double(age))
+        if sex == "Male" {
+            bmr += 5
+        } else if sex == "Female" {
+            bmr -= 161
+        }
+        
+        return Int(bmr * activityMultiplier)
+    }
+    
+    init(sex: String = "Other", heightInInches: Double = 68.0, dateOfBirth: Date = Date(), activityLevelIndex: Int = 0) {
         self.id = UUID()
+        self.sex = sex
+        self.heightInInches = heightInInches
         self.dateOfBirth = dateOfBirth
-        self.heightInCm = heightInCm
-        self.activityLevel = activityLevel
+        self.activityLevelIndex = activityLevelIndex
     }
 }
 
