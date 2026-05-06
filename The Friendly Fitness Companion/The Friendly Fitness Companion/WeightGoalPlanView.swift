@@ -118,6 +118,7 @@ struct OverviewTab: View {
     @EnvironmentObject var appState: AppState
     @State private var autopilotEnabled = true
     @State private var isPulsing = false
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     var body: some View {
         ScrollView {
