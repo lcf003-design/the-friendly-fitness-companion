@@ -1,7 +1,6 @@
 import SwiftUI
 import SwiftData
 import Combine
-import AVFoundation
 
 struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
@@ -259,9 +258,6 @@ struct ExerciseLogCard: View {
     @State private var previousSetReps: String?
     @State private var previousSetUnit: String?
     
-    // Voice Coach Engine
-    private let synthesizer = AVSpeechSynthesizer()
-    
     var recruitmentPercentage: Double {
         if isWarmup { return 0.0 }
         var base = min(rpe / 10.0, 0.90)
@@ -287,7 +283,7 @@ struct ExerciseLogCard: View {
             // Header: Name & Remove Button
             HStack {
                 Text(exerciseName)
-                    .font(.system(size: 22, weight: .black, design: .rounded))
+                    .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                 Spacer()
                 Button(action: {
@@ -296,14 +292,16 @@ struct ExerciseLogCard: View {
                     appState.forgeQueue.removeAll(where: { $0 == exerciseName })
                 }) {
                     Image(systemName: "xmark")
-                        .font(.system(size: 14, weight: .bold))
+                        .font(.system(size: 12, weight: .bold))
                         .foregroundColor(FriendlyTheme.textSecondary)
-                        .padding(8)
+                        .padding(6)
                         .background(Color.white.opacity(0.1))
                         .clipShape(Circle())
                 }
             }
-            .padding(20)
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 8)
             
             // Premium Ghost Set Display (Industry Standard for Progressive Overload)
             if let prevWeight = previousSetWeight, let prevReps = previousSetReps, let prevUnit = previousSetUnit {
@@ -326,8 +324,8 @@ struct ExerciseLogCard: View {
                                 .foregroundColor(.white)
                             Spacer()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 16)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
                     }
                     
                     Divider().background(Color.white.opacity(0.1))
@@ -343,12 +341,13 @@ struct ExerciseLogCard: View {
                     }) {
                         HStack(spacing: 4) {
                             Text("BEAT IT")
-                                .font(.system(size: 12, weight: .black, design: .rounded))
+                                .font(.system(size: 10, weight: .black, design: .rounded))
                             Image(systemName: "flame.fill")
+                                .font(.system(size: 10))
                         }
                         .foregroundColor(FriendlyTheme.mutedAmber)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 16)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
                     }
                 }
                 .background(Color.white.opacity(0.05))
@@ -390,29 +389,28 @@ struct ExerciseLogCard: View {
                     }
                 }
                 .background(Color.white.opacity(0.05))
-                .cornerRadius(12)
+                .cornerRadius(8)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             
             Divider().background(Color.white.opacity(0.1))
             
-            // Core Inputs (Weight & Reps)
-            HStack(spacing: 20) {
+            // Core Inputs (Weight & Reps) - COMPACT
+            HStack(spacing: 16) {
                 // Weight Column
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
                     HStack {
                         Text("WEIGHT")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(1.0)
                         Spacer()
                         Button(action: {
                             unit = (unit == "lbs") ? "kg" : "lbs"
                             UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         }) {
                             Text(unit.uppercased())
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .font(.system(size: 8, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.apexGreen)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
@@ -423,78 +421,78 @@ struct ExerciseLogCard: View {
                     
                     TextField("0", text: $weight)
                         .keyboardType(.decimalPad)
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.apexGreen)
                 }
                 
-                Divider().background(Color.white.opacity(0.1)).frame(height: 50)
+                Divider().background(Color.white.opacity(0.1)).frame(height: 40)
                 
                 // Reps Column
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("REPS")
                         .font(.system(size: 10, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
-                        .tracking(1.0)
-                        .padding(.top, 4)
                     
                     TextField("0", text: $baseReps)
                         .keyboardType(.numberPad)
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                 }
             }
-            .padding(20)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             
             Divider().background(Color.white.opacity(0.1))
             
             if !isWarmup {
+                Divider().background(Color.white.opacity(0.1))
+                
                 // Proximity to Failure (RPE)
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("PROXIMITY TO FAILURE (RPE)")
+                        Text("RPE")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(1.0)
                         Spacer()
                         Text("\(Int(rpe)) / 10")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .font(.system(size: 12, weight: .black, design: .rounded))
                             .foregroundColor(FriendlyTheme.limeSignal)
                     }
                     Slider(value: $rpe, in: 1...10, step: 1)
                         .accentColor(FriendlyTheme.limeSignal)
                 }
-                .padding(20)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
                 
                 Divider().background(Color.white.opacity(0.1))
                 
                 // Advanced Modifiers (Forced & Negatives)
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 12) {
                     Text("BEYOND FAILURE")
                         .font(.system(size: 10, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
-                        .tracking(1.0)
                     
-                    HStack(spacing: 16) {
+                    HStack(spacing: 12) {
                         StepperRow(title: "FORCED", value: $forcedRepsCount, color: FriendlyTheme.mutedAmber)
                         StepperRow(title: "NEGATIVES", value: $negativesCount, color: .red)
                     }
                 }
-                .padding(20)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
                 
                 Divider().background(Color.white.opacity(0.1))
                 
                 // Rest-Pause Engine
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     if !completedRestPauseReps.isEmpty {
                         HStack {
                             Text("REST-PAUSE LOG")
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
-                                .tracking(1.0)
                             Spacer()
                             let log = completedRestPauseReps.map { "\($0)" }.joined(separator: " + ")
                             Text("+ \(log) reps")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .font(.system(size: 12, weight: .black, design: .rounded))
                                 .foregroundColor(FriendlyTheme.mutedAmber)
                         }
                     }
@@ -505,55 +503,56 @@ struct ExerciseLogCard: View {
                                 Image(systemName: "timer")
                                 Text(isTimerRunning ? "REST: \(restPauseTimer)s" : "REST-PAUSE")
                             }
-                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .font(.system(size: 12, weight: .black, design: .rounded))
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
+                            .padding(.vertical, 12)
                             .background(isTimerRunning ? FriendlyTheme.mutedAmber : Color.white.opacity(0.05))
                             .foregroundColor(isTimerRunning ? FriendlyTheme.midnightMatte : .white)
-                            .cornerRadius(16)
+                            .cornerRadius(8)
                         }
                         
                         if !isTimerRunning && !completedRestPauseReps.isEmpty {
                             TextField("Reps", text: $currentRestPauseExtraReps)
                                 .keyboardType(.numberPad)
-                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
-                                .frame(width: 60)
-                                .padding(.vertical, 16)
+                                .frame(width: 50)
+                                .padding(.vertical, 12)
                                 .background(Color(white: 0.15))
-                                .cornerRadius(12)
+                                .cornerRadius(8)
                             
                             Button(action: logRestPauseRep) {
                                 Image(systemName: "plus")
-                                    .font(.system(size: 16, weight: .bold))
+                                    .font(.system(size: 14, weight: .bold))
                                     .foregroundColor(.black)
-                                    .frame(width: 50)
-                                    .padding(.vertical, 16)
+                                    .frame(width: 40)
+                                    .padding(.vertical, 12)
                                     .background(FriendlyTheme.mutedAmber)
-                                    .cornerRadius(12)
+                                    .cornerRadius(8)
                             }
                         }
                     }
                 }
-                .padding(20)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
             }
             
             // Log Set Button
             Button(action: saveSet) {
                 Text(isWarmup ? "LOG WARMUP" : "LOG WORKING SET")
-                    .font(.system(size: 16, weight: .black, design: .rounded))
+                    .font(.system(size: 14, weight: .black, design: .rounded))
                     .tracking(2.0)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
+                    .padding(.vertical, 16)
                     .background(isWarmup ? FriendlyTheme.mutedAmber : FriendlyTheme.apexGreen)
                     .foregroundColor(.black)
             }
         }
         .background(Color(white: 0.08)) // Darker, cleaner card background
-        .cornerRadius(24)
-        .overlay(RoundedRectangle(cornerRadius: 24).stroke(Color.white.opacity(0.1), lineWidth: 1))
-        .padding(.horizontal, 20)
+        .cornerRadius(16)
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+        .padding(.horizontal, 16)
         .onReceive(timer) { _ in
             guard isTimerRunning, let endTime = timerEndTime else { return }
             let remaining = endTime.timeIntervalSinceNow
@@ -563,13 +562,6 @@ struct ExerciseLogCard: View {
                 isTimerRunning = false
                 timerEndTime = nil
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                
-                // Voice Coach System
-                let utterance = AVSpeechUtterance(string: "Time to lift. Let's go.")
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                utterance.rate = 0.5
-                utterance.pitchMultiplier = 0.9 // slightly deeper, aggressive tone
-                synthesizer.speak(utterance)
                 
                 if completedRestPauseReps.isEmpty {
                     completedRestPauseReps.append(0)
