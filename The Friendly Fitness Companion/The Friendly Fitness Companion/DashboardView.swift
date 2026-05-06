@@ -77,8 +77,8 @@ struct HennemanMeterView: View {
                 // Background Track
                 Circle()
                     .trim(from: 0.5, to: 1.0)
-                    .stroke(Color(white: 0.15), style: StrokeStyle(lineWidth: 30, lineCap: .round))
-                    .frame(width: 250, height: 250)
+                    .stroke(Color(white: 0.15), style: StrokeStyle(lineWidth: 18, lineCap: .round))
+                    .frame(width: 150, height: 150)
                     .rotationEffect(.degrees(180))
                 
                 // Active Green Track
@@ -86,30 +86,30 @@ struct HennemanMeterView: View {
                     .trim(from: 0.5, to: 0.5 + (recruitmentLevel / 2))
                     .stroke(
                         AngularGradient(gradient: Gradient(colors: [FriendlyTheme.limeSignal, FriendlyTheme.apexGreen]), center: .center, startAngle: .degrees(180), endAngle: .degrees(360)),
-                        style: StrokeStyle(lineWidth: 30, lineCap: .round)
+                        style: StrokeStyle(lineWidth: 18, lineCap: .round)
                     )
-                    .frame(width: 250, height: 250)
+                    .frame(width: 150, height: 150)
                     .rotationEffect(.degrees(180))
-                    .shadow(color: FriendlyTheme.apexGreen.opacity(0.5), radius: 15, x: 0, y: 0)
+                    .shadow(color: FriendlyTheme.apexGreen.opacity(0.5), radius: 10, x: 0, y: 0)
                     .animation(.spring(response: 0.8, dampingFraction: 0.7), value: recruitmentLevel)
                 
                 // Percentage Text
-                VStack(spacing: -4) {
+                VStack(spacing: -2) {
                     Text("\(Int(recruitmentLevel * 100))%")
-                        .font(.system(size: 56, weight: .black, design: .rounded))
+                        .font(.system(size: 32, weight: .black, design: .rounded))
                         .foregroundColor(FriendlyTheme.apexGreen)
                         .contentTransition(.numericText())
-                        .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10)
+                        .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 5)
                     
                     Text("MOTOR UNIT\nRECRUITMENT")
-                        .font(.system(size: 12, weight: .bold, design: .rounded))
+                        .font(.system(size: 8, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
                         .multilineTextAlignment(.center)
-                        .tracking(1.5)
+                        .tracking(1.0)
                 }
-                .offset(y: -30)
+                .offset(y: -15)
             }
-            .frame(height: 140) // Clip the bottom half of the circle
+            .frame(height: 85) // Clip the bottom half of the circle
         }
         .padding(.top, 20)
     }
