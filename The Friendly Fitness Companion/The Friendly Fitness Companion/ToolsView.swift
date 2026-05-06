@@ -71,6 +71,14 @@ struct ToolsView: View {
                                         systemImage: "hourglass"
                                     )
                                 }
+                                
+                                NavigationLink(destination: SupplementVaultView()) {
+                                    ToolMenuCard(
+                                        title: "SUPPLEMENT VAULT",
+                                        subtitle: "Track daily electrolytes and bio-stack elements.",
+                                        systemImage: "pills.fill"
+                                    )
+                                }
                             }
                         }
                         .padding(.bottom, 100)

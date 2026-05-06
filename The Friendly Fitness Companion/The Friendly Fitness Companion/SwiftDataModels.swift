@@ -18,6 +18,7 @@ class DailyLog {
     @Relationship(deleteRule: .cascade) var progressPhotos: [ProgressPhoto] = []
     @Relationship(deleteRule: .cascade) var bodyMeasurements: [BodyMeasurement] = []
     @Relationship(deleteRule: .cascade) var foodEntries: [FoodEntry] = []
+    @Relationship(deleteRule: .cascade) var supplementLogs: [SupplementLog] = []
     
     init(date: Date = Date()) {
         let formatter = DateFormatter()
@@ -420,5 +421,39 @@ class MetabolicGoal {
         self.carbPercent = carbPercent
         self.isAutopilotEnabled = isAutopilotEnabled
         self.lastUpdated = Date()
+    }
+}
+
+// MARK: - Supplement Stack
+@Model
+class SupplementItem {
+    var id: UUID
+    var name: String
+    var sodiumMg: Int
+    var potassiumMg: Int
+    var magnesiumMg: Int
+    
+    init(name: String, sodiumMg: Int = 0, potassiumMg: Int = 0, magnesiumMg: Int = 0) {
+        self.id = UUID()
+        self.name = name
+        self.sodiumMg = sodiumMg
+        self.potassiumMg = potassiumMg
+        self.magnesiumMg = magnesiumMg
+    }
+}
+
+@Model
+class SupplementLog {
+    var id: UUID
+    var timestamp: Date
+    var isCompleted: Bool
+    
+    var supplementItem: SupplementItem?
+    var dailyLog: DailyLog?
+    
+    init(isCompleted: Bool = false, timestamp: Date = Date()) {
+        self.id = UUID()
+        self.isCompleted = isCompleted
+        self.timestamp = timestamp
     }
 }

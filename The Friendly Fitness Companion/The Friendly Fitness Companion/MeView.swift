@@ -410,15 +410,40 @@ struct AppSettingsView: View {
                     .foregroundColor(.white)
                     
                     VStack(alignment: .leading) {
-                        Text("Haptic Feedback Intensity")
+                        Text("Haptic Feedback Intensity: \(hapticIntensity, specifier: "%.1f")x")
                             .foregroundColor(.white)
-                        Slider(value: $hapticIntensity, in: 0.0...1.0)
+                        Slider(value: $hapticIntensity, in: 1.0...2.0, step: 0.1)
                             .accentColor(FriendlyTheme.apexGreen)
                     }
                     
                     Toggle("Intensity-Adjusted 1RM", isOn: $appState.useIntensityAdjusted1RM)
                         .foregroundColor(.white)
                         .tint(FriendlyTheme.apexGreen)
+                }
+                .listRowBackground(Color.white.opacity(0.05))
+                
+                Section(header: Text("APP ICON").foregroundColor(FriendlyTheme.textSecondary)) {
+                    Button(action: { setAppIcon(nil) }) {
+                        HStack {
+                            Text("Midnight Matte (Default)")
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                    }
+                    Button(action: { setAppIcon("AppIcon-ApexGreen") }) {
+                        HStack {
+                            Text("Apex Green")
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                    }
+                    Button(action: { setAppIcon("AppIcon-OriginHexagon") }) {
+                        HStack {
+                            Text("Origin Hexagon")
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                    }
                 }
                 .listRowBackground(Color.white.opacity(0.05))
                 
@@ -466,6 +491,17 @@ struct AppSettingsView: View {
         } catch {
             isSyncing = false
             syncStatus = "SYNC FAILED"
+        }
+    }
+    
+    private func setAppIcon(_ iconName: String?) {
+        guard UIApplication.shared.supportsAlternateIcons else { return }
+        UIApplication.shared.setAlternateIconName(iconName) { error in
+            if let error = error {
+                print("App icon failed to change due to \(error.localizedDescription)")
+            } else {
+                print("App icon changed successfully")
+            }
         }
     }
 }

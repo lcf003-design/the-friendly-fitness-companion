@@ -8,6 +8,7 @@ struct ShortcutsMenuSheet: View {
     @State private var showSnapLog = false
     @State private var snapLogType: SnapLogType = .water
     @State private var isSelectingRoutine = false
+    @State private var showSettings = false
     
     @Query private var routines: [RoutineTemplate]
     
@@ -24,6 +25,11 @@ struct ShortcutsMenuSheet: View {
         .sheet(isPresented: $showSnapLog) {
             SnapLogView(type: snapLogType)
                 .presentationDetents([.fraction(0.7)])
+        }
+        .sheet(isPresented: $showSettings) {
+            NavigationView {
+                AppSettingsView()
+            }
         }
     }
     
@@ -76,18 +82,50 @@ struct ShortcutsMenuSheet: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .padding(.top, 20)
                     } else {
+                        let nextRoutine = RoutineRotationManager.nextRoutineToHit(routines: routines)
                         ForEach(routines) { routine in
+                            let isNext = (routine.id == nextRoutine?.id)
+                            let daysSince = RoutineRotationManager.daysSinceLastHit(for: routine)
+                            
                             Button(action: {
                                 startForgeSession(routine: routine)
                             }) {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 4) {
-                                        Text(routine.name.uppercased())
-                                            .font(.system(size: 16, weight: .bold, design: .rounded))
-                                            .foregroundColor(.white)
-                                        Text("\(routine.exercises.count) exercises")
-                                            .font(.system(size: 12))
-                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                        HStack {
+                                            Text(routine.name.uppercased())
+                                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                                .foregroundColor(isNext ? FriendlyTheme.apexGreen : .white)
+                                            
+                                            if isNext {
+                                                Text("NEXT")
+                                                    .font(.system(size: 8, weight: .black, design: .rounded))
+                                                    .padding(.horizontal, 4)
+                                                    .padding(.vertical, 2)
+                                                    .background(FriendlyTheme.apexGreen.opacity(0.2))
+                                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                                    .cornerRadius(4)
+                                            }
+                                        }
+                                        
+                                        HStack {
+                                            Text("\(routine.exercises.count) exercises")
+                                                .font(.system(size: 12))
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                            
+                                            Text("•")
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                            
+                                            if let days = daysSince {
+                                                Text("\(days)d since hit")
+                                                    .font(.system(size: 12, weight: .bold))
+                                                    .foregroundColor(days > 4 ? .orange : FriendlyTheme.textSecondary)
+                                            } else {
+                                                Text("Never hit")
+                                                    .font(.system(size: 12, weight: .bold))
+                                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                            }
+                                        }
                                     }
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -95,6 +133,7 @@ struct ShortcutsMenuSheet: View {
                                 }
                                 .padding()
                                 .background(Color.white.opacity(0.05))
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(isNext ? FriendlyTheme.apexGreen.opacity(0.5) : Color.clear, lineWidth: 1))
                                 .cornerRadius(12)
                             }
                         }
@@ -135,6 +174,7 @@ struct ShortcutsMenuSheet: View {
                         Spacer()
                         Button(action: {
                             HapticManager.shared.light()
+                            showSettings = true
                         }) {
                             Image(systemName: "gearshape.fill")
                                 .foregroundColor(FriendlyTheme.apexGreen)

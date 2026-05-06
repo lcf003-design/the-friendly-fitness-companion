@@ -391,15 +391,21 @@ struct MetabolicBudgetView: View {
     }
     
     private var consumedSodium: Int {
-        todayLog?.foodEntries.reduce(0) { $0 + $1.sodium } ?? 0
+        let food = todayLog?.foodEntries.reduce(0) { $0 + $1.sodium } ?? 0
+        let supplement = todayLog?.supplementLogs.filter { $0.isCompleted }.reduce(0) { $0 + ($1.supplementItem?.sodiumMg ?? 0) } ?? 0
+        return food + supplement
     }
     
     private var consumedPotassium: Int {
-        todayLog?.foodEntries.reduce(0) { $0 + $1.potassium } ?? 0
+        let food = todayLog?.foodEntries.reduce(0) { $0 + $1.potassium } ?? 0
+        let supplement = todayLog?.supplementLogs.filter { $0.isCompleted }.reduce(0) { $0 + ($1.supplementItem?.potassiumMg ?? 0) } ?? 0
+        return food + supplement
     }
     
     private var consumedMagnesium: Int {
-        todayLog?.foodEntries.reduce(0) { $0 + $1.magnesium } ?? 0
+        let food = todayLog?.foodEntries.reduce(0) { $0 + $1.magnesium } ?? 0
+        let supplement = todayLog?.supplementLogs.filter { $0.isCompleted }.reduce(0) { $0 + ($1.supplementItem?.magnesiumMg ?? 0) } ?? 0
+        return food + supplement
     }
     
     private var hasRecentAbsoluteFailure: Bool {
