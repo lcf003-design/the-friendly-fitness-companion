@@ -11,13 +11,18 @@ struct ToolsView: View {
     // Available plates (lbs)
     let availablePlates: [Double] = [45, 35, 25, 10, 5, 2.5]
     
-    // Calculate 1RM using Brzycki Formula
+    // Calculate 1RM using Epley Formula
     private var oneRepMax: Double {
         guard let w = Double(weightInput), let r = Double(repsInput), r > 0 else {
             return 0.0
         }
-        // Brzycki: Weight / (1.0278 - (0.0278 * Reps))
-        let max = w / (1.0278 - (0.0278 * r))
+        
+        if r == 1 {
+            return w
+        }
+        
+        // Epley: Weight * (1 + (Reps / 30))
+        let max = w * (1.0 + (r / 30.0))
         
         // Trigger haptic if valid calculation (could be optimized, but using SwiftUI state)
         return max
