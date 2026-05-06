@@ -9,8 +9,8 @@ class DailyLog {
     @Attribute(.unique) var id: String // Formatted as "YYYY-MM-DD"
     var date: Date
     
-    var totalVolume: Double
-    var maxMotorUnitRecruitment: Double
+    var totalVolume: Double = 0.0
+    var maxMotorUnitRecruitment: Double = 0.0
     var cnsFatigueDetected: Bool = false
     var rpeScore: Double = 0.0
     
@@ -66,9 +66,9 @@ class ExerciseSet {
     var forcedReps: Bool // Deprecated
     var negatives: Bool // Deprecated
     
-    var forcedRepsCount: Int
-    var negativesCount: Int
-    var isWarmup: Bool
+    var forcedRepsCount: Int = 0
+    var negativesCount: Int = 0
+    var isWarmup: Bool = false
     
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
