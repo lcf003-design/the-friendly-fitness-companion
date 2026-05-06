@@ -11,6 +11,12 @@ struct ToolsView: View {
     // Available plates (lbs)
     let availablePlates: [Double] = [45, 35, 25, 10, 5, 2.5]
     
+    // Standard Strength Curve
+    let strengthTableData: [(percentage: Int, reps: Int)] = [
+        (100, 1), (95, 2), (90, 4), (85, 6), (80, 8),
+        (75, 10), (70, 12), (65, 16), (60, 20), (55, 24), (50, 30)
+    ]
+    
     // Calculate 1RM using Epley Formula
     private var oneRepMax: Double {
         guard let w = Double(weightInput), let r = Double(repsInput), r > 0 else {
@@ -114,7 +120,7 @@ struct ToolsView: View {
                                 .foregroundColor(.black.opacity(0.6))
                                 .tracking(1.5)
                             
-                            Text(oneRepMax > 0 ? "\(Int(oneRepMax)) LBS" : "--")
+                            Text(oneRepMax > 0 ? "\(String(format: "%.1f", oneRepMax)) LBS" : "--")
                                 .font(.system(size: 42, weight: .black, design: .rounded))
                                 .foregroundColor(.black)
                                 .contentTransition(.numericText())
@@ -129,11 +135,32 @@ struct ToolsView: View {
                         // Strength Table
                         if oneRepMax > 0 {
                             VStack(spacing: 12) {
-                                StrengthRow(percentage: 85, weight: oneRepMax * 0.85)
-                                Divider().background(Color.white.opacity(0.1))
-                                StrengthRow(percentage: 80, weight: oneRepMax * 0.80)
-                                Divider().background(Color.white.opacity(0.1))
-                                StrengthRow(percentage: 75, weight: oneRepMax * 0.75)
+                                // Header
+                                HStack {
+                                    Text("PERCENT")
+                                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .frame(width: 60, alignment: .leading)
+                                    Spacer()
+                                    Text("WEIGHT")
+                                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .frame(width: 80, alignment: .center)
+                                    Spacer()
+                                    Text("REPS")
+                                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .frame(width: 60, alignment: .trailing)
+                                }
+                                .padding(.horizontal, 10)
+                                .padding(.bottom, 4)
+                                
+                                ForEach(strengthTableData, id: \.percentage) { item in
+                                    StrengthRow(percentage: item.percentage, weight: oneRepMax * (Double(item.percentage) / 100.0), reps: item.reps)
+                                    if item.percentage != 50 {
+                                        Divider().background(Color.white.opacity(0.1))
+                                    }
+                                }
                             }
                             .padding(.top, 10)
                         }
@@ -302,19 +329,30 @@ struct ToolsView: View {
 struct StrengthRow: View {
     var percentage: Int
     var weight: Double
+    var reps: Int
     
     var body: some View {
         HStack {
             Text("\(percentage)%")
-                .font(.system(size: 16, weight: .black, design: .rounded))
+                .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(FriendlyTheme.limeSignal)
+                .frame(width: 60, alignment: .leading)
             
             Spacer()
             
-            Text("\(Int(weight)) lbs")
-                .font(.system(size: 16, weight: .bold, design: .rounded))
+            Text("\(String(format: "%.1f", weight)) lb")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
+                .frame(width: 80, alignment: .center)
+            
+            Spacer()
+            
+            Text("\(reps)")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundColor(FriendlyTheme.textSecondary)
+                .frame(width: 60, alignment: .trailing)
         }
+        .padding(.horizontal, 10)
     }
 }
 
