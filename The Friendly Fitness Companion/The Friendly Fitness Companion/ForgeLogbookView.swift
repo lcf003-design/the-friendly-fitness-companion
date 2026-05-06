@@ -10,6 +10,10 @@ struct ForgeLogbookView: View {
     @State private var isShowingExercisePicker: Bool = false
     @State private var showSuccessFeedback: Bool = false
     
+    // Live Timer
+    @State private var currentDurationString: String = "00:00"
+    let liveTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     private func getOrCreateTodayLog() -> DailyLog {
         let calendar = Calendar.current
         if let todayLog = dailyLogs.first(where: { calendar.isDateInToday($0.date) }) {
@@ -59,6 +63,59 @@ struct ForgeLogbookView: View {
                     // Henneman Meter (Pinned)
                     HennemanMeterView(recruitmentLevel: globalRecruitmentPercentage)
                         .padding(.bottom, 8)
+                        
+                    // Live Workout Engine Header
+                    if !appState.isWorkoutActive {
+                        Button(action: {
+                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            appState.isWorkoutActive = true
+                            appState.workoutStartTime = Date()
+                        }) {
+                            HStack {
+                                Image(systemName: "play.circle.fill")
+                                    .font(.system(size: 18))
+                                Text("START LIVE WORKOUT")
+                                    .font(.system(size: 14, weight: .black, design: .rounded))
+                                    .tracking(2.0)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(FriendlyTheme.apexGreen)
+                            .foregroundColor(.black)
+                            .cornerRadius(12)
+                            .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10)
+                            .padding(.horizontal, 24)
+                        }
+                        .padding(.bottom, 12)
+                    } else {
+                        HStack {
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 8, height: 8)
+                                .opacity(0.8) // Pulse effect would be better, but keeping it simple
+                            Text(currentDurationString)
+                                .font(.system(size: 16, weight: .black, design: .rounded))
+                                .foregroundColor(.red)
+                                .monospacedDigit()
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                                appState.showWorkoutSummary = true
+                            }) {
+                                Text("FINISH WORKOUT")
+                                    .font(.system(size: 12, weight: .black, design: .rounded))
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .background(Color.white.opacity(0.1))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 12)
+                    }
                 }
                 .background(FriendlyTheme.midnightMatte.opacity(0.95))
                 .zIndex(1)
@@ -138,9 +195,123 @@ struct ForgeLogbookView: View {
                 .zIndex(2)
             }
         }
+        .onReceive(liveTimer) { _ in
+            if appState.isWorkoutActive, let start = appState.workoutStartTime {
+                let interval = Date().timeIntervalSince(start)
+                let hours = Int(interval) / 3600
+                let minutes = Int(interval) / 60 % 60
+                let seconds = Int(interval) % 60
+                if hours > 0 {
+                    currentDurationString = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+                } else {
+                    currentDurationString = String(format: "%02d:%02d", minutes, seconds)
+                }
+            }
+        }
         .sheet(isPresented: $isShowingExercisePicker) {
             ExercisePickerViewAdapter(isShowing: $isShowingExercisePicker)
         }
+        .sheet(isPresented: $appState.showWorkoutSummary) {
+            WorkoutSummaryModal(
+                durationString: currentDurationString,
+                todayLog: getOrCreateTodayLog()
+            )
+            .environmentObject(appState)
+        }
+    }
+}
+
+// MARK: - Workout Summary Modal
+struct WorkoutSummaryModal: View {
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appState: AppState
+    
+    var durationString: String
+    var todayLog: DailyLog
+    
+    var totalSets: Int {
+        todayLog.workouts.reduce(0) { $0 + $1.sets.count }
+    }
+    
+    var body: some View {
+        ZStack {
+            FriendlyTheme.midnightMatte.ignoresSafeArea()
+            
+            VStack(spacing: 40) {
+                Spacer()
+                
+                // Confetti / Icon
+                ZStack {
+                    Circle()
+                        .fill(FriendlyTheme.apexGreen.opacity(0.2))
+                        .frame(width: 120, height: 120)
+                    Image(systemName: "trophy.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                }
+                
+                VStack(spacing: 12) {
+                    Text("WORKOUT COMPLETE")
+                        .font(.system(size: 24, weight: .black, design: .rounded))
+                        .foregroundColor(.white)
+                        .tracking(2.0)
+                    
+                    Text("You pushed yourself to the limit.")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                }
+                
+                // Stats Grid
+                HStack(spacing: 20) {
+                    StatBox(title: "DURATION", value: durationString)
+                    StatBox(title: "VOLUME", value: "\(Int(todayLog.totalVolume)) lbs")
+                    StatBox(title: "SETS", value: "\(totalSets)")
+                }
+                .padding(.horizontal, 24)
+                
+                Spacer()
+                
+                Button(action: {
+                    // Complete Workout Routine
+                    appState.isWorkoutActive = false
+                    appState.workoutStartTime = nil
+                    appState.forgeQueue.removeAll()
+                    dismiss()
+                }) {
+                    Text("DONE")
+                        .font(.system(size: 16, weight: .black, design: .rounded))
+                        .tracking(2.0)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 20)
+                        .background(FriendlyTheme.apexGreen)
+                        .foregroundColor(.black)
+                        .cornerRadius(16)
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 40)
+            }
+        }
+    }
+}
+
+struct StatBox: View {
+    var title: String
+    var value: String
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            Text(title)
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                .foregroundColor(FriendlyTheme.textSecondary)
+                .tracking(1.0)
+            Text(value)
+                .font(.system(size: 16, weight: .black, design: .rounded))
+                .foregroundColor(.white)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+        .background(Color.white.opacity(0.05))
+        .cornerRadius(12)
     }
 }
 

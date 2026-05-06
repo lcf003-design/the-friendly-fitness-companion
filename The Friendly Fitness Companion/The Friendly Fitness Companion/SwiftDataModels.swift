@@ -115,6 +115,11 @@ class AppState: ObservableObject {
     
     // The active queue of exercises to perform
     @Published var forgeQueue: [String] = []
+    
+    // Live Workout Engine
+    @Published var isWorkoutActive: Bool = false
+    @Published var workoutStartTime: Date? = nil
+    @Published var showWorkoutSummary: Bool = false
 }
 
 // MARK: - Custom User Exercises
