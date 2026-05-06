@@ -114,6 +114,11 @@ struct NavigationDrawerView: View {
                             withAnimation { appState.isDrawerOpen = false }
                         }
                         
+                        DrawerItemView(icon: "book.pages.fill", title: "TRAINING LEDGER", isSelected: appState.selectedTab == 14) {
+                            appState.selectedTab = 14
+                            withAnimation { appState.isDrawerOpen = false }
+                        }
+                        
                         DrawerItemView(icon: "list.bullet.clipboard.fill", title: "PROGRAM BUILDER", isSelected: appState.selectedTab == 11) {
                             appState.selectedTab = 11
                             withAnimation { appState.isDrawerOpen = false }

@@ -294,6 +294,31 @@ struct MeView: View {
                         
 
                         
+                        // DOCUMENT VAULT
+                        NavigationLink(destination: DocumentVaultView()) {
+                            HStack {
+                                Image(systemName: "folder.fill")
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .font(.system(size: 20))
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("DOCUMENT VAULT")
+                                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Text("Metabolic Briefs & CSV Ledgers")
+                                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                            .padding(16)
+                            .background(Color.white.opacity(0.05))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        }
+                        
                         // APP SETTINGS
                         NavigationLink(destination: AppSettingsView()) {
                             HStack {

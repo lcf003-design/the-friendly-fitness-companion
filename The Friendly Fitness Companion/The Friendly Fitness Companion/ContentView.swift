@@ -71,11 +71,11 @@ struct ContentView: View {
                         case 2: DashboardView() // Center + Visual Only placeholder
                         case 3: CommunityView()
                         case 4: MeView()
-                        // Drawer Navigation
                         case 10: ForgeLogbookView()
                         case 11: RoutinesView()
                         case 12: ProgressViewTab()
                         case 13: FastingHubView()
+                        case 14: TrainingLedgerView()
                         default: DashboardView()
                         }
                     }
@@ -141,43 +141,7 @@ struct ContentView: View {
                 
                 // Active Session Indicator (Elite Status)
                 if appState.isWorkoutActive && !appState.showLiveForge {
-                    VStack {
-                        HStack {
-                            Circle()
-                                .fill(FriendlyTheme.apexGreen)
-                                .frame(width: 8, height: 8)
-                                .opacity(isPulsing ? 1.0 : 0.3)
-                            
-                            Text("ACTIVE SESSION")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .tracking(2.0)
-                                .foregroundColor(FriendlyTheme.apexGreen)
-                            
-                            Spacer()
-                            
-                            Text(currentDurationString)
-                                .font(.system(size: 14, weight: .black, design: .rounded))
-                                .foregroundColor(.white)
-                                .monospacedDigit()
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 12)
-                        .background(FriendlyTheme.midnightMatteLight)
-                        .cornerRadius(20)
-                        .padding(.horizontal, 24)
-                        .padding(.top, 50)
-                        .onTapGesture {
-                            appState.showLiveForge = true
-                        }
-                        Spacer()
-                    }
-                    .zIndex(100)
-                    .transition(.move(edge: .top).combined(with: .opacity))
-                    .onAppear {
-                        withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
-                            isPulsing = true
-                        }
-                    }
+                    ActiveSessionBanner()
                 }
             }
             .preferredColorScheme(.dark)
