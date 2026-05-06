@@ -11,6 +11,7 @@ struct ManageMyFoodsView: View {
     @StateObject private var apiManager = NutritionAPIManager.shared
     @State private var searchText = ""
     @State private var selectedCategory = "RECENT"
+    @State private var selectedFoodForAction: UnifiedFoodItem?
     
     let categories = ["FAVS", "RECENT", "FREQUENT", "CUSTOM", "MEALS", "RECIPES", "PHOTOFOODS"]
     
@@ -131,7 +132,12 @@ struct ManageMyFoodsView: View {
                                 .padding(.top, 16)
                                 
                                 ForEach(apiManager.searchResults, id: \.self) { result in
-                                    APIFoodResultCard(item: result, modelContext: modelContext)
+                                    Button(action: {
+                                        selectedFoodForAction = UnifiedFoodItem(name: result.name, brand: result.brand, calories: result.calories, protein: result.protein, fat: result.fat, carbs: result.carbs, sodium: result.sodium, isVerified: true)
+                                    }) {
+                                        APIFoodResultCard(item: result, modelContext: modelContext)
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
                             }
                         } else {
@@ -142,7 +148,9 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NO RECENT FOODS", subtitle: "Log a meal to see it here.")
                                 } else {
                                     ForEach(recentFoods) { food in
-                                        FoodRowView(name: food.name, desc: "\(food.calories) kcal • \(food.protein)g P", icon: "clock.fill")
+                                        FoodRowView(name: food.name, desc: "\(food.calories) kcal • \(food.protein)g P", icon: "clock.fill") {
+                                            selectedFoodForAction = UnifiedFoodItem(name: food.name, brand: "Log Entry", calories: Double(food.calories), protein: Double(food.protein), fat: Double(food.fat), carbs: Double(food.carbs), sodium: Double(food.sodium), isVerified: false)
+                                        }
                                     }
                                 }
                             case "FREQUENT":
@@ -150,7 +158,10 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NOT ENOUGH DATA", subtitle: "Keep logging to build your frequent intelligence.")
                                 } else {
                                     ForEach(frequentFoods, id: \.0.id) { pair in
-                                        FoodRowView(name: pair.0.name, desc: "Logged \(pair.1) times recently", icon: "flame.fill")
+                                        FoodRowView(name: pair.0.name, desc: "Logged \(pair.1) times recently", icon: "flame.fill") {
+                                            let food = pair.0
+                                            selectedFoodForAction = UnifiedFoodItem(name: food.name, brand: "Log Entry", calories: Double(food.calories), protein: Double(food.protein), fat: Double(food.fat), carbs: Double(food.carbs), sodium: Double(food.sodium), isVerified: false)
+                                        }
                                     }
                                 }
                             case "CUSTOM":
@@ -158,7 +169,9 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NO CUSTOM FOODS", subtitle: "Create custom entries to use them anytime.")
                                 } else {
                                     ForEach(customFoods) { custom in
-                                        FoodRowView(name: custom.name, desc: "\(Int(custom.caloriesPer100g)) kcal / 100g", icon: "cube.box.fill")
+                                        FoodRowView(name: custom.name, desc: "\(Int(custom.caloriesPer100g)) kcal / 100g", icon: "cube.box.fill") {
+                                            selectedFoodForAction = UnifiedFoodItem(name: custom.name, brand: "Custom", calories: custom.caloriesPer100g, protein: custom.proteinPer100g, fat: custom.fatPer100g, carbs: custom.carbsPer100g, sodium: 0, isVerified: false)
+                                        }
                                     }
                                 }
                             default:
@@ -172,6 +185,10 @@ struct ManageMyFoodsView: View {
         }
         .navigationTitle("Food Warehouse")
         .navigationBarTitleDisplayMode(.inline)
+        .sheet(item: $selectedFoodForAction) { foodItem in
+            FoodActionSheetView(food: foodItem)
+                .presentationDetents([.medium, .large])
+        }
     }
 }
 
@@ -203,35 +220,39 @@ struct FoodRowView: View {
     let name: String
     let desc: String
     let icon: String
+    let action: () -> Void
     
     var body: some View {
-        HStack(spacing: 16) {
-            ZStack {
-                Rectangle()
-                    .fill(Color.white.opacity(0.05))
-                    .frame(width: 44, height: 44)
-                    .cornerRadius(8)
-                Image(systemName: icon)
-                    .foregroundColor(FriendlyTheme.apexGreen)
+        Button(action: action) {
+            HStack(spacing: 16) {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.05))
+                        .frame(width: 44, height: 44)
+                        .cornerRadius(8)
+                    Image(systemName: icon)
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(name)
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                    Text(desc)
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                }
+                
+                Spacer()
+                
+                Image(systemName: "line.3.horizontal")
+                    .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
             }
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(name)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
-                Text(desc)
-                    .font(.system(size: 12, weight: .medium, design: .rounded))
-                    .foregroundColor(FriendlyTheme.textSecondary)
-            }
-            
-            Spacer()
-            
-            Image(systemName: "line.3.horizontal")
-                .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
+            .padding(.horizontal, 20)
+            .padding(.vertical, 8)
+            .background(Color.white.opacity(0.02))
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 8)
-        .background(Color.white.opacity(0.02))
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
