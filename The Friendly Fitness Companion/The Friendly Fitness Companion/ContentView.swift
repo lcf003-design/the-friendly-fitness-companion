@@ -49,6 +49,7 @@ struct TabBarItemView: View {
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @State private var showShortcuts = false
     
     var body: some View {
         if !hasCompletedOnboarding {
@@ -88,7 +89,8 @@ struct ContentView: View {
                             
                             // Center +
                             Button(action: {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                HapticManager.shared.medium()
+                                showShortcuts = true
                             }) {
                                 Image(systemName: "plus")
                                     .font(.system(size: 24, weight: .black))
@@ -132,6 +134,13 @@ struct ContentView: View {
                 }
             }
             .preferredColorScheme(.dark)
+            .sheet(isPresented: $showShortcuts) {
+                ShortcutsMenuSheet()
+                    .presentationDetents([.medium, .large])
+            }
+            .fullScreenCover(isPresented: $appState.showLiveForge) {
+                ForgeSessionView()
+            }
         }
     }
 }

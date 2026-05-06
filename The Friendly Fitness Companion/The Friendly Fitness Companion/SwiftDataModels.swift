@@ -130,6 +130,7 @@ class AppState: ObservableObject {
     @Published var isWorkoutActive: Bool = false
     @Published var workoutStartTime: Date? = nil
     @Published var showWorkoutSummary: Bool = false
+    @Published var showLiveForge: Bool = false
 }
 
 // MARK: - Custom User Exercises
