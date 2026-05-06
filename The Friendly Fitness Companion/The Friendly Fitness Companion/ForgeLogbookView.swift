@@ -634,10 +634,10 @@ struct ExerciseLogCard: View {
         }
         
         try? modelContext.save()
-        triggerSuccessFeedback()
+        triggerSuccessFeedback(wasWorkingSet: !isWarmup)
     }
     
-    private func triggerSuccessFeedback() {
+    private func triggerSuccessFeedback(wasWorkingSet: Bool) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         withAnimation { showSuccessFeedback = true }
         
@@ -648,8 +648,13 @@ struct ExerciseLogCard: View {
         negativesCount = 0
         isWarmup = false // Default back to working set after logging a warmup
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation { showSuccessFeedback = false }
+            if wasWorkingSet {
+                withAnimation {
+                    appState.forgeQueue.removeAll(where: { $0 == exerciseName })
+                }
+            }
         }
     }
     
