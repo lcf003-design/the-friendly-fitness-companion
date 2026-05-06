@@ -52,14 +52,17 @@ class ExerciseSet {
     var restPauseReps: [Int] // Tracks the reps achieved after each 15s rest pause e.g., [2, 1]
     
     var rpe: Double // 1.0 - 10.0
-    var forcedReps: Bool
-    var negatives: Bool
+    var forcedReps: Bool // Deprecated
+    var negatives: Bool // Deprecated
+    
+    var forcedRepsCount: Int
+    var negativesCount: Int
     
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
     var workoutEntry: WorkoutEntry?
     
-    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool, negatives: Bool, recruitment: Double) {
+    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, recruitment: Double) {
         self.id = UUID()
         self.weight = weight
         self.unit = unit
@@ -68,12 +71,14 @@ class ExerciseSet {
         self.rpe = rpe
         self.forcedReps = forcedReps
         self.negatives = negatives
+        self.forcedRepsCount = forcedRepsCount
+        self.negativesCount = negativesCount
         self.motorUnitRecruitment = recruitment
     }
     
     // Helper to calculate total reps in the set
     var totalReps: Int {
-        return baseReps + restPauseReps.reduce(0, +)
+        return baseReps + restPauseReps.reduce(0, +) + forcedRepsCount + negativesCount
     }
     
     // Helper to format the display string (e.g., "8 + 2 + 1")
