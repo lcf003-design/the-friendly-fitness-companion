@@ -109,6 +109,9 @@ struct RoutinesView: View {
         .sheet(isPresented: $showingCreateRoutine) {
             ZStack {
                 FriendlyTheme.midnightMatte.ignoresSafeArea()
+                    .onTapGesture {
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    }
                 
                 VStack(spacing: 20) {
                     Text("BUILD ROUTINE")
@@ -139,6 +142,7 @@ struct RoutinesView: View {
                             }
                         }
                     }
+                    .scrollDismissesKeyboard(.interactively)
                     
                     Button(action: {
                         if !newRoutineName.isEmpty && !newRoutineExercises.isEmpty {
