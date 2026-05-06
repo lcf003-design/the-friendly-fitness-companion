@@ -17,9 +17,8 @@ struct DietToolsView: View {
                         .foregroundColor(FriendlyTheme.apexGreen)
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("MY DIET")
-                            .font(.system(size: 16, weight: .black, design: .rounded))
-                            .tracking(1.5)
+                        Text("My Diet")
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         Text("Manage your metabolic strategy")
                             .font(.system(size: 12, weight: .medium, design: .rounded))
@@ -36,9 +35,8 @@ struct DietToolsView: View {
                         .cornerRadius(6)
                 }
                 .padding(20)
-                .background(Color.white.opacity(0.02))
-                .cornerRadius(16)
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                .background(FriendlyTheme.midnightMatteLight)
+                .cornerRadius(20)
             }
             .padding(.horizontal, 24)
             
@@ -49,12 +47,11 @@ struct DietToolsView: View {
                     Color.black.opacity(0.4)
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("THE HUNTER-GATHERER")
-                            .font(.system(size: 18, weight: .black, design: .rounded))
-                            .tracking(2.0)
+                        Text("The Hunter-Gatherer")
+                            .font(.system(size: 20, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         Text("Protocol intelligence & specific nutrient density.")
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
+                            .font(.system(size: 14, weight: .medium, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
                         
                         Text("LEARN MORE >")
@@ -67,8 +64,7 @@ struct DietToolsView: View {
                 }
                 .frame(height: 120)
                 .background(Color.black) // placeholder for image
-                .cornerRadius(16)
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
             }
             
@@ -84,9 +80,8 @@ struct DietToolsView: View {
                     ToolStackRow(icon: "camera.viewfinder", title: "Restaurant Menu AI Scan")
                 }
             }
-            .background(Color.white.opacity(0.02))
-            .cornerRadius(16)
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .background(FriendlyTheme.midnightMatteLight)
+            .cornerRadius(20)
             .padding(.horizontal, 24)
             
             // Intermittent Fasting Card
@@ -96,8 +91,8 @@ struct DietToolsView: View {
                         .font(.system(size: 20))
                         .foregroundColor(.white)
                     
-                    Text("INTERMITTENT FASTING")
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                    Text("Intermittent Fasting")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                     
                     Spacer()
@@ -107,17 +102,15 @@ struct DietToolsView: View {
                         .foregroundColor(FriendlyTheme.textSecondary)
                 }
                 .padding(20)
-                .background(Color.white.opacity(0.02))
-                .cornerRadius(16)
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                .background(FriendlyTheme.midnightMatteLight)
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
             }
             
             // Header for Analysis & Insights
             HStack {
-                Text("ANALYSIS & INSIGHTS")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .tracking(2.0)
+                Text("Analysis & Insights")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
                 Spacer()
             }
@@ -149,9 +142,8 @@ struct DietToolsView: View {
                         .foregroundColor(FriendlyTheme.textSecondary)
                 }
                 .padding(20)
-                .background(Color.white.opacity(0.02))
-                .cornerRadius(16)
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                .background(FriendlyTheme.midnightMatteLight)
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
             }
         }

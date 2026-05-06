@@ -77,7 +77,7 @@ struct ExerciseLogCard: View {
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                             Text("\(prevWeight) \(prevUnit) × \(prevReps)")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                             Spacer()
                         }
@@ -119,7 +119,7 @@ struct ExerciseLogCard: View {
                         .padding(.vertical, 8)
                     }
                 }
-                .background(Color.white.opacity(0.05))
+                .background(FriendlyTheme.midnightMatteLight)
             }
             
             Divider().background(Color.white.opacity(0.1))
@@ -157,8 +157,8 @@ struct ExerciseLogCard: View {
                             .foregroundColor(!vm.isWarmup ? .black : FriendlyTheme.textSecondary)
                     }
                 }
-                .background(Color.white.opacity(0.05))
-                .cornerRadius(8)
+                .background(FriendlyTheme.midnightMatteLight)
+                .cornerRadius(16)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
@@ -342,7 +342,7 @@ struct ExerciseLogCard: View {
                             .padding(.vertical, 12)
                             .background(vm.isTimerRunning ? FriendlyTheme.mutedAmber : Color.white.opacity(0.05))
                             .foregroundColor(vm.isTimerRunning ? FriendlyTheme.midnightMatte : .white)
-                            .cornerRadius(8)
+                            .cornerRadius(16)
                         }
                         
                         if !vm.isTimerRunning && !vm.completedRestPauseReps.isEmpty {
@@ -354,7 +354,7 @@ struct ExerciseLogCard: View {
                                 .frame(width: 50)
                                 .padding(.vertical, 12)
                                 .background(Color(white: 0.15))
-                                .cornerRadius(8)
+                                .cornerRadius(16)
                             
                             Button(action: vm.logRestPauseRep) {
                                 Image(systemName: "plus")
@@ -363,7 +363,7 @@ struct ExerciseLogCard: View {
                                     .frame(width: 40)
                                     .padding(.vertical, 12)
                                     .background(FriendlyTheme.mutedAmber)
-                                    .cornerRadius(8)
+                                    .cornerRadius(16)
                             }
                         }
                     }
@@ -379,8 +379,8 @@ struct ExerciseLogCard: View {
                         ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .black))
                     } else {
                         Text(vm.isWarmup ? "LOG WARMUP" : "LOG WORKING SET")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .tracking(2.0)
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
+                            
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -390,20 +390,20 @@ struct ExerciseLogCard: View {
             }
         }
         .background(Color(white: 0.08)) // Darker, cleaner card background
-        .cornerRadius(16)
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+        .cornerRadius(20)
+        
         .padding(.horizontal, 16)
         .overlay(
             Group {
                 if showingFailureAudit {
                     ZStack {
                         Color.black.opacity(0.9)
-                            .cornerRadius(16)
+                            .cornerRadius(20)
                         
                         VStack(spacing: 24) {
                             Text("DID YOU HIT ABSOLUTE FAILURE?")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
-                                .tracking(2.0)
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
+                                
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
                             
@@ -419,7 +419,7 @@ struct ExerciseLogCard: View {
                                         .padding(.vertical, 12)
                                         .background(Color.white.opacity(0.1))
                                         .foregroundColor(.white)
-                                        .cornerRadius(8)
+                                        .cornerRadius(16)
                                 }
                                 
                                 Button(action: {
@@ -434,7 +434,7 @@ struct ExerciseLogCard: View {
                                         .padding(.vertical, 12)
                                         .background(FriendlyTheme.apexGreen)
                                         .foregroundColor(.black)
-                                        .cornerRadius(8)
+                                        .cornerRadius(16)
                                 }
                             }
                             .padding(.horizontal, 24)

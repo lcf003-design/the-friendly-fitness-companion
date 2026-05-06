@@ -26,7 +26,7 @@ struct FoodLoggerModal: View {
                     VStack(alignment: .leading, spacing: 24) {
                         Text("QUICK-ADD STAPLES")
                             .font(.system(size: 12, weight: .black, design: .rounded))
-                            .tracking(2.0)
+                            
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .padding(.horizontal, 24)
                             .padding(.top, 24)
@@ -49,7 +49,7 @@ struct FoodLoggerModal: View {
                                             .font(.system(size: 24))
                                     }
                                     .padding(16)
-                                    .background(Color.white.opacity(0.05))
+                                    .background(FriendlyTheme.midnightMatteLight)
                                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                                     .cornerRadius(12)
                                 }
@@ -65,7 +65,7 @@ struct FoodLoggerModal: View {
                                     .font(.system(size: 20))
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("LABEL AUDIT")
-                                        .font(.system(size: 14, weight: .black, design: .rounded))
+                                        .font(.system(size: 18, weight: .bold, design: .rounded))
                                         .tracking(1.0)
                                         .foregroundColor(.white)
                                     Text("Verify protein yield via Grocery Check")
@@ -77,9 +77,9 @@ struct FoodLoggerModal: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(20)
-                            .background(Color.white.opacity(0.05))
-                            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(16)
+                            .background(FriendlyTheme.midnightMatteLight)
+                            
+                            .cornerRadius(20)
                         }
                         .padding(.horizontal, 24)
                         .padding(.top, 16)

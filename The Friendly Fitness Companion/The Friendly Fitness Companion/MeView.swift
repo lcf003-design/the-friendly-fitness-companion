@@ -32,7 +32,7 @@ struct MeView: View {
                                 .font(.system(size: 24))
                             
                             Text("COMMAND HUB")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
                                 .tracking(4.0)
                                 .foregroundColor(.white)
                             Spacer()
@@ -44,7 +44,7 @@ struct MeView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("APPS & DEVICES")
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .tracking(2.0)
+                                
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
@@ -79,7 +79,7 @@ struct MeView: View {
                                 }
                                 .padding(16)
                             }
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -104,7 +104,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -129,7 +129,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -154,7 +154,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -179,7 +179,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -204,7 +204,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -214,7 +214,7 @@ struct MeView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("NUTRITION & GROCERY")
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .tracking(2.0)
+                                
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
@@ -286,7 +286,7 @@ struct MeView: View {
                                     .padding(16)
                                 }
                             }
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -294,14 +294,14 @@ struct MeView: View {
                         
 
                         
-                        // DOCUMENT VAULT
+                        // Document Vault
                         NavigationLink(destination: DocumentVaultView()) {
                             HStack {
                                 Image(systemName: "folder.fill")
                                     .foregroundColor(FriendlyTheme.apexGreen)
                                     .font(.system(size: 20))
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("DOCUMENT VAULT")
+                                    Text("Document Vault")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                     Text("Metabolic Briefs & CSV Ledgers")
@@ -313,7 +313,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -338,7 +338,7 @@ struct MeView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
                             .padding(16)
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -348,7 +348,7 @@ struct MeView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("SYSTEM SUPPORT")
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .tracking(2.0)
+                                
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
@@ -394,7 +394,7 @@ struct MeView: View {
                                 }
                                 .padding(16)
                             }
-                            .background(Color.white.opacity(0.05))
+                            .background(FriendlyTheme.midnightMatteLight)
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
@@ -480,8 +480,8 @@ struct AppSettingsView: View {
                             } else {
                                 Image(systemName: "icloud.and.arrow.up.fill")
                                 Text("FORCE CLOUD SYNC")
-                                    .font(.system(size: 14, weight: .black, design: .rounded))
-                                    .tracking(2.0)
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                                    
                             }
                             Spacer()
                         }
@@ -572,7 +572,7 @@ struct PersonalInfoView: View {
                         Text("SEX")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(2.0)
+                            
                         
                         Spacer()
                         
@@ -585,7 +585,7 @@ struct PersonalInfoView: View {
                         .pickerStyle(MenuPickerStyle())
                     }
                     .padding(16)
-                    .background(Color.white.opacity(0.05))
+                    .background(FriendlyTheme.midnightMatteLight)
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                     
                     // Height
@@ -593,7 +593,7 @@ struct PersonalInfoView: View {
                         Text("HEIGHT")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(2.0)
+                            
                         
                         Spacer()
                         
@@ -616,7 +616,7 @@ struct PersonalInfoView: View {
                         }
                     }
                     .padding(16)
-                    .background(Color.white.opacity(0.05))
+                    .background(FriendlyTheme.midnightMatteLight)
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                     .onChange(of: feet) { _, _ in updateHeight() }
                     .onChange(of: inches) { _, _ in updateHeight() }
@@ -627,7 +627,7 @@ struct PersonalInfoView: View {
                             Text("DATE OF BIRTH")
                                 .font(.system(size: 12, weight: .bold))
                                 .foregroundColor(FriendlyTheme.textSecondary)
-                                .tracking(2.0)
+                                
                             
                             Text("Age: \(profile.age)")
                                 .font(.system(size: 10, weight: .bold))
@@ -642,7 +642,7 @@ struct PersonalInfoView: View {
                             .tint(FriendlyTheme.apexGreen)
                     }
                     .padding(16)
-                    .background(Color.white.opacity(0.05))
+                    .background(FriendlyTheme.midnightMatteLight)
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                     
                     // Activity Level
@@ -650,7 +650,7 @@ struct PersonalInfoView: View {
                         Text("PHYSICAL ACTIVITY LEVEL")
                             .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(2.0)
+                            
                         
                         Picker("Activity Level", selection: $profile.activityLevelIndex) {
                             ForEach(0..<activityLevels.count, id: \.self) { index in
@@ -666,7 +666,7 @@ struct PersonalInfoView: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                     }
                     .padding(16)
-                    .background(Color.white.opacity(0.05))
+                    .background(FriendlyTheme.midnightMatteLight)
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                     
                 }

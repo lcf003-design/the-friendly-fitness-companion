@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct TrainingLedgerView: View {
+    @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
@@ -23,13 +24,25 @@ struct TrainingLedgerView: View {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Header
+                // Modern Organic Header
                 HStack {
-                    Text("TRAINING LEDGER")
-                        .font(.system(size: 24, weight: .black, design: .rounded))
-                        .tracking(3.0)
-                        .foregroundColor(.white)
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(FriendlyTheme.apexGreen)
+                    }
+                    
                     Spacer()
+                    
+                    Text("Training Ledger")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.clear) // Balance
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 24)
@@ -39,18 +52,18 @@ struct TrainingLedgerView: View {
                 
                 if allWorkouts.isEmpty {
                     Spacer()
-                    Text("NO AUDIT LOGS FOUND")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                    Text("No past events")
+                        .font(.system(size: 16, weight: .medium, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
                     Spacer()
                 } else {
-                    ScrollView {
-                        LazyVStack(spacing: 2) { // Extremely dense
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 12) {
                             ForEach(allWorkouts, id: \.workout.id) { item in
                                 LedgerRowView(date: item.date, workout: item.workout)
                             }
                         }
+                        .padding(.horizontal, 20)
                         .padding(.vertical, 8)
                         .padding(.bottom, 120) // padding for tab bar
                     }
@@ -77,75 +90,101 @@ struct LedgerRowView: View {
     
     var body: some View {
         Button(action: { showSummary = true }) {
-            HStack(spacing: 12) {
-                Text(date.formatted(date: .numeric, time: .omitted))
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .foregroundColor(FriendlyTheme.textSecondary)
-                    .frame(width: 80, alignment: .leading)
+            HStack(spacing: 16) {
+                // Icon Background
+                ZStack {
+                    Circle()
+                        .fill(Color.white.opacity(0.05))
+                        .frame(width: 40, height: 40)
+                    
+                    Image(systemName: "dumbbell.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(FriendlyTheme.mutedAmber)
+                }
                 
-                Text(workout.exerciseName)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
-                    .lineLimit(1)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(workout.exerciseName)
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .lineLimit(1)
+                    
+                    Text(date.formatted(date: .abbreviated, time: .omitted))
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                }
                 
                 Spacer()
                 
-                Text("\(Int(totalTonnage)) \(preferredUnit)")
-                    .font(.system(size: 14, weight: .black, design: .rounded))
-                    .foregroundColor(FriendlyTheme.apexGreen)
-                
-                if isHeavyDuty {
-                    Text("HD")
-                        .font(.system(size: 8, weight: .black, design: .rounded))
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 2)
-                        .background(FriendlyTheme.apexGreen.opacity(0.2))
-                        .foregroundColor(FriendlyTheme.apexGreen)
-                        .overlay(RoundedRectangle(cornerRadius: 2).stroke(FriendlyTheme.apexGreen, lineWidth: 1))
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("\(Int(totalTonnage)) \(preferredUnit)")
+                        .font(.system(size: 16, weight: .semibold, design: .rounded))
+                        .foregroundColor(FriendlyTheme.calmBlue)
+                    
+                    if isHeavyDuty {
+                        Text("High Intensity")
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .foregroundColor(FriendlyTheme.apexGreen)
+                    }
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(Color.white.opacity(0.02))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .background(FriendlyTheme.midnightMatteLight)
+            .cornerRadius(20)
         }
+        .buttonStyle(.plain)
         .sheet(isPresented: $showSummary) {
             // Reusing existing workout summary card or building a dense summary
             ZStack {
                 FriendlyTheme.midnightMatte.ignoresSafeArea()
                 VStack {
-                    Text("LEDGER AUDIT: \(workout.exerciseName.uppercased())")
-                        .font(.system(size: 16, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                    HStack {
+                        Spacer()
+                        Text("Workout Summary")
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .padding(.top, 24)
+                    .padding(.bottom, 16)
+                    
+                    Text(workout.exerciseName)
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.apexGreen)
-                        .padding(.top, 30)
                         .padding(.bottom, 20)
                     
                     ScrollView {
-                        ForEach(Array(workout.sets.enumerated()), id: \.offset) { index, set in
-                            HStack {
-                                Text("SET \(index + 1)")
-                                    .font(.system(size: 12, weight: .bold))
-                                    .foregroundColor(FriendlyTheme.textSecondary)
-                                    .frame(width: 50, alignment: .leading)
-                                
-                                Text("\(Int(set.weight)) \(preferredUnit) × \(set.totalReps)")
-                                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                                    .foregroundColor(.white)
-                                
-                                Spacer()
-                                
-                                if set.isAbsoluteFailure == true {
-                                    Text("FAIL")
-                                        .font(.system(size: 10, weight: .black, design: .rounded))
-                                        .foregroundColor(.red)
+                        VStack(spacing: 12) {
+                            ForEach(Array(workout.sets.enumerated()), id: \.offset) { index, set in
+                                HStack {
+                                    Text("Set \(index + 1)")
+                                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .frame(width: 60, alignment: .leading)
+                                    
+                                    Text("\(Int(set.weight)) \(preferredUnit) × \(set.totalReps)")
+                                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    
+                                    Spacer()
+                                    
+                                    if set.isAbsoluteFailure == true {
+                                        Text("Failure")
+                                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(Color.red.opacity(0.2))
+                                            .foregroundColor(.red)
+                                            .cornerRadius(8)
+                                    }
                                 }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 14)
+                                .background(FriendlyTheme.midnightMatteLight)
+                                .cornerRadius(16)
                             }
-                            .padding()
-                            .background(Color.white.opacity(0.05))
-                            .cornerRadius(8)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 4)
                         }
+                        .padding(.horizontal, 24)
                     }
                 }
             }

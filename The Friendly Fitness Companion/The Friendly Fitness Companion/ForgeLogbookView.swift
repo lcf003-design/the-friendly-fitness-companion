@@ -51,7 +51,7 @@ struct ForgeLogbookView: View {
                         Image(systemName: "book.fill")
                             .foregroundColor(FriendlyTheme.apexGreen)
                         Text("THE LOGBOOK")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .tracking(2.5)
                             .foregroundColor(.white)
                         Spacer()
@@ -82,8 +82,8 @@ struct ForgeLogbookView: View {
                                 Image(systemName: "play.circle.fill")
                                     .font(.system(size: 18))
                                 Text("START LIVE WORKOUT")
-                                    .font(.system(size: 14, weight: .black, design: .rounded))
-                                    .tracking(2.0)
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                                    
                             }
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
@@ -126,7 +126,7 @@ struct ForgeLogbookView: View {
                                     .padding(.vertical, 8)
                                     .background(Color.white.opacity(0.1))
                                     .foregroundColor(.white)
-                                    .cornerRadius(8)
+                                    .cornerRadius(16)
                             }
                         }
                         .padding(.horizontal, 24)
@@ -166,7 +166,7 @@ struct ForgeLogbookView: View {
                                 Image(systemName: "plus.circle.fill")
                                 Text(appState.forgeQueue.isEmpty ? "ADD EXERCISE TO START" : "ADD EXERCISE")
                             }
-                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .tracking(1.5)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -207,8 +207,8 @@ struct ForgeLogbookView: View {
                 VStack {
                     Spacer()
                     Text("SET LOGGED")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        
                         .padding(.horizontal, 30)
                         .padding(.vertical, 16)
                         .background(FriendlyTheme.apexGreen)
@@ -282,9 +282,9 @@ struct WorkoutSummaryModal: View {
                 
                 VStack(spacing: 12) {
                     Text("WORKOUT COMPLETE")
-                        .font(.system(size: 24, weight: .black, design: .rounded))
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
-                        .tracking(2.0)
+                        
                     
                     Text("You pushed yourself to the limit.")
                         .font(.system(size: 14, weight: .medium, design: .rounded))
@@ -319,7 +319,7 @@ struct WorkoutSummaryModal: View {
                         .tint(.red)
                 }
                 .padding(20)
-                .background(Color.white.opacity(0.05))
+                .background(FriendlyTheme.midnightMatteLight)
                 .cornerRadius(12)
                 .padding(.horizontal, 24)
                 
@@ -338,12 +338,12 @@ struct WorkoutSummaryModal: View {
                 }) {
                     Text("DONE")
                         .font(.system(size: 16, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 20)
                         .background(FriendlyTheme.apexGreen)
                         .foregroundColor(.black)
-                        .cornerRadius(16)
+                        .cornerRadius(20)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
@@ -368,7 +368,7 @@ struct StatBox: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
-        .background(Color.white.opacity(0.05))
+        .background(FriendlyTheme.midnightMatteLight)
         .cornerRadius(12)
     }
 }
@@ -394,12 +394,12 @@ struct WorkoutHistoryCard: View {
                     HStack {
                         if set.isWarmup {
                             Text("W\(index + 1)")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.mutedAmber)
                                 .frame(width: 40, alignment: .leading)
                         } else {
                             Text("\(index + 1)")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .font(.system(size: 18, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .frame(width: 40, alignment: .leading)
                         }
@@ -511,7 +511,7 @@ struct StepperRow: View {
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(value > 0 ? .white : .gray)
                         .frame(width: 40, height: 40)
-                        .background(Color.white.opacity(0.05))
+                        .background(FriendlyTheme.midnightMatteLight)
                 }
                 
                 Text("\(value)")
@@ -528,7 +528,7 @@ struct StepperRow: View {
                         .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
                         .frame(width: 40, height: 40)
-                        .background(Color.white.opacity(0.05))
+                        .background(FriendlyTheme.midnightMatteLight)
                 }
             }
             .cornerRadius(12)

@@ -6,11 +6,11 @@ struct WeeklyAdherenceView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("WEEKLY ADHERENCE")
-                .font(.system(size: 10, weight: .bold, design: .rounded))
-                .tracking(2.0)
+            Text("Weekly Adherence")
+                .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(FriendlyTheme.textSecondary)
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
             
             HStack(spacing: 8) {
                 ForEach(0..<7, id: \.self) { dayOffset in
@@ -18,8 +18,12 @@ struct WeeklyAdherenceView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 20)
         }
+        .background(FriendlyTheme.midnightMatteLight)
+        .cornerRadius(20)
+        .padding(.horizontal, 24)
     }
 }
 
@@ -59,7 +63,7 @@ struct AdherenceSquare: View {
     var body: some View {
         Rectangle()
             .fill(statusColor)
-            .frame(height: 16)
-            .cornerRadius(4)
+            .frame(height: 32)
+            .cornerRadius(8)
     }
 }

@@ -1,7 +1,7 @@
 Command line invocation:
     /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project "The Friendly Fitness Companion/The Friendly Fitness Companion.xcodeproj" -scheme "The Friendly Fitness Companion" -destination "generic/platform=iOS Simulator" build
 
-2026-05-06 21:21:54.011 xcodebuild[6709:2281690] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-05-06 21:39:34.564 xcodebuild[8227:2303075] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
 ComputePackagePrebuildTargetDependencyGraph
 
 Prepare packages
@@ -31,151 +31,554 @@ ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD
 
 ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
 
-Build description signature: e36377d533223620329e1fbd87ba7fcc
-Build description path: /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/XCBuildData/e36377d533223620329e1fbd87ba7fcc.xcbuilddata
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/TrainingLedgerView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/HapticManager.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ActiveSessionBanner.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ShortcutsMenuSheet.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ForgeSessionView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/MacroDialView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/WeeklyAdherenceView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/DietToolsView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodActionSheetView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/DocumentVaultView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodComparisonEngine.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodConsumptionHistoryView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/HennemanMeterView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ManageMyFoodsView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/NutritionAPIManager.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/RestaurantScanView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/TechnicalFoodLabelView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/TrainingLedgerView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/HapticManager.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ActiveSessionBanner.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ShortcutsMenuSheet.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ForgeSessionView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/MacroDialView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/WeeklyAdherenceView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/DietToolsView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodActionSheetView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/DocumentVaultView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodComparisonEngine.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodConsumptionHistoryView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/HennemanMeterView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ManageMyFoodsView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/NutritionAPIManager.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/RestaurantScanView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-error: Multiple commands produce '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/TechnicalFoodLabelView.stringsdata'
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
-    note: Target 'The Friendly Fitness Companion' (project 'The Friendly Fitness Companion') has Swift tasks not blocking downstream targets
+Build description signature: dae6bad4c9c9fd4122b5c75a229fe4e1
+Build description path: /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/XCBuildData/dae6bad4c9c9fd4122b5c75a229fe4e1.xcbuilddata
 ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk /Users/9lives/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E237-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache
     cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion.xcodeproj
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -o /Users/9lives/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E237-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache
 
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ActiveSessionBanner.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/DietToolsView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodActionSheetView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ForgeSessionView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/HapticManager.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/MacroDialView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ShortcutsMenuSheet.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/TrainingLedgerView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/WeeklyAdherenceView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodComparisonEngine.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/FoodConsumptionHistoryView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/ManageMyFoodsView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/TechnicalFoodLabelView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/NutritionAPIManager.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/DocumentVaultView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/RestaurantScanView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/arm64/HennemanMeterView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ActiveSessionBanner.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/DietToolsView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodActionSheetView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ForgeSessionView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/HapticManager.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/MacroDialView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ShortcutsMenuSheet.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/TrainingLedgerView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/WeeklyAdherenceView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodComparisonEngine.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/FoodConsumptionHistoryView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/ManageMyFoodsView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/TechnicalFoodLabelView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/NutritionAPIManager.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/DocumentVaultView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/RestaurantScanView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
-warning: duplicate output file '/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The Friendly Fitness Companion.build/Debug-iphonesimulator/The Friendly Fitness Companion.build/Objects-normal/x86_64/HennemanMeterView.stringsdata' on task: SwiftDriver Compilation The Friendly Fitness Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+LinkAssetCatalog /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/Assets.xcassets (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    builtin-linkAssetCatalog --thinned /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_output/thinned --thinned-dependencies /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_generated_info.plist_unthinned --output /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.app --plist-output /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_generated_info.plist
+
+ProcessInfoPlistFile /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.app/Info.plist /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/empty-The\ Friendly\ Fitness\ Companion.plist (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    builtin-infoPlistUtility /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/empty-The\ Friendly\ Fitness\ Companion.plist -producttype com.apple.product-type.application -genpkginfo /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/assetcatalog_generated_info.plist -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.app/Info.plist
+
+SwiftDriver The\ Friendly\ Fitness\ Companion normal arm64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name The_Friendly_Fitness_Companion -Onone @/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64/The\ Friendly\ Fitness\ Companion.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -target arm64-apple-ios26.4-simulator -g -module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -F /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64 -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E237-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -output-file-map /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64/The\ Friendly\ Fitness\ Companion-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64/The_Friendly_Fitness_Companion.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64/The\ Friendly\ Fitness\ Companion_const_extract_protocols.json -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-generated-files.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-own-target-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-all-target-headers.hmap -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-project-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources-normal/arm64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/arm64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/arm64/The_Friendly_Fitness_Companion-Swift.h -working-directory /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver The\ Friendly\ Fitness\ Companion normal x86_64 com.apple.xcode.tools.swift.compiler (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name The_Friendly_Fitness_Companion -Onone @/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The\ Friendly\ Fitness\ Companion.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -target x86_64-apple-ios26.4-simulator -g -module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -F /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64 -c -j12 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E237-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -output-file-map /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The\ Friendly\ Fitness\ Companion-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The_Friendly_Fitness_Companion.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The\ Friendly\ Fitness\ Companion_const_extract_protocols.json -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-generated-files.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-own-target-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-all-target-headers.hmap -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-project-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources-normal/x86_64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/x86_64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The_Friendly_Fitness_Companion-Swift.h -working-directory /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-8I0JF5KDHL03ADPH2AH7PO4OQ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-AIX8YXBP3GJ3CUZ5QAIQK3GJ4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-LDX57Q6QBEA2BKNECXTTIJS7.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-3TR88HTKUZ0SSTKB8B1XW62ZB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-8CNTBFEG9AZ26SWUB526PLV4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-F0ZB12Q1M6KMRHJHG077K23L4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-DIZWU6H4VR0TIZS2PIKZ3AXPL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-CQWISYIXD3BKC7H8LARBDJK50.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-1VP2F0JX5XE5DD18SA6NPAKKT.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-2YLK03G1HXI5KMUM6Z3UYTB8T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdbool-7GYA76CGIW2JPN30CJKLUT0JG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stddef-8S5P4WZ11GRN7OPXHKGT9TWJR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftShims-BRO1UO778GTNMOH1XOZNUOPQ8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrauth-3I5JZAT9B3C2W8P840GL87JE3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_float-5D7MELHNTPKTN9L5DIMOYVTVS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_SwiftConcurrencyShims-E2RI32I6YIBFRBZK8QP3CC5MS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ptrcheck-7LOTRM3T895D4CG2TC2TDK5KT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_AvailabilityInternal-ATUT82PEB47Y20261PDRH4HVG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdarg-35FLAL1XKR5W47U15Z01WC8LG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DeveloperToolsSupport-71O1867FCQLYZNVBBUYIAN4OJ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-A3HB8DXNGGBLKKMZXQ5QA3C6L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation1-6G0MK462H0JAOP46C8K21S0QC.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-48E32V0SBJ5IHQIDN692IVTEZ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-937K5A2LUT4GA0KAXW8POI8SL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ExtensionFoundation-BVW2OPJGKO42RDT0R5VPUU0BL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ExtensionFoundation-9WAIF6J6E23PRAUZWHUMRAZGU.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation2-EITPAQX7T2HZMU3633RDGQDFL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_limits-EM9EQ2B23MPTS6EGK6V7JSTBY.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-9FVI338KZ8DESKYLFH5XF4K2G.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-EEWF950RNBJ8W8EGC7HFRZM6.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_tgmath-198M1NGAJBNHTIAJJV0CCY3K8.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-B39JCR7VL8IHADUNGBGH5KFZ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-DBYMHHHP26FH4OXFOTT4AXTI6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/sys_types-AB6E1XA85SI6W6M4OH0HPL1VJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdint-4PQN0LNUZ9806JU5IBBRS48MD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_tgmath-F33U3LB4TA4N0D8W8DR4H8RR2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_stdatomic-8UV13KVU54ZE9W3VFPT2J5QSN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_DarwinFoundation3-MJ8O0DELPGAKNHAR7CZQUOV4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_intrinsics-9G8NCYC7IOUD7T0O5D49OBUTR.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_intrinsics-9FU45UAH5LJUU7B5AMJD2F4TN.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-B31RMJ044C6244S1JB00MUKIE.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-8L9AC6UCP7ZIIIK8VXAK9T0A7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_Builtin_inttypes-ESQO6OKN2VVA65NEFY3UWCPR3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Darwin-D6KYSTP9Z0V51913KRPQZEG4G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/simd-2W69HJUSSMZHWX9H1AV5RQT2M.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-5LRKC1H52UO9TLP2RUAF5P6EL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-6Q3SJE0I8MCVTNOIHB9FP8HTF.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/simd-2JT649M6I4UD5FYYCWLWS1766.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-7FLN9IMI0ZYYM2PTA1V2JDK9V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ObjectiveC-AMY64RDHNOF4WACL2FFJCP4ZP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MachO-EWZDC4PI916ALIQI2UYCCDAS9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-AXQE6XIT4FFEX29JS6F88ZKWB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_object-8MRGX8QN7Q4XXN7MN0OLWHH07.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-4OUL9G7AYEIA488ZBVNB5DHTJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os_workgroup-75NUJCUUG540XGB559OMII6FQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Spatial-EQIYHW2X8ALOPGBHKTSXUJ5NB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-56RAY5GN0OHOHYDAOV8VBXKPU.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/dnssd-9CJB1W3ZDOZINZYDV9B4MO5Z8.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-B24FT4U2ACCF47UHYPKR8ZSE0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Dispatch-E6MHV61DY1AWO7RHFKWNIYP44.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-9RXJA9A0GWOXHWY1T4W82GJ3U.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/dnssd-5P1K9S39LJSN6LRRG4LGFY1CI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/XPC-3II06SIWUDEPRZBQ98C29K4FJ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreFoundation-REWSF9RGDFAY8XJ54964VR3L.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreAudioTypes-4Y7YROT7597AOE2J8CZ1S2093.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-3WSPFS5JSF6W86JQCVXFH1P62.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-B31XH6NKT2PN8W1OHEJ0GD6OK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-8PHH735KMW400Q1TIJD2EZBB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Spatial-BZ0AD9EJ13S4J7BKZ44G9YZHP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/os-3R847P9DEK0YMHTVWG5PHP43N.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreAudio-7GKFIHXDXF9MIF4RPKK7Q4VL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-F0TR3ZPT0JAEGP90WY4C8RPD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreGraphics-CC3RBCJAIKY9UD24KZL9NDMA7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Security-6EOBD2W5R5SATC5NR3C8DFSN1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreAudioTypes-6V5JI94OC12AM0JNSESDTPCJ2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CFNetwork-FKGMSP7NQPJTSETZ8WPIYBWB.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-72JSL2Q7ALR12VVITHA4CECFN.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-556U4B1YD6Q8X8F81RLU1LRVP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreAudio-9Y6FI6YH7JSVY2C3FLXMZF5HZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Foundation-ADRVE8QU9AWZ9AQQEEY9I697L.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ImageIO-919CDQW63KQC4WGHN5DH8LKGD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreText-EKLIXG9QF6Q5HUHY2RMB1NWPL.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-94B6DUPD7ZDXS9EN6O8DCZJYT.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-92FT3DMU921HQ2BFQSGY65KQD.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Network-195SDW3V4X2MZCHM4CS230YK3.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-4LLX5K0QHYXIE5ENJEOFVLF8Y.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_LocationEssentials-D0MI8ZC8DJXM8IVLA96IFF9JK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-3DUHQWZW2O2A8YI4ZZ2IHBUR1.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-8BGY0TLSJAC3TQGTYURUQWIAM.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreMIDI-7DTFQFYJO69BQLRGIAEBAF93S.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-7EHPPTHDQ7O6ARZYNFHDI0R7N.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreData-BZY55RTUMU5YHQH5W3J9ORTN1.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-E4D5AY2QD27CTYPGWP1649UEY.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-7O39NW6VPO16OH6QTTN8M9FOD.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-2JRI26F6KBK6RBZV1X478GLVX.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreHaptics-F1Q7X2EDQS94N0U48Z547EMU8.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreLocation-BNTOGP25UKH0TW0J2W33PX8U4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuickLookThumbnailing-9GUXS63MT03UX2GZQ6SBAFGZ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-5UZICSBDOXE08VI7NODZXEXM.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/HealthKit-1Y6Y9BRMF673V0IR0JBSWSCFK.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-3Z9DC829CM1SUJ4XRHGX55WDC.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AudioToolbox-8FKK4H1VFY1MAF8S8TEQ46VH9.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-2ACH9W3QW37OJDW5DNB6WB6O4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVRouting-20P1XPPP0B6PPZ44UO19I4486.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Symbols-D8RHY9ZZ0G1TLANYHWBWT75EV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/IOSurface-861B7JDTRJTNV1CWS38DWCIXS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Accessibility-56PPJFRZZPVPE97GPETK4NDOT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreTransferable-7QKNQOSV9ZYINWALO58ARMBP7.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OSLog-4CLPIIEBL601C9IWFJDML22LQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreMIDI-35BIPYFT89HW5UQIA22T7M2DQ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UserNotifications-9RAH425UJQRBH8SC9GZ4ILBEK.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreHaptics-1A2MVOJOURRFTAUMQ12K92WVB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreData-4VK1ZZ3IM5UMM7E6RVVEMP2TO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/DataDetection-5WEH03QG3AK6ML4Y4A6461U4G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Network-BMEU30Q34UTJBAZHEM273NL3Y.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/_LocationEssentials-88FG4FQQ4YGKAQAS0XO0PDKHS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Metal-T5NX8SHSBYW2KPB0J9SN9XFD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/FileProvider-9LN9IZX1XG5A9D3SSTRCQMOEZ.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UniformTypeIdentifiers-33LMWAGSDY5E2CJULMWX0KYQT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/OpenGLES-34KPT5N50VDICLIY7IG9M5626.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIUtilities-5DWVX5KBI58FVSFMB6SBGLBFE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AudioToolbox-CVLG1F2OF84O9XSQI5S7CP01E.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-6HE29VO5N4HA13FAB618J82ES.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreLocation-7DP9B1MKF5XIONOUD31GI7MGB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuickLookThumbnailing-534DO0WD9KHOIECD0W5JVTZFT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVRouting-NAG7F2HKA1AHM5YWP4CB2N0G.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/HealthKit-BPIQIEQWMDAJ80NWQWBMXKV96.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreMedia-D1QOM494ZMGHRAVLKYGNYB0A.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-75B71H8XPWIZG9UGHLYCSDK9A.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-4GH0FAGHROEZXO8OX8OSU39F2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreVideo-2BSPBMUGMOFVKTVFPSE9X78UQ.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-E8WSC1NOSGP80BDI40ZWCIL6E.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-3PT258SR64IAY4323PFLAN36R.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MediaToolbox-CC6BESBBL80OW357C6G2GEYQ4.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVFAudio-F48PAADT1WO6E8YOZCL403ULV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreMedia-7PZNY5B9PO791P9MLPD5NKY43.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuartzCore-C8AS4D60DYCD1UJ8XC74FFIYN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/CoreImage-9AF2LW73ZHXKINJ1W98M92AA4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUICore-BHQQ8UV2878JDHPLGAN6S4UGE.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVFoundation-ELTYC9FLN2SI9CN0SO98JU2OR.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/UIKit-BHLPGE4WANE7RGEQ8VZWQ8NRT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVFAudio-KFJDGNV7QBV5LHO1J1XT98RI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MediaToolbox-6KFVD4MY042VSPX9EP3DB26SC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AVFoundation-7SI87FO42200C6N5JGZJJ945E.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Photos-80MKXT3FEGOSBTMH2TKBNUU33.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/PDFKit-CLMP2KPV38GWMPRQ1ALCM5SIS.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUI-DXG1ZF18MCH8L6DV3F8WRIZ4J.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ExtensionKit-5OCLGH6R8S2NP65HBMWIIRLTH.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/PhotosUI-EPTAO5OKEPYDUXQ5XHB67TI22.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Photos-ERZ8C9RFJGR2IBW9RSRZI9DSG.pcm
+
+SwiftExplicitDependencyGeneratePcm x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuickLook-B1YMH0KCZZA2E63MI67ZSQF3Q.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/ExtensionKit-4EV60IJ1OTDX99NOLCQO3TY5P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/PDFKit-4FIV38DBPF6UXBUDEYFMLCCXW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/PhotosUI-48LQX6BAC3EZ387LXQR9VIRDN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/SwiftUI-CBYRL271I5PX1RVEHACRHMZ4A.pcm
+
+SwiftCompile normal x86_64 Compiling\ MeHubExtensions.swift,\ MeView.swift,\ MyHealthView.swift,\ NavigationDrawerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeHubExtensions.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MyHealthView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NavigationDrawerView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeHubExtensions.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MyHealthView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NavigationDrawerView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftEmitModule normal x86_64 Emitting\ module\ for\ The_Friendly_Fitness_Companion (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+EmitSwiftModule normal x86_64 (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ ShortcutsMenuSheet.swift,\ SnapLogView.swift,\ SupplementVaultView.swift,\ SwiftDataModels.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShortcutsMenuSheet.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SnapLogView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SupplementVaultView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SwiftDataModels.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShortcutsMenuSheet.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SnapLogView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SupplementVaultView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SwiftDataModels.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ ActiveSessionBanner.swift,\ CommunityView.swift,\ ContentView.swift,\ DashboardView.swift,\ DietToolsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ActiveSessionBanner.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/CommunityView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ContentView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DashboardView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DietToolsView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c -primary-file /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ActiveSessionBanner.swift -primary-file /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/CommunityView.swift -primary-file /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ContentView.swift -primary-file /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DashboardView.swift -primary-file /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DietToolsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DocumentVaultView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogCard.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogViewModel.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExercisePickerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FastingHubView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodActionSheetView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodComparisonEngine.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodConsumptionHistoryView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodLoggerModal.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeLogbookView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeSessionView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HapticManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthDataSelectionSheet.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthEntryModal.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthKitManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HennemanMeterView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/IntensityShareGraphic.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/Item.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MacroDialView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ManageMyFoodsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeHubExtensions.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MeView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/MyHealthView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NavigationDrawerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NutritionAPIManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/OnboardingView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressPhotosView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RestaurantScanView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutineRotationManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutinesView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShoppingListView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShortcutsMenuSheet.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SnapLogView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SupplementVaultView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/SwiftDataModels.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalFoodLabelView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalReportGenerator.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The_Friendly_Fitness_CompanionApp.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ToolsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TrainingLedgerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeeklyAdherenceView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeightGoalPlanView.swift /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/GeneratedAssetSymbols.swift -supplementary-output-file-map /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/supplementaryOutputs-1 -emit-localized-strings -emit-localized-strings-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64 -target x86_64-apple-ios26.4-simulator -module-can-import-version DeveloperToolsSupport 23.40.26 23.40.26 -module-can-import-version SwiftUI 7.4.27.1 7.4.27 -module-can-import-version UIKit 9126.4.27.1 9126.4.27 -disable-cross-import-overlay-search -swift-module-cross-import PhotosUI /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/PhotosUI.framework/Modules/PhotosUI.swiftcrossimport/SwiftUI.swiftoverlay -swift-module-cross-import PhotosUI /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/PhotosUI.framework/Modules/PhotosUI.swiftcrossimport/WidgetKit.swiftoverlay -swift-module-cross-import PhotosUI /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/PhotosUI.framework/Modules/PhotosUI.swiftcrossimport/SwiftUI.swiftoverlay -swift-module-cross-import PhotosUI /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/PhotosUI.framework/Modules/PhotosUI.swiftcrossimport/WidgetKit.swiftoverlay -swift-module-cross-import QuickLook /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/QuickLook.framework/Modules/QuickLook.swiftcrossimport/SwiftUI.swiftoverlay -swift-module-cross-import QuickLook /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/QuickLook.framework/Modules/QuickLook.swiftcrossimport/SwiftUI.swiftoverlay -swift-module-cross-import SwiftData /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/SwiftData.framework/Modules/SwiftData.swiftcrossimport/CoreData.swiftoverlay -swift-module-cross-import SwiftData /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/SwiftData.framework/Modules/SwiftData.swiftcrossimport/SwiftUI.swiftoverlay -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftDataMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftDataMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The_Friendly_Fitness_Companion-dependencies-1.json -debug-module-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The_Friendly_Fitness_Companion.swiftmodule -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -I /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -F /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 5 -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/The\ Friendly\ Fitness\ Companion_const_extract_protocols.json -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -default-isolation\=MainActor -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion -enable-anonymous-context-mangled-names -file-compilation-dir /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E237-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-generated-files.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-own-target-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-all-target-headers.hmap -Xcc -iquote -Xcc /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/The\ Friendly\ Fitness\ Companion-project-headers.hmap -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources-normal/x86_64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/x86_64 -Xcc -I/Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name The_Friendly_Fitness_Companion -frontend-parseable-output -disable-clang-spi -clang-target x86_64-apple-ios26.4-simulator -target-sdk-version 26.4 -target-sdk-name iphonesimulator26.4 -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/ActiveSessionBanner.o -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/CommunityView.o -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/ContentView.o -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/DashboardView.o -o /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/DietToolsView.o -index-unit-output-path /The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/ActiveSessionBanner.o -index-unit-output-path /The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/CommunityView.o -index-unit-output-path /The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/ContentView.o -index-unit-output-path /The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/DashboardView.o -index-unit-output-path /The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/Objects-normal/x86_64/DietToolsView.o -index-store-path /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ActiveSessionBanner.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/CommunityView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ContentView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DashboardView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+/Users/9lives/Documents/GitHub/The Frienldy Fitness Companion/The Friendly Fitness Companion/The Friendly Fitness Companion/DashboardView.swift:193:43: error: type 'HealthMarkerType' has no member 'weight'
+            HealthEntryModal(markerType: .weight)
+                                         ~^~~~~~
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DietToolsView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ HealthDataSelectionSheet.swift,\ HealthEntryModal.swift,\ HealthKitManager.swift,\ HennemanMeterView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthDataSelectionSheet.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthEntryModal.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthKitManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HennemanMeterView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthDataSelectionSheet.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthEntryModal.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HealthKitManager.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HennemanMeterView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ FoodLoggerModal.swift,\ ForgeLogbookView.swift,\ ForgeSessionView.swift,\ HapticManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodLoggerModal.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeLogbookView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeSessionView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HapticManager.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodLoggerModal.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeLogbookView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ForgeSessionView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/HapticManager.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ DocumentVaultView.swift,\ ExerciseLogCard.swift,\ ExerciseLogViewModel.swift,\ ExercisePickerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DocumentVaultView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogCard.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogViewModel.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExercisePickerView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DocumentVaultView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogCard.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExerciseLogViewModel.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ExercisePickerView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ FastingHubView.swift,\ FoodActionSheetView.swift,\ FoodComparisonEngine.swift,\ FoodConsumptionHistoryView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FastingHubView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodActionSheetView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodComparisonEngine.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodConsumptionHistoryView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FastingHubView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodActionSheetView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodComparisonEngine.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/FoodConsumptionHistoryView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ TrainingLedgerView.swift,\ WeeklyAdherenceView.swift,\ WeightGoalPlanView.swift,\ GeneratedAssetSymbols.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TrainingLedgerView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeeklyAdherenceView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeightGoalPlanView.swift /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TrainingLedgerView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeeklyAdherenceView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/WeightGoalPlanView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Library/Developer/Xcode/DerivedData/The_Friendly_Fitness_Companion-djjivifbdoqsbydpmxetdcfrbpny/Build/Intermediates.noindex/The\ Friendly\ Fitness\ Companion.build/Debug-iphonesimulator/The\ Friendly\ Fitness\ Companion.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ RestaurantScanView.swift,\ RoutineRotationManager.swift,\ RoutinesView.swift,\ ShoppingListView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RestaurantScanView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutineRotationManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutinesView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShoppingListView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RestaurantScanView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutineRotationManager.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/RoutinesView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ShoppingListView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ TechnicalFoodLabelView.swift,\ TechnicalReportGenerator.swift,\ The_Friendly_Fitness_CompanionApp.swift,\ ToolsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalFoodLabelView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalReportGenerator.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The_Friendly_Fitness_CompanionApp.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ToolsView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalFoodLabelView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/TechnicalReportGenerator.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The_Friendly_Fitness_CompanionApp.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ToolsView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 Compiling\ NutritionAPIManager.swift,\ OnboardingView.swift,\ ProgressPhotosView.swift,\ ProgressView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NutritionAPIManager.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/OnboardingView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressPhotosView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/NutritionAPIManager.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/OnboardingView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressPhotosView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ProgressView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+    cd /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion
+    
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/9lives/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/QuickLook-7RPTJE6Q7JRW66SEUH0JYNW8A.pcm
+
 ** BUILD FAILED **
 
 
 The following build commands failed:
+	SwiftCompile normal x86_64 Compiling\ ActiveSessionBanner.swift,\ CommunityView.swift,\ ContentView.swift,\ DashboardView.swift,\ DietToolsView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ActiveSessionBanner.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/CommunityView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/ContentView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DashboardView.swift /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DietToolsView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
+	SwiftCompile normal x86_64 /Users/9lives/Documents/GitHub/The\ Frienldy\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/The\ Friendly\ Fitness\ Companion/DashboardView.swift (in target 'The Friendly Fitness Companion' from project 'The Friendly Fitness Companion')
 	Building project The Friendly Fitness Companion with scheme The Friendly Fitness Companion
-(1 failure)
+(3 failures)

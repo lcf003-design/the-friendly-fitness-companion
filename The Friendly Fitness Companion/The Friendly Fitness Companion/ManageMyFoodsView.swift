@@ -208,8 +208,8 @@ struct EmptyStateView: View {
                 .foregroundColor(FriendlyTheme.textSecondary.opacity(0.3))
                 .padding(.bottom, 8)
             Text(title)
-                .font(.system(size: 14, weight: .black, design: .rounded))
-                .tracking(2.0)
+                .font(.system(size: 18, weight: .bold, design: .rounded))
+                
                 .foregroundColor(FriendlyTheme.textSecondary)
             Text(subtitle)
                 .font(.system(size: 12, weight: .medium, design: .rounded))
@@ -233,7 +233,7 @@ struct FoodRowView: View {
                     Rectangle()
                         .fill(Color.white.opacity(0.05))
                         .frame(width: 44, height: 44)
-                        .cornerRadius(8)
+                        .cornerRadius(16)
                     Image(systemName: icon)
                         .foregroundColor(FriendlyTheme.apexGreen)
                 }
@@ -258,7 +258,7 @@ struct FoodRowView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 8)
-            .background(Color.white.opacity(0.02))
+            .background(FriendlyTheme.midnightMatteLight)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -275,7 +275,7 @@ struct APIFoodResultCard: View {
                 Rectangle()
                     .fill(Color.white.opacity(0.05))
                     .frame(width: 44, height: 44)
-                    .cornerRadius(8)
+                    .cornerRadius(16)
                 
                 // Could implement AsyncImage here for item.imageUrl if provided
                 Image(systemName: "globe")
@@ -313,7 +313,7 @@ struct APIFoodResultCard: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 8)
-        .background(Color.white.opacity(0.02))
+        .background(FriendlyTheme.midnightMatteLight)
     }
     
     private func saveAsCustom() {

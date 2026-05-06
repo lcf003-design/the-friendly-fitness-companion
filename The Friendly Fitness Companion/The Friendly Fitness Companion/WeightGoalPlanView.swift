@@ -25,7 +25,7 @@ struct WeightGoalPlanView: View {
                 VStack(spacing: 0) {
                     // Persistent Header
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("METABOLIC STRATEGY")
+                        Text("Metabolic Strategy")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .tracking(2.0)
                             .foregroundColor(FriendlyTheme.textSecondary)
@@ -38,7 +38,7 @@ struct WeightGoalPlanView: View {
                     }
                     .padding(24)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.white.opacity(0.05))
+                    .background(FriendlyTheme.midnightMatteLight)
                     
                     // Segmented Picker
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -48,7 +48,7 @@ struct WeightGoalPlanView: View {
                                     withAnimation { selectedTab = tab }
                                 }) {
                                     VStack(spacing: 8) {
-                                        Text(tab.uppercased())
+                                        Text(tab)
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(selectedTab == tab ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
                                         
@@ -148,9 +148,9 @@ struct OverviewTab: View {
                     }
                 }
                 .padding(20)
-                .background(Color.white.opacity(0.05))
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                .cornerRadius(16)
+                .background(FriendlyTheme.midnightMatteLight)
+                
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
                 .padding(.top, 24)
                 
@@ -186,9 +186,9 @@ struct OverviewTab: View {
                             .font(.system(size: 20))
                     }
                     .padding(20)
-                    .background(Color.white.opacity(0.05))
-                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                    .cornerRadius(16)
+                    .background(FriendlyTheme.midnightMatteLight)
+                    
+                    .cornerRadius(20)
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
@@ -225,9 +225,9 @@ struct OverviewCard: View {
             Spacer()
         }
         .padding(20)
-        .background(Color.white.opacity(0.05))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-        .cornerRadius(16)
+        .background(FriendlyTheme.midnightMatteLight)
+        
+        .cornerRadius(20)
         .padding(.horizontal, 24)
     }
 }
@@ -319,9 +319,9 @@ struct WeightAndCaloriesTab: View {
                     }
                 }
                 .padding(24)
-                .background(Color.white.opacity(0.05))
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                .cornerRadius(16)
+                .background(FriendlyTheme.midnightMatteLight)
+                
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
                 .padding(.top, 24)
                 
@@ -345,9 +345,9 @@ struct WeightAndCaloriesTab: View {
                     }
                 }
                 .padding(24)
-                .background(Color.white.opacity(0.05))
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                .cornerRadius(16)
+                .background(FriendlyTheme.midnightMatteLight)
+                
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
             }
         }
@@ -392,9 +392,9 @@ struct MacrosTab: View {
                     }
                 }
                 .padding(24)
-                .background(Color.white.opacity(0.05))
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                .cornerRadius(16)
+                .background(FriendlyTheme.midnightMatteLight)
+                
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
                 .padding(.top, 24)
                 
@@ -453,9 +453,9 @@ struct MacrosTab: View {
                     }
                 }
                 .padding(24)
-                .background(Color.white.opacity(0.05))
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                .cornerRadius(16)
+                .background(FriendlyTheme.midnightMatteLight)
+                
+                .cornerRadius(20)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
             }
@@ -576,9 +576,9 @@ struct NutrientCard: View {
                 .lineSpacing(4)
         }
         .padding(20)
-        .background(Color.white.opacity(0.05))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-        .cornerRadius(16)
+        .background(FriendlyTheme.midnightMatteLight)
+        
+        .cornerRadius(20)
         .padding(.horizontal, 24)
     }
 }
@@ -674,9 +674,9 @@ struct ExercisePlanCard: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.white.opacity(0.05))
-        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
-        .cornerRadius(16)
+        .background(FriendlyTheme.midnightMatteLight)
+        
+        .cornerRadius(20)
         .padding(.horizontal, 24)
     }
 }

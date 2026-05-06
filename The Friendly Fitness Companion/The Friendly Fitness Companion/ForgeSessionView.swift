@@ -42,8 +42,8 @@ struct ForgeSessionView: View {
                     }
                     Spacer()
                     Text("LIVE FORGE")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        
                         .foregroundColor(FriendlyTheme.apexGreen)
                     Spacer()
                     Button(action: finishSession) {
@@ -100,7 +100,7 @@ struct ForgeSessionView: View {
                         VStack(spacing: 8) {
                             Text("WEIGHT (\(preferredUnit.uppercased()))")
                                 .font(.system(size: 12, weight: .black, design: .rounded))
-                                .tracking(2.0)
+                                
                                 .foregroundColor(FriendlyTheme.textSecondary)
                             
                             HStack(spacing: 16) {
@@ -132,7 +132,7 @@ struct ForgeSessionView: View {
                     VStack(spacing: 8) {
                         Text("REPS")
                             .font(.system(size: 12, weight: .black, design: .rounded))
-                            .tracking(2.0)
+                            
                             .foregroundColor(FriendlyTheme.textSecondary)
                         
                         HStack(spacing: 16) {
@@ -169,7 +169,7 @@ struct ForgeSessionView: View {
                         }
                         .toggleStyle(SwitchToggleStyle(tint: FriendlyTheme.limeSignal))
                         .padding()
-                        .background(Color.white.opacity(0.05))
+                        .background(FriendlyTheme.midnightMatteLight)
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(isAbsoluteFailure ? FriendlyTheme.limeSignal : Color.white.opacity(0.1), lineWidth: 1))
                         .padding(.horizontal, 24)
@@ -204,12 +204,12 @@ struct ForgeSessionView: View {
                             Text("LOG SET")
                         }
                         .font(.system(size: 18, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 20)
                         .background(FriendlyTheme.apexGreen)
                         .foregroundColor(.black)
-                        .cornerRadius(16)
+                        .cornerRadius(20)
                         .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, y: 5)
                     }
                     .padding(.horizontal, 24)

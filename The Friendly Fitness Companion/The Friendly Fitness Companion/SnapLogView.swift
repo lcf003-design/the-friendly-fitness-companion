@@ -14,9 +14,9 @@ struct SnapLogView: View {
     
     var title: String {
         switch type {
-        case .water: return "LOG WATER"
-        case .weight: return "WEIGH IN"
-        case .calories: return "QUICK CALORIES"
+        case .water: return "Log Water"
+        case .weight: return "Weigh In"
+        case .calories: return "Quick Calories"
         }
     }
     
@@ -46,8 +46,7 @@ struct SnapLogView: View {
                         .foregroundColor(FriendlyTheme.textSecondary)
                     Spacer()
                     Text(title)
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                     Spacer()
                     Button("Save") {
@@ -80,7 +79,7 @@ struct SnapLogView: View {
                     value: $inputValue,
                     range: 0...5000,
                     step: type == .weight ? 0.1 : 10,
-                    label: type == .weight ? "SCROLL TO ADJUST WEIGHT" : "SCROLL TO ADJUST VALUE"
+                    label: type == .weight ? "Scroll to adjust weight" : "Scroll to adjust value"
                 )
                 .padding(.horizontal, 24)
                 
@@ -96,9 +95,9 @@ struct SnapLogView: View {
                                     .font(.system(size: 16, weight: .bold, design: .rounded))
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 50)
-                                    .background(Color.blue.opacity(0.2))
-                                    .foregroundColor(.blue)
-                                    .cornerRadius(12)
+                                    .background(color.opacity(0.15))
+                                    .foregroundColor(color)
+                                    .cornerRadius(20)
                             }
                         }
                     }

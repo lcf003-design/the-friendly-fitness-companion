@@ -29,9 +29,8 @@ struct MyHealthView: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                     }
                     Spacer()
-                    Text("MY HEALTH")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                    Text("My Health")
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                     Spacer()
                     Button(action: {
@@ -51,12 +50,12 @@ struct MyHealthView: View {
                         // GKI Engine at top of HEALTH
                         GKIEngineView(records: healthRecords)
                         
-                        healthSection(title: "HEALTH", markers: HealthMarkerType.healthMarkers)
+                        healthSection(title: "Health", markers: HealthMarkerType.healthMarkers)
                         
                         // Lipid Ratio beneath HEALTH section
                         LipidRatioView(records: healthRecords)
                         
-                        healthSection(title: "BODY LOG", markers: HealthMarkerType.bodyLogMarkers)
+                        healthSection(title: "Body Log", markers: HealthMarkerType.bodyLogMarkers)
                         
                         // Aesthetic & Health Ratios beneath BODY LOG
                         AestheticRatiosView(records: healthRecords, profile: userProfiles.first)
@@ -87,9 +86,8 @@ struct MyHealthView: View {
         if !activeMarkers.isEmpty {
             VStack(alignment: .leading, spacing: 16) {
                 Text(title)
-                    .font(.system(size: 12, weight: .black, design: .rounded))
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
-                    .tracking(2.0)
                 
                 VStack(spacing: 12) {
                     ForEach(activeMarkers, id: \.self) { marker in
@@ -253,8 +251,8 @@ struct HealthMarkerRow: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(FriendlyTheme.midnightMatteLight)
+        .cornerRadius(20)
     }
     
     // Helpers
@@ -383,10 +381,9 @@ struct GKIEngineView: View {
     var body: some View {
         if let gki = currentGKI {
             VStack(alignment: .leading, spacing: 8) {
-                Text("GLUCOSE-KETONE INDEX (GKI)")
-                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                Text("Glucose-Ketone Index (GKI)")
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
-                    .tracking(2.0)
                 
                 HStack {
                     Text(String(format: "%.2f", gki))
@@ -405,9 +402,8 @@ struct GKIEngineView: View {
                 }
             }
             .padding(16)
-            .background(Color.white.opacity(0.05))
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-            .cornerRadius(12)
+            .background(FriendlyTheme.midnightMatteLight)
+            .cornerRadius(20)
         }
     }
 }
@@ -427,10 +423,9 @@ struct LipidRatioView: View {
     var body: some View {
         if let ratio = trigHdlRatio {
             VStack(alignment: .leading, spacing: 8) {
-                Text("TRIGLYCERIDE / HDL RATIO")
-                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                Text("Triglyceride / HDL Ratio")
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
-                    .tracking(2.0)
                 
                 HStack {
                     Text(String(format: "%.2f", ratio))
@@ -452,9 +447,8 @@ struct LipidRatioView: View {
                     .padding(.top, 4)
             }
             .padding(16)
-            .background(Color.white.opacity(0.05))
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-            .cornerRadius(12)
+            .background(FriendlyTheme.midnightMatteLight)
+            .cornerRadius(20)
         }
     }
 }
@@ -479,10 +473,9 @@ struct AestheticRatiosView: View {
     var body: some View {
         if whtr != nil || whr != nil {
             VStack(alignment: .leading, spacing: 16) {
-                Text("AESTHETIC & HEALTH RATIOS")
-                    .font(.system(size: 12, weight: .black, design: .rounded))
+                Text("Aesthetic & Health Ratios")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
-                    .tracking(2.0)
                 
                 VStack(spacing: 12) {
                     if let ratio = whtr {
@@ -525,8 +518,7 @@ struct RatioCard: View {
                 .foregroundColor(isOptimal ? FriendlyTheme.apexGreen : .white)
         }
         .padding(16)
-        .background(Color.white.opacity(0.05))
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-        .cornerRadius(12)
+        .background(FriendlyTheme.midnightMatteLight)
+        .cornerRadius(20)
     }
 }

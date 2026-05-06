@@ -22,6 +22,9 @@ struct DashboardView: View {
     
     @State private var showFoodLogger = false
     @State private var showMyHealth = false
+    @State private var showWeighIn = false
+    @State private var showWeightGoal = false
+    @State private var showTrainingLedger = false
     @Query private var healthRecords: [HealthRecord]
     @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
@@ -94,65 +97,83 @@ struct DashboardView: View {
                     
                     // Modular List Cards
                     VStack(spacing: 12) {
-                        ModularRowCard(
-                            icon: "scalemass.fill",
-                            iconColor: FriendlyTheme.calmBlue,
-                            title: "Weigh In",
-                            subtitle: "Last weigh-in: \(lastWeighInDate())",
-                            value: "\(currentWeight()) \(preferredUnit)"
-                        )
+                        Button(action: { showWeighIn = true }) {
+                            ModularRowCard(
+                                icon: "scalemass.fill",
+                                iconColor: FriendlyTheme.calmBlue,
+                                title: "Weigh In",
+                                subtitle: "Last weigh-in: \(lastWeighInDate())",
+                                value: "\(currentWeight()) \(preferredUnit)"
+                            )
+                        }
+                        .buttonStyle(.plain)
                         
-                        ModularRowCard(
-                            icon: "target",
-                            iconColor: FriendlyTheme.calmBlue,
-                            title: "My Weight Goal & Plan",
-                            subtitle: weightGoalSubtitle(),
-                            value: ""
-                        )
+                        Button(action: { showWeightGoal = true }) {
+                            ModularRowCard(
+                                icon: "target",
+                                iconColor: FriendlyTheme.calmBlue,
+                                title: "My Weight Goal & Plan",
+                                subtitle: weightGoalSubtitle(),
+                                value: ""
+                            )
+                        }
+                        .buttonStyle(.plain)
                         
-                        ModularRowCard(
-                            icon: "calendar.badge.clock",
-                            iconColor: FriendlyTheme.mutedAmber,
-                            title: "Day Events",
-                            subtitle: "",
-                            value: "•••"
-                        )
+                        Button(action: { showTrainingLedger = true }) {
+                            ModularRowCard(
+                                icon: "calendar.badge.clock",
+                                iconColor: FriendlyTheme.mutedAmber,
+                                title: "Training Ledger",
+                                subtitle: "Past events",
+                                value: "•••"
+                            )
+                        }
+                        .buttonStyle(.plain)
                         
                         // Health Section
                         VStack(spacing: 0) {
-                            ModularRowCard(
-                                icon: "heart.fill",
-                                iconColor: .red,
-                                title: "My Health",
-                                subtitle: "",
-                                value: "•••",
-                                isTop: true,
-                                isBottom: false
-                            )
+                            Button(action: { showMyHealth = true }) {
+                                ModularRowCard(
+                                    icon: "heart.fill",
+                                    iconColor: .red,
+                                    title: "My Health",
+                                    subtitle: "",
+                                    value: "•••",
+                                    isTop: true,
+                                    isBottom: false
+                                )
+                            }
+                            .buttonStyle(.plain)
                             
                             Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
                             
-                            ModularRowCard(
-                                icon: "testtube.2",
-                                iconColor: FriendlyTheme.calmBlue,
-                                title: "Blood Ketones",
-                                subtitle: "No data yet",
-                                value: "🔒",
-                                isTop: false,
-                                isBottom: false
-                            )
+                            Button(action: { showMyHealth = true }) {
+                                ModularRowCard(
+                                    icon: "testtube.2",
+                                    iconColor: FriendlyTheme.calmBlue,
+                                    title: "Blood Ketones",
+                                    subtitle: "No data yet",
+                                    value: "🔒",
+                                    isTop: false,
+                                    isBottom: false
+                                )
+                            }
+                            .buttonStyle(.plain)
                             
                             Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
                             
-                            ModularRowCard(
-                                icon: "lungs.fill",
-                                iconColor: FriendlyTheme.calmBlue,
-                                title: "Breath Ketones",
-                                subtitle: "No data yet",
-                                value: "🔒",
-                                isTop: false,
-                                isBottom: true
-                            )
+                            Button(action: { showMyHealth = true }) {
+                                ModularRowCard(
+                                    icon: "lungs.fill",
+                                    iconColor: FriendlyTheme.calmBlue,
+                                    title: "Breath Ketones",
+                                    subtitle: "No data yet",
+                                    value: "🔒",
+                                    isTop: false,
+                                    isBottom: true
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -161,6 +182,21 @@ struct DashboardView: View {
                 }
                 .padding(.bottom, 100)
             }
+        }
+        .sheet(isPresented: $showFoodLogger) {
+            FoodLoggerModal()
+        }
+        .sheet(isPresented: $showMyHealth) {
+            MyHealthView()
+        }
+        .sheet(isPresented: $showWeighIn) {
+            SnapLogView(type: .weight)
+        }
+        .sheet(isPresented: $showWeightGoal) {
+            WeightGoalPlanView()
+        }
+        .sheet(isPresented: $showTrainingLedger) {
+            TrainingLedgerView()
         }
     }
     

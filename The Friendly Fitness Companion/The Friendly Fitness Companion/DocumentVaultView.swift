@@ -30,8 +30,8 @@ struct DocumentVaultView: View {
                         Image(systemName: "doc.text.magnifyingglass")
                         Text("RAW DATA EXPORT (CSV)")
                     }
-                    .font(.system(size: 14, weight: .black, design: .rounded))
-                    .tracking(2.0)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                    
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(FriendlyTheme.apexGreen.opacity(0.1))
@@ -45,8 +45,8 @@ struct DocumentVaultView: View {
                 if files.isEmpty {
                     Spacer()
                     Text("NO DOCUMENTS IN VAULT")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        
                         .foregroundColor(FriendlyTheme.textSecondary)
                     Spacer()
                 } else {
@@ -170,10 +170,10 @@ struct DocumentCard: View {
                 Rectangle()
                     .fill(Color.white.opacity(0.05))
                     .frame(width: 50, height: 60)
-                    .cornerRadius(8)
+                    .cornerRadius(16)
                 
                 Text(fileExtension)
-                    .font(.system(size: 14, weight: .black, design: .rounded))
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(fileExtension == "PDF" ? .red : FriendlyTheme.apexGreen)
             }
             
@@ -201,7 +201,7 @@ struct DocumentCard: View {
             }
         }
         .padding(16)
-        .background(Color.white.opacity(0.02))
+        .background(FriendlyTheme.midnightMatteLight)
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
         .cornerRadius(12)
         .onTapGesture(perform: onPreview)
