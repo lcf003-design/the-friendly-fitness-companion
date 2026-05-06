@@ -539,6 +539,7 @@ struct PersonalInfoView: View {
     @Bindable var profile: UserProfile
     @Query private var metabolicGoals: [MetabolicGoal]
     @Query private var dailyLogs: [DailyLog]
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     let activityLevels = [
         "Sedentary",
