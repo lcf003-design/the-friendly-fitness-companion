@@ -52,7 +52,7 @@ struct ProgressViewTab: View {
                         
                         Spacer()
                         
-                        if let url = TechnicalReportGenerator.generatePDF(dailyLogs: dailyLogs) {
+                        if let url = TechnicalReportGenerator.generatePDF(dailyLogs: dailyLogs, primeInsight: generatePrimeInsight()) {
                             ShareLink(item: url) {
                                 Image(systemName: "square.and.arrow.up")
                                     .font(.title2)

@@ -202,6 +202,9 @@ class BodyMeasurement {
     var id: UUID
     var timestamp: Date
     
+    var bodyWeight: Double?
+    var bodyFatPercentage: Double?
+    
     var neckInches: Double?
     var waistInches: Double?
     var chestInches: Double?
@@ -209,9 +212,11 @@ class BodyMeasurement {
     
     var dailyLog: DailyLog?
     
-    init(neckInches: Double? = nil, waistInches: Double? = nil, chestInches: Double? = nil, thighsInches: Double? = nil, timestamp: Date = Date()) {
+    init(bodyWeight: Double? = nil, bodyFatPercentage: Double? = nil, neckInches: Double? = nil, waistInches: Double? = nil, chestInches: Double? = nil, thighsInches: Double? = nil, timestamp: Date = Date()) {
         self.id = UUID()
         self.timestamp = timestamp
+        self.bodyWeight = bodyWeight
+        self.bodyFatPercentage = bodyFatPercentage
         self.neckInches = neckInches
         self.waistInches = waistInches
         self.chestInches = chestInches

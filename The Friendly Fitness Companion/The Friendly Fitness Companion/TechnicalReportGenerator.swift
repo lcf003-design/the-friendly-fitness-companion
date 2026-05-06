@@ -3,17 +3,24 @@ import SwiftData
 
 struct TechnicalReportPDFView: View {
     var dailyLogs: [DailyLog]
+    var primeInsight: String?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             // Header
             VStack(alignment: .leading, spacing: 4) {
+                // Origin Hexagon Branding placeholder
+                Image(systemName: "hexagon.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(FriendlyTheme.apexGreen)
+                    .padding(.bottom, 8)
+                
                 Text("ORIGIN INTL BOUTIQUE")
                     .font(.system(size: 10, weight: .black))
                     .tracking(4.0)
                     .foregroundColor(FriendlyTheme.textSecondary)
                 
-                Text("TECHNICAL REPORT")
+                Text("METABOLIC BRIEF")
                     .font(.system(size: 24, weight: .black))
                     .tracking(2.0)
                     .foregroundColor(.white)
@@ -22,7 +29,26 @@ struct TechnicalReportPDFView: View {
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(FriendlyTheme.apexGreen)
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 10)
+            
+            // Prime Performance Insight Section
+            if let insight = primeInsight {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("PRIME PERFORMANCE INSIGHT")
+                        .font(.system(size: 10, weight: .black))
+                        .tracking(2.0)
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                    
+                    Text(insight)
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(FriendlyTheme.limeSignal)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(FriendlyTheme.limeSignal.opacity(0.1))
+                .cornerRadius(8)
+                .padding(.bottom, 10)
+            }
             
             // Mentzer Math Log
             Text("MENTZER MATH PROGRESSION")
@@ -83,8 +109,8 @@ struct TechnicalReportPDFView: View {
 
 @MainActor
 class TechnicalReportGenerator {
-    static func generatePDF(dailyLogs: [DailyLog]) -> URL? {
-        let view = TechnicalReportPDFView(dailyLogs: dailyLogs)
+    static func generatePDF(dailyLogs: [DailyLog], primeInsight: String? = nil) -> URL? {
+        let view = TechnicalReportPDFView(dailyLogs: dailyLogs, primeInsight: primeInsight)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 1.0
         

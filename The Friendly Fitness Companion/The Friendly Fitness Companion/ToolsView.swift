@@ -2,51 +2,104 @@ import SwiftUI
 import SwiftData
 
 struct ToolsView: View {
+    @State private var selectedTab = "TRAINING"
+    @State private var showDietGoal = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 FriendlyTheme.midnightMatte.ignoresSafeArea()
                 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Header
-                        HStack {
-                            Image(systemName: "wrench.and.screwdriver.fill")
-                                .foregroundColor(FriendlyTheme.apexGreen)
-                                .font(.system(size: 18))
-                            
-                            Text("TOOLS")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
-                                .tracking(2.5)
-                                .foregroundColor(.white)
-                            
-                            Spacer()
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 20)
-                        .padding(.bottom, 10)
+                VStack(spacing: 0) {
+                    // Header
+                    HStack {
+                        Image(systemName: "wrench.and.screwdriver.fill")
+                            .foregroundColor(FriendlyTheme.apexGreen)
+                            .font(.system(size: 18))
                         
-                        // Menu Cards
-                        NavigationLink(destination: OneRepMaxView()) {
-                            ToolMenuCard(
-                                title: "1RM CALCULATOR",
-                                subtitle: "Estimate your one-rep max and view your localized strength curve based on the Epley formula.",
-                                systemImage: "chart.line.uptrend.xyaxis"
-                            )
-                        }
+                        Text("COMMAND HUB")
+                            .font(.system(size: 14, weight: .black, design: .rounded))
+                            .tracking(2.5)
+                            .foregroundColor(.white)
                         
-                        NavigationLink(destination: PlateMathView()) {
-                            ToolMenuCard(
-                                title: "PLATE MATH",
-                                subtitle: "Quickly calculate exactly which plates to load onto the barbell for a target weight.",
-                                systemImage: "circle.circle.fill"
-                            )
-                        }
-                        
-                        
+                        Spacer()
                     }
-                    .padding(.bottom, 100)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 20)
+                    .padding(.bottom, 10)
+                    
+                    // Segmented Picker
+                    HStack(spacing: 0) {
+                        TabButton(title: "TRAINING", isSelected: selectedTab == "TRAINING") { selectedTab = "TRAINING" }
+                        TabButton(title: "DIET", isSelected: selectedTab == "DIET") { selectedTab = "DIET" }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 20)
+                    
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            if selectedTab == "TRAINING" {
+                                // Menu Cards
+                                NavigationLink(destination: OneRepMaxView()) {
+                                    ToolMenuCard(
+                                        title: "1RM CALCULATOR",
+                                        subtitle: "Estimate your one-rep max and view your localized strength curve based on the Epley formula.",
+                                        systemImage: "chart.line.uptrend.xyaxis"
+                                    )
+                                }
+                                
+                                NavigationLink(destination: PlateMathView()) {
+                                    ToolMenuCard(
+                                        title: "PLATE MATH",
+                                        subtitle: "Quickly calculate exactly which plates to load onto the barbell for a target weight.",
+                                        systemImage: "circle.circle.fill"
+                                    )
+                                }
+                            } else {
+                                Button(action: { showDietGoal = true }) {
+                                    ToolMenuCard(
+                                        title: "MY DIET",
+                                        subtitle: "Manage your metabolic strategy, macros, and calorie budget.",
+                                        systemImage: "fork.knife"
+                                    )
+                                }
+                                
+                                NavigationLink(destination: FastingHubView()) {
+                                    ToolMenuCard(
+                                        title: "INTERMITTENT FASTING",
+                                        subtitle: "Track fasting stages and metabolic intelligence windows.",
+                                        systemImage: "hourglass"
+                                    )
+                                }
+                            }
+                        }
+                        .padding(.bottom, 100)
+                    }
                 }
+            }
+            .sheet(isPresented: $showDietGoal) {
+                WeightGoalPlanView()
+            }
+        }
+    }
+}
+
+struct TabButton: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                Text(title)
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .tracking(2.0)
+                    .foregroundColor(isSelected ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
+                
+                Rectangle()
+                    .fill(isSelected ? FriendlyTheme.apexGreen : Color.white.opacity(0.1))
+                    .frame(height: 2)
             }
         }
     }

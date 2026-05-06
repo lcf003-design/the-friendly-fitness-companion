@@ -242,28 +242,32 @@ struct ProgressCompareView: View {
         let dateStr = formatter.string(from: date)
         
         let log = dailyLogs.first { $0.id == dateStr }
-        var maxWeight: Double = 0
-        if let log = log {
-            for w in log.workouts {
-                for s in w.sets {
-                    if s.weight > maxWeight { maxWeight = s.weight }
-                }
-            }
-        }
+        let measurement = log?.bodyMeasurements.first
         
-        return VStack {
+        let bodyWeight = measurement?.bodyWeight
+        let bodyFat = measurement?.bodyFatPercentage
+        
+        return VStack(spacing: 4) {
             Text(formatDate(date))
                 .font(.system(size: 10, weight: .black, design: .rounded))
                 .foregroundColor(.white)
-            if maxWeight > 0 {
-                Text("\(Int(maxWeight)) MAX")
-                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                .tracking(1.0)
+            
+            if let bw = bodyWeight {
+                Text("\(String(format: "%.1f", bw)) lbs")
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.limeSignal)
             }
+            if let bf = bodyFat {
+                Text("\(String(format: "%.1f", bf))% BF")
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+            }
         }
-        .padding(8)
-        .background(Color.black.opacity(0.7))
+        .padding(10)
+        .background(Color.black.opacity(0.8))
         .cornerRadius(8)
+        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.white.opacity(0.1), lineWidth: 1))
         .padding(8)
     }
     
