@@ -133,7 +133,7 @@ struct ManageMyFoodsView: View {
                                 
                                 ForEach(apiManager.searchResults, id: \.self) { result in
                                     Button(action: {
-                                        selectedFoodForAction = UnifiedFoodItem(name: result.name, brand: result.brand, calories: result.calories, protein: result.protein, fat: result.fat, carbs: result.carbs, sodium: result.sodium, isVerified: true)
+                                        selectedFoodForAction = UnifiedFoodItem(name: result.name, brand: result.brand, calories: result.calories, protein: result.protein, fat: result.fat, carbs: result.carbs, sodium: result.sodium, isVerified: true, servingSize: result.servingSize)
                                     }) {
                                         APIFoodResultCard(item: result, modelContext: modelContext)
                                     }

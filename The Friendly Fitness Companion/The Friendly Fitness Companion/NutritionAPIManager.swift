@@ -11,6 +11,7 @@ struct APIFoodItem: Identifiable, Hashable {
     let carbs: Double
     let sodium: Double
     let imageUrl: String?
+    var servingSize: String? = "100g"
 }
 
 class NutritionAPIManager: ObservableObject {
@@ -41,7 +42,10 @@ class NutritionAPIManager: ObservableObject {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+                var request = URLRequest(url: url)
+        request.setValue("FriendlyFitnessApp/1.0 (contact@friendlyfitness.app)", forHTTPHeaderField: "User-Agent")
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("API Error: \(error.localizedDescription)")
                 self.fallbackMockData(query: query)
@@ -66,13 +70,19 @@ class NutritionAPIManager: ObservableObject {
                         let brand = product["brands"] as? String ?? "Generic"
                         let imageUrl = product["image_front_thumb_url"] as? String
                         
+                        let rawServingSize = product["serving_size"] as? String
+                        
                         let nutriments = product["nutriments"] as? [String: Any] ?? [:]
                         
-                        let calories = nutriments["energy-kcal_100g"] as? Double ?? 0.0
-                        let protein = nutriments["proteins_100g"] as? Double ?? 0.0
-                        let fat = nutriments["fat_100g"] as? Double ?? 0.0
-                        let carbs = nutriments["carbohydrates_100g"] as? Double ?? 0.0
-                        let sodium = nutriments["sodium_100g"] as? Double ?? 0.0 // mostly in g, OFF reports in g usually, sodium_100g is often grams
+                        let hasServing = nutriments["energy-kcal_serving"] != nil
+                        let suffix = hasServing ? "_serving" : "_100g"
+                        let finalServingSize = hasServing ? (rawServingSize ?? "1 serving") : "100g"
+                        
+                        let calories = nutriments["energy-kcal" + suffix] as? Double ?? 0.0
+                        let protein = nutriments["proteins" + suffix] as? Double ?? 0.0
+                        let fat = nutriments["fat" + suffix] as? Double ?? 0.0
+                        let carbs = nutriments["carbohydrates" + suffix] as? Double ?? 0.0
+                        let sodium = nutriments["sodium" + suffix] as? Double ?? 0.0
                         
                         let item = APIFoodItem(
                             name: name,
@@ -82,7 +92,8 @@ class NutritionAPIManager: ObservableObject {
                             fat: fat,
                             carbs: carbs,
                             sodium: sodium * 1000, // convert g to mg
-                            imageUrl: imageUrl
+                            imageUrl: imageUrl,
+                            servingSize: finalServingSize
                         )
                         results.append(item)
                     }

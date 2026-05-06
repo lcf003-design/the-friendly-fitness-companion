@@ -10,6 +10,7 @@ struct UnifiedFoodItem: Equatable, Identifiable {
     let carbs: Double
     let sodium: Double
     var isVerified: Bool = false
+    var servingSize: String? = "1 serving (100g)"
 }
 
 struct FoodActionSheetView: View {
