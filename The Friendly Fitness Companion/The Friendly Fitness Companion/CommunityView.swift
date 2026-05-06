@@ -103,6 +103,7 @@ struct LeaderboardRow: View {
     let idString: String
     let volume: Double
     let isHeavyDuty: Bool
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     var body: some View {
         HStack(spacing: 16) {
