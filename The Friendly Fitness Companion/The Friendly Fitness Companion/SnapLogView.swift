@@ -102,6 +102,27 @@ struct SnapLogView: View {
                 }
                 .padding(.horizontal, 24)
                 
+                if type == .water {
+                    HStack(spacing: 16) {
+                        ForEach([8, 16, 32], id: \.self) { amount in
+                            Button(action: {
+                                HapticManager.shared.light()
+                                inputString = "\(amount)"
+                                saveLog()
+                            }) {
+                                Text("\(amount)oz")
+                                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .background(Color.blue.opacity(0.2))
+                                    .foregroundColor(.blue)
+                                    .cornerRadius(12)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                }
+                
                 Spacer()
             }
             
@@ -120,6 +141,13 @@ struct SnapLogView: View {
                         .tracking(4.0)
                         .foregroundColor(.white)
                         .padding(.top, 16)
+                }
+            }
+        }
+        .onAppear {
+            if type == .weight {
+                if let lastWeight = dailyLogs.flatMap({ $0.bodyMeasurements }).max(by: { $0.timestamp < $1.timestamp })?.bodyWeight {
+                    inputString = String(format: "%.1f", lastWeight)
                 }
             }
         }
@@ -180,7 +208,7 @@ struct SnapLogView: View {
             showSuccess = true
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             dismiss()
         }
     }

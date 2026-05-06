@@ -192,7 +192,7 @@ struct ForgeSessionView: View {
                     // Henneman Meter Live
                     VStack(spacing: 8) {
                         let recruitment = calculateRecruitment(weight: weight, reps: reps, isFailure: isAbsoluteFailure)
-                        HennemanMeterView(recruitmentLevel: recruitment)
+                        HennemanMeterView(recruitmentLevel: recruitment, isFailure: isAbsoluteFailure)
                             .padding(.horizontal, 24)
                     }
                     

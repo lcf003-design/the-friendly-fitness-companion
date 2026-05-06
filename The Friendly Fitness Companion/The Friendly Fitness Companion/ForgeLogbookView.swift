@@ -255,6 +255,10 @@ struct WorkoutSummaryModal: View {
     var durationString: String
     var todayLog: DailyLog
     
+    @State private var rpe: Double = 8.0
+    @State private var cnsFatigue: Bool = false
+    @Environment(\.modelContext) private var modelContext
+    
     var totalSets: Int {
         todayLog.workouts.reduce(0) { $0 + $1.sets.count }
     }
@@ -295,10 +299,38 @@ struct WorkoutSummaryModal: View {
                 }
                 .padding(.horizontal, 24)
                 
+                // Subjective Effort
+                VStack(spacing: 20) {
+                    HStack {
+                        Text("RATE OF PERCEIVED EXERTION")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        Spacer()
+                        Text("\(Int(rpe))/10")
+                            .font(.system(size: 12, weight: .black))
+                            .foregroundColor(rpe == 10 ? FriendlyTheme.limeSignal : .white)
+                    }
+                    Slider(value: $rpe, in: 1...10, step: 1)
+                        .accentColor(rpe == 10 ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen)
+                    
+                    Toggle("CNS FATIGUE DETECTED", isOn: $cnsFatigue)
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(cnsFatigue ? .red : .white)
+                        .tint(.red)
+                }
+                .padding(20)
+                .background(Color.white.opacity(0.05))
+                .cornerRadius(12)
+                .padding(.horizontal, 24)
+                
                 Spacer()
                 
                 Button(action: {
                     // Complete Workout Routine
+                    todayLog.rpeScore = rpe
+                    todayLog.cnsFatigueDetected = cnsFatigue
+                    try? modelContext.save()
+                    
                     appState.isWorkoutActive = false
                     appState.workoutStartTime = nil
                     appState.forgeQueue.removeAll()

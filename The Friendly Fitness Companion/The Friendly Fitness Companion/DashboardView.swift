@@ -299,20 +299,22 @@ struct DashboardView: View {
 // MARK: - Henneman Meter Component (Linear Bar)
 struct HennemanMeterView: View {
     var recruitmentLevel: Double
+    var isFailure: Bool = false
+    @State private var pulseState: Bool = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("MOTOR UNIT RECRUITMENT")
+                Text(isFailure ? "MAX RECRUITMENT" : "MOTOR UNIT RECRUITMENT")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .foregroundColor(isFailure ? FriendlyTheme.limeSignal : FriendlyTheme.textSecondary)
                     .tracking(2.0)
                 
                 Spacer()
                 
                 Text("\(Int(recruitmentLevel * 100))%")
                     .font(.system(size: 14, weight: .black))
-                    .foregroundColor(FriendlyTheme.apexGreen)
+                    .foregroundColor(isFailure ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen)
             }
             
             GeometryReader { geometry in
@@ -325,10 +327,10 @@ struct HennemanMeterView: View {
                     // Active track
                     RoundedRectangle(cornerRadius: 4)
                         .fill(
-                            LinearGradient(gradient: Gradient(colors: [FriendlyTheme.limeSignal, FriendlyTheme.apexGreen]), startPoint: .leading, endPoint: .trailing)
+                            LinearGradient(gradient: Gradient(colors: [FriendlyTheme.limeSignal, isFailure ? .white : FriendlyTheme.apexGreen]), startPoint: .leading, endPoint: .trailing)
                         )
                         .frame(width: geometry.size.width * CGFloat(recruitmentLevel), height: 8)
-                        .shadow(color: FriendlyTheme.apexGreen.opacity(0.5), radius: 4, x: 0, y: 0)
+                        .shadow(color: isFailure ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen.opacity(0.5), radius: isFailure ? (pulseState ? 12 : 4) : 4, x: 0, y: 0)
                         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: recruitmentLevel)
                 }
             }
@@ -336,6 +338,11 @@ struct HennemanMeterView: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 10)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                pulseState = true
+            }
+        }
     }
 }
 

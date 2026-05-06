@@ -11,6 +11,8 @@ class DailyLog {
     
     var totalVolume: Double
     var maxMotorUnitRecruitment: Double
+    var cnsFatigueDetected: Bool = false
+    var rpeScore: Double = 0.0
     
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
     @Relationship(deleteRule: .cascade) var progressPhotos: [ProgressPhoto] = []
@@ -24,6 +26,8 @@ class DailyLog {
         self.date = date
         self.totalVolume = 0
         self.maxMotorUnitRecruitment = 0
+        self.cnsFatigueDetected = false
+        self.rpeScore = 0.0
     }
 }
 

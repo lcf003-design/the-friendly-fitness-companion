@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ShortcutsMenuSheet: View {
     @Environment(\.dismiss) var dismiss
@@ -6,12 +7,120 @@ struct ShortcutsMenuSheet: View {
     
     @State private var showSnapLog = false
     @State private var snapLogType: SnapLogType = .water
+    @State private var isSelectingRoutine = false
+    
+    @Query private var routines: [RoutineTemplate]
     
     var body: some View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
             
-            VStack(spacing: 30) {
+            if isSelectingRoutine {
+                routineSelectionView
+            } else {
+                mainMenuView
+            }
+        }
+        .sheet(isPresented: $showSnapLog) {
+            SnapLogView(type: snapLogType)
+                .presentationDetents([.fraction(0.7)])
+        }
+    }
+    
+    var routineSelectionView: some View {
+        VStack(spacing: 20) {
+            HStack {
+                Button(action: {
+                    withAnimation { isSelectingRoutine = false }
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                }
+                Spacer()
+                Text("SELECT ROUTINE")
+                    .font(.system(size: 14, weight: .black, design: .rounded))
+                    .tracking(2.0)
+                    .foregroundColor(.white)
+                Spacer()
+                Image(systemName: "chevron.left")
+                    .font(.title2)
+                    .foregroundColor(.clear)
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 30)
+            
+            ScrollView {
+                VStack(spacing: 16) {
+                    // Quick Start
+                    Button(action: {
+                        startForgeSession(routine: nil)
+                    }) {
+                        HStack {
+                            Image(systemName: "bolt.fill")
+                                .foregroundColor(FriendlyTheme.limeSignal)
+                            Text("QUICK START")
+                                .font(.system(size: 16, weight: .black, design: .rounded))
+                                .tracking(1.5)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.05))
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(FriendlyTheme.limeSignal, lineWidth: 1))
+                    }
+                    
+                    if routines.isEmpty {
+                        Text("No saved routines found.")
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                            .padding(.top, 20)
+                    } else {
+                        ForEach(routines) { routine in
+                            Button(action: {
+                                startForgeSession(routine: routine)
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(routine.name.uppercased())
+                                            .font(.system(size: 16, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                        Text("\(routine.exercises.count) exercises")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
+                                .padding()
+                                .background(Color.white.opacity(0.05))
+                                .cornerRadius(12)
+                            }
+                        }
+                    }
+                }
+                .padding(.horizontal, 24)
+            }
+        }
+    }
+    
+    private func startForgeSession(routine: RoutineTemplate?) {
+        HapticManager.shared.light()
+        dismiss()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if let r = routine {
+                appState.forgeQueue = r.exercises
+            } else {
+                appState.forgeQueue = []
+            }
+            appState.selectedTab = 10
+            appState.showLiveForge = true
+        }
+    }
+    
+    var mainMenuView: some View {
+        VStack(spacing: 30) {
                 // Header
                 HStack {
                     Spacer()
@@ -65,10 +174,8 @@ struct ShortcutsMenuSheet: View {
                         }
                         SecondaryActionButton(icon: "dumbbell.fill", title: "Exercise", color: FriendlyTheme.limeSignal) {
                             HapticManager.shared.light()
-                            dismiss()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                appState.selectedTab = 10 // Navigate to Forge
-                                appState.showLiveForge = true
+                            withAnimation {
+                                isSelectingRoutine = true
                             }
                         }
                     }
@@ -90,13 +197,7 @@ struct ShortcutsMenuSheet: View {
                 Spacer()
             }
         }
-        .sheet(isPresented: $showSnapLog) {
-            SnapLogView(type: snapLogType)
-                .presentationDetents([.fraction(0.7)])
-        }
     }
-}
-
 enum SnapLogType {
     case water, weight, calories
 }

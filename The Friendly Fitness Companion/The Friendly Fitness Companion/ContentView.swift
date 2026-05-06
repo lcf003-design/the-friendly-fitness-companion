@@ -1,4 +1,6 @@
 import SwiftUI
+import SwiftData
+import Combine
 
 struct ComingSoonView: View {
     let title: String
@@ -50,6 +52,10 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @State private var showShortcuts = false
+    @State private var isPulsing = false
+    @State private var currentDurationString = "00:00"
+    
+    let liveTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         if !hasCompletedOnboarding {
@@ -132,8 +138,62 @@ struct ContentView: View {
                     NavigationDrawerView()
                         .transition(.move(edge: .leading))
                 }
+                
+                // Active Session Indicator (Elite Status)
+                if appState.isWorkoutActive && !appState.showLiveForge {
+                    VStack {
+                        HStack {
+                            Circle()
+                                .fill(FriendlyTheme.apexGreen)
+                                .frame(width: 8, height: 8)
+                                .opacity(isPulsing ? 1.0 : 0.3)
+                            
+                            Text("ACTIVE SESSION")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .tracking(2.0)
+                                .foregroundColor(FriendlyTheme.apexGreen)
+                            
+                            Spacer()
+                            
+                            Text(currentDurationString)
+                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                                .monospacedDigit()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background(FriendlyTheme.midnightMatteLight)
+                        .cornerRadius(20)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 50)
+                        .onTapGesture {
+                            appState.showLiveForge = true
+                        }
+                        Spacer()
+                    }
+                    .zIndex(100)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true)) {
+                            isPulsing = true
+                        }
+                    }
+                }
             }
             .preferredColorScheme(.dark)
+            .onReceive(liveTimer) { _ in
+                if appState.isWorkoutActive, let start = appState.workoutStartTime {
+                    let interval = Date().timeIntervalSince(start)
+                    let hours = Int(interval) / 3600
+                    let minutes = Int(interval) / 60 % 60
+                    let seconds = Int(interval) % 60
+                    if hours > 0 {
+                        currentDurationString = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+                    } else {
+                        currentDurationString = String(format: "%02d:%02d", minutes, seconds)
+                    }
+                }
+            }
             .sheet(isPresented: $showShortcuts) {
                 ShortcutsMenuSheet()
                     .presentationDetents([.medium, .large])
