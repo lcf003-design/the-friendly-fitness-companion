@@ -118,7 +118,31 @@ struct MeView: View {
                             .padding(.horizontal, 24)
                         }
                         
-
+                        // GOALS & STRATEGY
+                        NavigationLink(destination: WeightGoalPlanView()) {
+                            HStack {
+                                Image(systemName: "target")
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .font(.system(size: 20))
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("MY WEIGHT GOAL & PLAN")
+                                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Text("Metabolic strategy & targets")
+                                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                            .padding(16)
+                            .background(Color.white.opacity(0.05))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        }
+                        
                         // BODY STATS
                         NavigationLink(destination: BodyMeasurementsView()) {
                             HStack {
