@@ -73,11 +73,20 @@ struct ManageMyFoodsView: View {
                                     apiManager.searchFoods(query: newValue)
                                 }
                             }
+                        if !searchText.isEmpty {
+                            Button(action: {
+                                searchText = ""
+                                apiManager.searchResults.removeAll()
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                        }
                     }
                     .padding(12)
-                    .background(.ultraThinMaterial)
+                    .background(Color.white.opacity(0.05))
                     .cornerRadius(12)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 24)
                     .padding(.top, 16)
                     
                     // Horizontal Category Picker
@@ -107,8 +116,7 @@ struct ManageMyFoodsView: View {
                     }
                 }
                 .padding(.bottom, 8)
-                .background(FriendlyTheme.midnightMatte.opacity(0.95))
-                .zIndex(1)
+                
                 
                 Divider().background(Color.white.opacity(0.1))
                 
@@ -226,39 +234,54 @@ struct FoodRowView: View {
     var peRatio: Double? = nil
     let action: () -> Void
     
+    // Extract calories from desc naive approach
+    var displayCals: String {
+        if let calString = desc.components(separatedBy: " kcal").first, let _ = Int(calString) {
+            return calString
+        }
+        return "-"
+    }
+    
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 16) {
-                ZStack {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.05))
-                        .frame(width: 44, height: 44)
-                        .cornerRadius(16)
+            VStack(spacing: 0) {
+                HStack(spacing: 16) {
                     Image(systemName: icon)
+                        .font(.system(size: 20))
                         .foregroundColor(FriendlyTheme.apexGreen)
-                }
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
-                        .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                    Text(desc)
-                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                    if let peRatio = peRatio {
-                        DensityMeterView(peRatio: peRatio)
-                            .padding(.top, 2)
+                        .frame(width: 30)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(name)
+                            .font(.system(size: 15, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text(desc)
+                            .font(.system(size: 13))
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text(displayCals)
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                        if displayCals != "-" {
+                            Text("cal")
+                                .font(.system(size: 11))
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 14)
                 
-                Spacer()
-                
-                Image(systemName: "line.3.horizontal")
-                    .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
+                Divider().background(Color.white.opacity(0.1)).padding(.leading, 70)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 8)
-            .background(FriendlyTheme.midnightMatteLight)
         }
         .buttonStyle(PlainButtonStyle())
     }
