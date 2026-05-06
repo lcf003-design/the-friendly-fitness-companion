@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ToolsView: View {
-    @State private var selectedTab = "TRAINING"
+    @State private var selectedTab = "Training"
     @State private var showDietGoal = false
     @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
@@ -18,9 +18,9 @@ struct ToolsView: View {
                             .foregroundColor(FriendlyTheme.apexGreen)
                             .font(.system(size: 18))
                         
-                        Text("COMMAND HUB")
+                        Text("Command Hub")
                             .font(.system(size: 14, weight: .black, design: .rounded))
-                            .tracking(2.5)
+                            
                             .foregroundColor(.white)
                         
                         Spacer()
@@ -31,31 +31,43 @@ struct ToolsView: View {
                     
                     // Segmented Picker
                     HStack(spacing: 0) {
-                        TabButton(title: "TRAINING", isSelected: selectedTab == "TRAINING") { selectedTab = "TRAINING" }
-                        TabButton(title: "DIET", isSelected: selectedTab == "DIET") { selectedTab = "DIET" }
+                        TabButton(title: "Training", isSelected: selectedTab == "Training") { selectedTab = "Training" }
+                        TabButton(title: "Diet", isSelected: selectedTab == "Diet") { selectedTab = "Diet" }
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 20)
                     
                     ScrollView {
                         VStack(spacing: 20) {
-                            if selectedTab == "TRAINING" {
+                            if selectedTab == "Training" {
                                 // Menu Cards
                                 NavigationLink(destination: OneRepMaxView()) {
-                                    ToolMenuCard(
-                                        title: "1RM CALCULATOR",
+                                    ModularRowCard(
+                                        icon: "chart.line.uptrend.xyaxis",
+                                        iconColor: FriendlyTheme.apexGreen,
+                                        title: "1RM Calculator",
                                         subtitle: "Estimate your one-rep max and view your localized strength curve based on the Epley formula.",
-                                        systemImage: "chart.line.uptrend.xyaxis"
+                                        value: "",
+                                        isTop: true,
+                                        isBottom: false
                                     )
                                 }
+                                .buttonStyle(.plain)
+                                
+                                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
                                 
                                 NavigationLink(destination: PlateMathView()) {
-                                    ToolMenuCard(
-                                        title: "PLATE MATH",
+                                    ModularRowCard(
+                                        icon: "circle.circle.fill",
+                                        iconColor: FriendlyTheme.mutedAmber,
+                                        title: "Plate Math",
                                         subtitle: "Quickly calculate exactly which plates to load onto the barbell for a target weight.",
-                                        systemImage: "circle.circle.fill"
+                                        value: "",
+                                        isTop: false,
+                                        isBottom: true
                                     )
                                 }
+                                .buttonStyle(.plain)
                             } else {
                                 DietToolsView(showDietGoal: $showDietGoal)
                             }
@@ -81,7 +93,7 @@ struct TabButton: View {
             VStack(spacing: 8) {
                 Text(title)
                     .font(.system(size: 12, weight: .bold, design: .rounded))
-                    .tracking(2.0)
+                    
                     .foregroundColor(isSelected ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
                 
                 Rectangle()
@@ -173,8 +185,8 @@ struct OneRepMaxView: View {
                                 .foregroundColor(.white)
                                 .padding(16)
                                 .background(Color(white: 0.1))
-                                .cornerRadius(16)
-                                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                                .cornerRadius(20)
+                                
                         }
                         
                         VStack(alignment: .leading, spacing: 8) {
@@ -188,8 +200,8 @@ struct OneRepMaxView: View {
                                 .foregroundColor(.white)
                                 .padding(16)
                                 .background(Color(white: 0.1))
-                                .cornerRadius(16)
-                                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                                .cornerRadius(20)
+                                
                         }
                     }
                     .padding(.top, 20)
@@ -297,8 +309,8 @@ struct PlateMathView: View {
                     }
                     .padding(20)
                     .background(Color(white: 0.1))
-                    .cornerRadius(16)
-                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                    .cornerRadius(20)
+                    
                     .padding(.top, 20)
                     
                     let platesNeeded = calculatePlates()
@@ -354,7 +366,7 @@ struct PlateMathView: View {
                                         .padding(.vertical, 8)
                                         .background(FriendlyTheme.apexGreen.opacity(0.2))
                                         .foregroundColor(FriendlyTheme.apexGreen)
-                                        .cornerRadius(8)
+                                        .cornerRadius(16)
                                 }
                             }
                         }

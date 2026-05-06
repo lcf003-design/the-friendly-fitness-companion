@@ -14,12 +14,12 @@ struct ComingSoonView: View {
                     .foregroundColor(FriendlyTheme.textSecondary.opacity(0.3))
                 Text(title.uppercased())
                     .font(.system(size: 24, weight: .black, design: .rounded))
-                    .tracking(4.0)
+                    
                     .foregroundColor(.white)
                     .padding(.top, 20)
-                Text("COMING SOON")
+                Text("Coming Soon")
                     .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .tracking(2.0)
+                    
                     .foregroundColor(FriendlyTheme.apexGreen)
                     .padding(.top, 8)
             }

@@ -43,9 +43,8 @@ struct CommunityView: View {
                             .foregroundColor(FriendlyTheme.apexGreen)
                             .font(.system(size: 18))
                         
-                        Text("THE COLLECTIVE")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .tracking(2.5)
+                        Text("The Collective")
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         
                         Spacer()
@@ -55,9 +54,8 @@ struct CommunityView: View {
                     
                     // Global Tonnage
                     VStack(spacing: 8) {
-                        Text("GLOBAL TONNAGE TODAY")
-                            .font(.system(size: 12, weight: .black, design: .rounded))
-                            .tracking(2.0)
+                        Text("Global Tonnage Today")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
                         
                         Text("\(Int(globalTonnage).formatted())")
@@ -74,8 +72,8 @@ struct CommunityView: View {
                     
                     // Leaderboard
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("PRESTIGE LEADERBOARD")
-                            .font(.system(size: 12, weight: .black, design: .rounded))
+                        Text("Prestige Leaderboard")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
                             .tracking(2.0)
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .padding(.horizontal, 24)
@@ -106,41 +104,14 @@ struct LeaderboardRow: View {
     @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     var body: some View {
-        HStack(spacing: 16) {
-            Text("#\(rank)")
-                .font(.system(size: 16, weight: .black, design: .rounded))
-                .foregroundColor(rank <= 3 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
-                .frame(width: 30, alignment: .leading)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(idString)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
-                
-                if isHeavyDuty {
-                    Text("HD CERTIFIED")
-                        .font(.system(size: 8, weight: .black, design: .rounded))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(FriendlyTheme.limeSignal.opacity(0.2))
-                        .foregroundColor(FriendlyTheme.limeSignal)
-                        .cornerRadius(4)
-                }
-            }
-            
-            Spacer()
-            
-            Text("\(Int(volume).formatted()) \(preferredUnit)")
-                .font(.system(size: 14, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
-        }
-        .padding(16)
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(isHeavyDuty ? FriendlyTheme.apexGreen.opacity(0.5) : Color.white.opacity(0.1), lineWidth: isHeavyDuty ? 1.5 : 1)
-                .shadow(color: isHeavyDuty ? FriendlyTheme.apexGreen.opacity(0.2) : .clear, radius: 5)
+        ModularRowCard(
+            icon: rank == 1 ? "medal.fill" : "person.fill",
+            iconColor: rank <= 3 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary,
+            title: "#\(rank) \(idString)",
+            subtitle: isHeavyDuty ? "HD Certified" : "",
+            value: "\(Int(volume).formatted()) \(preferredUnit)",
+            isTop: rank == 1,
+            isBottom: rank == 5
         )
         .padding(.horizontal, 24)
     }

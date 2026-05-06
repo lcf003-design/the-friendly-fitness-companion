@@ -31,28 +31,26 @@ struct MeView: View {
                                 .foregroundColor(FriendlyTheme.apexGreen)
                                 .font(.system(size: 24))
                             
-                            Text("COMMAND HUB")
+                            Text("Me & Metrics")
                                 .font(.system(size: 18, weight: .bold, design: .rounded))
-                                .tracking(4.0)
                                 .foregroundColor(.white)
                             Spacer()
                         }
                         .padding(.horizontal, 24)
                         .padding(.top, 20)
                         
-                        // APPS & DEVICES
+                        // Apps & Devices
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("APPS & DEVICES")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                
+                            Text("Apps & Devices")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
                             VStack(spacing: 0) {
                                 HStack {
-                                    Image(systemName: "heart.text.square.fill")
+                                    ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "heart.text.square.fill")
                                         .foregroundColor(FriendlyTheme.apexGreen)
-                                        .font(.system(size: 20))
+                                        .font(.system(size: 20)) }
                                     Text("Apple Health")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
@@ -80,19 +78,18 @@ struct MeView: View {
                                 .padding(16)
                             }
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
-                        // GOALS & STRATEGY
+                        // Goals & Strategy
                         NavigationLink(destination: WeightGoalPlanView()) {
                             HStack {
-                                Image(systemName: "target")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "target")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("MY WEIGHT GOAL & PLAN")
+                                    Text("My Weight Goal & Plan")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                     Text("Metabolic strategy & targets")
@@ -105,19 +102,18 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
-                        // PERSONAL INFO
+                        // Personal Info
                         NavigationLink(destination: PersonalInfoView(profile: profile)) {
                             HStack {
-                                Image(systemName: "person.text.rectangle.fill")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "person.text.rectangle.fill")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("PERSONAL INFO")
+                                    Text("Personal Info")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                     Text("Manage your physical baseline")
@@ -130,19 +126,18 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
-                        // FASTING PROTOCOL
+                        // Fasting Protocol
                         NavigationLink(destination: FastingProtocolSelectionView(profile: profile)) {
                             HStack {
-                                Image(systemName: "timer")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "timer")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("FASTING PROTOCOL")
+                                    Text("Fasting Protocol")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                     Text("Set your metabolic eating window")
@@ -155,17 +150,16 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
                         // MY HEALTH
                         NavigationLink(destination: MyHealthView()) {
                             HStack {
-                                Image(systemName: "heart.text.square.fill")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "heart.text.square.fill")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("MY HEALTH")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -180,17 +174,16 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
                         // PROGRESS PHOTOS
                         NavigationLink(destination: ProgressPhotosView()) {
                             HStack {
-                                Image(systemName: "photo.on.rectangle.angled")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "photo.on.rectangle.angled")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("PROGRESS PHOTOS")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -205,25 +198,23 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
-                        // NUTRITION & GROCERY
+                        // Nutrition & Grocery
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("NUTRITION & GROCERY")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                
+                            Text("Nutrition & Grocery")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
                             VStack(spacing: 0) {
                                 NavigationLink(destination: ManageMyFoodsView()) {
                                     HStack {
-                                        Image(systemName: "fork.knife.circle.fill")
+                                        ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "fork.knife.circle.fill")
                                             .foregroundColor(FriendlyTheme.apexGreen)
-                                            .font(.system(size: 20))
+                                            .font(.system(size: 20)) }
                                         Text("MY FOODS")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(.white)
@@ -238,9 +229,9 @@ struct MeView: View {
                                 
                                 NavigationLink(destination: CustomRecipesView()) {
                                     HStack {
-                                        Image(systemName: "book.pages.fill")
+                                        ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "book.pages.fill")
                                             .foregroundColor(FriendlyTheme.apexGreen)
-                                            .font(.system(size: 20))
+                                            .font(.system(size: 20)) }
                                         Text("CUSTOM RECIPES")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(.white)
@@ -255,9 +246,9 @@ struct MeView: View {
                                 
                                 NavigationLink(destination: GroceryCheckView()) {
                                     HStack {
-                                        Image(systemName: "scale.3d")
+                                        ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "scale.3d")
                                             .foregroundColor(FriendlyTheme.apexGreen)
-                                            .font(.system(size: 20))
+                                            .font(.system(size: 20)) }
                                         Text("GROCERY CHECK")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(.white)
@@ -272,9 +263,9 @@ struct MeView: View {
                                 
                                 NavigationLink(destination: ShoppingListView()) {
                                     HStack {
-                                        Image(systemName: "cart.fill")
+                                        ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "cart.fill")
                                             .foregroundColor(FriendlyTheme.apexGreen)
-                                            .font(.system(size: 20))
+                                            .font(.system(size: 20)) }
                                         Text("SHOPPING LIST")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(.white)
@@ -287,8 +278,7 @@ struct MeView: View {
                                 }
                             }
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
@@ -297,9 +287,9 @@ struct MeView: View {
                         // Document Vault
                         NavigationLink(destination: DocumentVaultView()) {
                             HStack {
-                                Image(systemName: "folder.fill")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "folder.fill")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Document Vault")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -314,17 +304,16 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
                         // APP SETTINGS
                         NavigationLink(destination: AppSettingsView()) {
                             HStack {
-                                Image(systemName: "slider.horizontal.3")
+                                ZStack { Circle().fill(Color.white.opacity(0.05)).frame(width: 40, height: 40); Image(systemName: "slider.horizontal.3")
                                     .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 20)) }
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("APP SETTINGS")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
@@ -339,16 +328,14 @@ struct MeView: View {
                             }
                             .padding(16)
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                         
                         // SYSTEM SUPPORT
                         VStack(alignment: .leading, spacing: 12) {
                             Text("SYSTEM SUPPORT")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                                 .padding(.horizontal, 24)
                             
@@ -380,14 +367,14 @@ struct MeView: View {
                                 }
                                 Divider().background(Color.white.opacity(0.1))
                                 HStack {
-                                    Text("SYSTEM STATUS")
+                                    Text("System Status")
                                         .font(.system(size: 12, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                     Spacer()
                                     Circle()
                                         .fill(FriendlyTheme.apexGreen)
                                         .frame(width: 8, height: 8)
-                                    Text("DB HEALTHY • SYNC OK")
+                                    Text("DB Healthy • Sync OK")
                                         .font(.system(size: 10, weight: .bold, design: .rounded))
                                         .tracking(1.0)
                                         .foregroundColor(FriendlyTheme.apexGreen)
@@ -395,8 +382,7 @@ struct MeView: View {
                                 .padding(16)
                             }
                             .background(FriendlyTheme.midnightMatteLight)
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                            .cornerRadius(12)
+                            .cornerRadius(20)
                             .padding(.horizontal, 24)
                         }
                     }

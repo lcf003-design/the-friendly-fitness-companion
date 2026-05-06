@@ -11,33 +11,15 @@ struct DietToolsView: View {
             
             // Top Card - My Diet
             Button(action: { showDietGoal = true }) {
-                HStack(spacing: 16) {
-                    Image(systemName: "flame.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(FriendlyTheme.apexGreen)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("My Diet")
-                            .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
-                        Text("Manage your metabolic strategy")
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                    }
-                    Spacer()
-                    
-                    Text("SELECT")
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                        .background(FriendlyTheme.apexGreen)
-                        .foregroundColor(.black)
-                        .cornerRadius(6)
-                }
-                .padding(20)
-                .background(FriendlyTheme.midnightMatteLight)
-                .cornerRadius(20)
+                ModularRowCard(
+                    icon: "flame.fill",
+                    iconColor: FriendlyTheme.apexGreen,
+                    title: "My Diet",
+                    subtitle: "Manage your metabolic strategy",
+                    value: "SELECT"
+                )
             }
+            .buttonStyle(.plain)
             .padding(.horizontal, 24)
             
             // The Hunter-Gatherer Feature Banner
@@ -70,42 +52,65 @@ struct DietToolsView: View {
             
             // Primary Tool Stack
             VStack(spacing: 0) {
-                ToolStackRow(icon: "bag.fill", title: "Premium Recipes & Meals")
-                Divider().background(Color.white.opacity(0.1)).padding(.leading, 56)
-                ToolStackRow(icon: "menucard.fill", title: "Premium Menus")
-                Divider().background(Color.white.opacity(0.1)).padding(.leading, 56)
-                ToolStackRow(icon: "doc.text.fill", title: "Meal Planner")
-                Divider().background(Color.white.opacity(0.1)).padding(.leading, 56)
+                ModularRowCard(
+                    icon: "bag.fill",
+                    iconColor: FriendlyTheme.textSecondary,
+                    title: "Premium Recipes & Meals",
+                    subtitle: "",
+                    value: "",
+                    isTop: true,
+                    isBottom: false
+                )
+                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+                
+                ModularRowCard(
+                    icon: "menucard.fill",
+                    iconColor: FriendlyTheme.textSecondary,
+                    title: "Premium Menus",
+                    subtitle: "",
+                    value: "",
+                    isTop: false,
+                    isBottom: false
+                )
+                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+                
+                ModularRowCard(
+                    icon: "doc.text.fill",
+                    iconColor: FriendlyTheme.textSecondary,
+                    title: "Meal Planner",
+                    subtitle: "",
+                    value: "",
+                    isTop: false,
+                    isBottom: false
+                )
+                Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+                
                 NavigationLink(destination: RestaurantScanView()) {
-                    ToolStackRow(icon: "camera.viewfinder", title: "Restaurant Menu AI Scan")
+                    ModularRowCard(
+                        icon: "camera.viewfinder",
+                        iconColor: FriendlyTheme.textSecondary,
+                        title: "Restaurant Menu AI Scan",
+                        subtitle: "",
+                        value: "",
+                        isTop: false,
+                        isBottom: true
+                    )
                 }
+                .buttonStyle(.plain)
             }
-            .background(FriendlyTheme.midnightMatteLight)
-            .cornerRadius(20)
             .padding(.horizontal, 24)
             
             // Intermittent Fasting Card
             NavigationLink(destination: FastingHubView()) {
-                HStack(spacing: 16) {
-                    Image(systemName: "clock.fill")
-                        .font(.system(size: 20))
-                        .foregroundColor(.white)
-                    
-                    Text("Intermittent Fasting")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                }
-                .padding(20)
-                .background(FriendlyTheme.midnightMatteLight)
-                .cornerRadius(20)
-                .padding(.horizontal, 24)
+                ModularRowCard(
+                    icon: "clock.fill",
+                    iconColor: .white,
+                    title: "Intermittent Fasting",
+                    subtitle: "",
+                    value: ""
+                )
             }
+            .buttonStyle(.plain)
             
             // Header for Analysis & Insights
             HStack {
@@ -119,33 +124,15 @@ struct DietToolsView: View {
             
             // Diet Trends Card
             NavigationLink(destination: DocumentVaultView()) {
-                HStack(spacing: 16) {
-                    Image(systemName: "chart.line.uptrend.xyaxis")
-                        .font(.system(size: 24))
-                        .foregroundColor(FriendlyTheme.apexGreen)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("My Diet Trends")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
-                        Text("Your weight-loss journey explained with insights from your diary.")
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.leading)
-                    }
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(FriendlyTheme.textSecondary)
-                }
-                .padding(20)
-                .background(FriendlyTheme.midnightMatteLight)
-                .cornerRadius(20)
-                .padding(.horizontal, 24)
+                ModularRowCard(
+                    icon: "chart.line.uptrend.xyaxis",
+                    iconColor: FriendlyTheme.apexGreen,
+                    title: "My Diet Trends",
+                    subtitle: "Your weight-loss journey explained with insights from your diary.",
+                    value: ""
+                )
             }
+            .buttonStyle(.plain)
         }
     }
 }
