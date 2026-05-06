@@ -135,6 +135,31 @@ struct MeView: View {
                             .padding(.horizontal, 24)
                         }
                         
+                        // FASTING PROTOCOL
+                        NavigationLink(destination: FastingProtocolSelectionView(profile: profile)) {
+                            HStack {
+                                Image(systemName: "timer")
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .font(.system(size: 20))
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("FASTING PROTOCOL")
+                                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Text("Set your metabolic eating window")
+                                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                            .padding(16)
+                            .background(Color.white.opacity(0.05))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        }
+                        
                         // MY HEALTH
                         NavigationLink(destination: MyHealthView()) {
                             HStack {
@@ -586,6 +611,9 @@ struct PersonalInfoView: View {
                 .padding(24)
             }
         }
+        .onChange(of: profile.sex) { _ in autoSave() }
+        .onChange(of: profile.dateOfBirth) { _ in autoSave() }
+        .onChange(of: profile.activityLevelIndex) { _ in autoSave() }
         .navigationTitle("Personal Info")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -603,10 +631,11 @@ struct PersonalInfoView: View {
     
     private func updateHeight() {
         profile.heightInInches = Double(feet * 12 + inches)
+        autoSave()
     }
     
-    private func saveProfile() {
-        HapticManager.shared.success()
+    private func autoSave() {
+        HapticManager.shared.light()
         
         // Recalculate TDEE if metabolic goal exists
         if let goal = metabolicGoals.first {
@@ -618,6 +647,11 @@ struct PersonalInfoView: View {
         }
         
         try? modelContext.save()
+    }
+    
+    private func saveProfile() {
+        HapticManager.shared.success()
+        autoSave()
         dismiss()
     }
 }

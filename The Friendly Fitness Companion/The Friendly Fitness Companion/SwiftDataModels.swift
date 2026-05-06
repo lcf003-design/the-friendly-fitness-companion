@@ -158,6 +158,7 @@ class UserProfile {
     var heightInInches: Double
     var dateOfBirth: Date
     var activityLevelIndex: Int
+    var selectedFastingProtocol: Double // Represents hours of fasting (e.g., 16.0 for 16:8)
     
     @Relationship(deleteRule: .cascade) var healthRecords: [HealthRecord] = []
     
@@ -193,12 +194,13 @@ class UserProfile {
         return Int(bmr * activityMultiplier)
     }
     
-    init(sex: String = "Other", heightInInches: Double = 68.0, dateOfBirth: Date = Date(), activityLevelIndex: Int = 0) {
+    init(sex: String = "Other", heightInInches: Double = 68.0, dateOfBirth: Date = Date(), activityLevelIndex: Int = 0, selectedFastingProtocol: Double = 16.0) {
         self.id = UUID()
         self.sex = sex
         self.heightInInches = heightInInches
         self.dateOfBirth = dateOfBirth
         self.activityLevelIndex = activityLevelIndex
+        self.selectedFastingProtocol = selectedFastingProtocol
     }
 }
 
