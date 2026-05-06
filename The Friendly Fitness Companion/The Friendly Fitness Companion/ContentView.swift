@@ -63,7 +63,7 @@ struct ContentView: View {
                         case 1: ToolsView()
                         case 2: DashboardView() // Center + Visual Only placeholder
                         case 3: ComingSoonView(title: "Community")
-                        case 4: ComingSoonView(title: "Me")
+                        case 4: MeView()
                         // Drawer Navigation
                         case 10: ForgeLogbookView()
                         case 11: RoutinesView()

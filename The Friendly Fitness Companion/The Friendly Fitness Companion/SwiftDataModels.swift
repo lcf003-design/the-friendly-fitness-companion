@@ -13,6 +13,7 @@ class DailyLog {
     var maxMotorUnitRecruitment: Double
     
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
+    @Relationship(deleteRule: .cascade) var progressPhotos: [ProgressPhoto] = []
     
     init(date: Date = Date()) {
         let formatter = DateFormatter()
@@ -139,5 +140,56 @@ class CustomExercise {
     
     init(name: String) {
         self.name = name
+    }
+}
+
+// MARK: - User Profile
+@Model
+class UserProfile {
+    @Attribute(.unique) var id: UUID
+    var dateOfBirth: Date?
+    var heightInCm: Double?
+    var activityLevel: String
+    
+    init(dateOfBirth: Date? = nil, heightInCm: Double? = nil, activityLevel: String = "Sedentary") {
+        self.id = UUID()
+        self.dateOfBirth = dateOfBirth
+        self.heightInCm = heightInCm
+        self.activityLevel = activityLevel
+    }
+}
+
+// MARK: - Progress Photos
+@Model
+class ProgressPhoto {
+    var id: UUID
+    var timestamp: Date
+    var category: String // "Front", "Side", "Back"
+    
+    @Attribute(.externalStorage) var imageData: Data
+    
+    var dailyLog: DailyLog?
+    
+    init(timestamp: Date = Date(), category: String, imageData: Data) {
+        self.id = UUID()
+        self.timestamp = timestamp
+        self.category = category
+        self.imageData = imageData
+    }
+}
+
+// MARK: - Shopping Item
+@Model
+class ShoppingItem {
+    var id: UUID
+    var name: String
+    var isChecked: Bool
+    var createdAt: Date
+    
+    init(name: String, isChecked: Bool = false) {
+        self.id = UUID()
+        self.name = name
+        self.isChecked = isChecked
+        self.createdAt = Date()
     }
 }
