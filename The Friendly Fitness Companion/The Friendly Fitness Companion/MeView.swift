@@ -219,7 +219,7 @@ struct MeView: View {
                                 .padding(.horizontal, 24)
                             
                             VStack(spacing: 0) {
-                                NavigationLink(destination: CustomFoodsView()) {
+                                NavigationLink(destination: ManageMyFoodsView()) {
                                     HStack {
                                         Image(systemName: "fork.knife.circle.fill")
                                             .foregroundColor(FriendlyTheme.apexGreen)
