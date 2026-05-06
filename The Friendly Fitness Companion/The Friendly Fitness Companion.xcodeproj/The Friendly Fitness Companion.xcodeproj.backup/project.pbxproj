@@ -10,13 +10,13 @@
 		B16AB3DA2FAA74BA0068D7DA /* The Friendly Fitness Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Friendly Fitness Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXGroup section */
+/* Begin PBXFileSystemSynchronizedRootGroup section */
 		B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */ = {
-			isa = PBXGroup;
+			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "The Friendly Fitness Companion";
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		B16AB3D72FAA74BA0068D7DA /* Frameworks */ = {
