@@ -5,6 +5,10 @@ struct DietToolsView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            
+            WeeklyAdherenceView()
+                .padding(.top, 10)
+            
             // Top Card - My Diet
             Button(action: { showDietGoal = true }) {
                 HStack(spacing: 16) {

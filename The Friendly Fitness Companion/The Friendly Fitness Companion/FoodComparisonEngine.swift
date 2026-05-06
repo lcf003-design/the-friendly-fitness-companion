@@ -61,9 +61,13 @@ struct FoodComparisonEngine: View {
                             .padding(.top, 24)
                             .padding(.horizontal, 24)
                             
-                            ComparisonBarChart(title: "Protein (g)", valA: foodA.protein, valB: foodB.protein)
-                            ComparisonBarChart(title: "Total Fat (g)", valA: foodA.fat, valB: foodB.fat)
-                            ComparisonBarChart(title: "Sodium (mg)", valA: foodA.sodium, valB: foodB.sodium)
+                            ComparisonBarChart(title: "Protein (g)", valA: foodA.protein, valB: foodB.protein, higherIsBetter: true, isFloat: false)
+                            ComparisonBarChart(title: "Total Fat (g)", valA: foodA.fat, valB: foodB.fat, higherIsBetter: true, isFloat: false)
+                            ComparisonBarChart(title: "Sodium (mg)", valA: foodA.sodium, valB: foodB.sodium, higherIsBetter: false, isFloat: false)
+                            
+                            let peA = foodA.protein / max(foodA.fat + foodA.carbs, 1.0)
+                            let peB = foodB.protein / max(foodB.fat + foodB.carbs, 1.0)
+                            ComparisonBarChart(title: "P:E Ratio", valA: peA, valB: peB, higherIsBetter: true, isFloat: true)
                             
                             Button(action: {
                                 self.foodB = nil
@@ -125,9 +129,19 @@ struct ComparisonBarChart: View {
     let title: String
     let valA: Double
     let valB: Double
+    var higherIsBetter: Bool = true
+    var isFloat: Bool = false
     
     var maxVal: Double {
         max(valA, valB, 1.0)
+    }
+    
+    var isWinnerA: Bool {
+        higherIsBetter ? valA >= valB && valA > 0 : valA <= valB
+    }
+    
+    var isWinnerB: Bool {
+        higherIsBetter ? valB >= valA && valB > 0 : valB <= valA
     }
     
     var body: some View {
@@ -140,24 +154,26 @@ struct ComparisonBarChart: View {
             HStack(alignment: .bottom, spacing: 40) {
                 // Bar A
                 VStack {
-                    Text("\(Int(valA))")
+                    Text(isFloat ? String(format: "%.1f", valA) : "\(Int(valA))")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(FriendlyTheme.apexGreen)
+                        .foregroundColor(isWinnerA ? FriendlyTheme.apexGreen : .white)
                     Rectangle()
-                        .fill(FriendlyTheme.apexGreen)
+                        .fill(isWinnerA ? FriendlyTheme.apexGreen : Color.white.opacity(0.3))
                         .frame(width: 40, height: max(10, CGFloat((valA / maxVal) * 100)))
                         .cornerRadius(4)
+                        .shadow(color: isWinnerA ? FriendlyTheme.apexGreen.opacity(0.5) : .clear, radius: 8, x: 0, y: 0)
                 }
                 
                 // Bar B
                 VStack {
-                    Text("\(Int(valB))")
+                    Text(isFloat ? String(format: "%.1f", valB) : "\(Int(valB))")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
+                        .foregroundColor(isWinnerB ? FriendlyTheme.apexGreen : .white)
                     Rectangle()
-                        .fill(Color.white.opacity(0.8))
+                        .fill(isWinnerB ? FriendlyTheme.apexGreen : Color.white.opacity(0.3))
                         .frame(width: 40, height: max(10, CGFloat((valB / maxVal) * 100)))
                         .cornerRadius(4)
+                        .shadow(color: isWinnerB ? FriendlyTheme.apexGreen.opacity(0.5) : .clear, radius: 8, x: 0, y: 0)
                 }
             }
         }

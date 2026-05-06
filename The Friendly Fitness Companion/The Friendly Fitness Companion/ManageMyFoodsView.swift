@@ -148,7 +148,8 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NO RECENT FOODS", subtitle: "Log a meal to see it here.")
                                 } else {
                                     ForEach(recentFoods) { food in
-                                        FoodRowView(name: food.name, desc: "\(food.calories) kcal • \(food.protein)g P", icon: "clock.fill") {
+                                        let peRatio = Double(food.protein) / max(Double(food.fat + food.carbs), 1.0)
+                                        FoodRowView(name: food.name, desc: "\(food.calories) kcal • \(food.protein)g P", icon: "clock.fill", peRatio: peRatio) {
                                             selectedFoodForAction = UnifiedFoodItem(name: food.name, brand: "Log Entry", calories: Double(food.calories), protein: Double(food.protein), fat: Double(food.fat), carbs: Double(food.carbs), sodium: Double(food.sodium), isVerified: false)
                                         }
                                     }
@@ -158,8 +159,9 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NOT ENOUGH DATA", subtitle: "Keep logging to build your frequent intelligence.")
                                 } else {
                                     ForEach(frequentFoods, id: \.0.id) { pair in
-                                        FoodRowView(name: pair.0.name, desc: "Logged \(pair.1) times recently", icon: "flame.fill") {
-                                            let food = pair.0
+                                        let food = pair.0
+                                        let peRatio = Double(food.protein) / max(Double(food.fat + food.carbs), 1.0)
+                                        FoodRowView(name: food.name, desc: "Logged \(pair.1) times recently", icon: "flame.fill", peRatio: peRatio) {
                                             selectedFoodForAction = UnifiedFoodItem(name: food.name, brand: "Log Entry", calories: Double(food.calories), protein: Double(food.protein), fat: Double(food.fat), carbs: Double(food.carbs), sodium: Double(food.sodium), isVerified: false)
                                         }
                                     }
@@ -169,7 +171,8 @@ struct ManageMyFoodsView: View {
                                     EmptyStateView(title: "NO CUSTOM FOODS", subtitle: "Create custom entries to use them anytime.")
                                 } else {
                                     ForEach(customFoods) { custom in
-                                        FoodRowView(name: custom.name, desc: "\(Int(custom.caloriesPer100g)) kcal / 100g", icon: "cube.box.fill") {
+                                        let peRatio = custom.proteinPer100g / max(custom.fatPer100g + custom.carbsPer100g, 1.0)
+                                        FoodRowView(name: custom.name, desc: "\(Int(custom.caloriesPer100g)) kcal / 100g", icon: "cube.box.fill", peRatio: peRatio) {
                                             selectedFoodForAction = UnifiedFoodItem(name: custom.name, brand: "Custom", calories: custom.caloriesPer100g, protein: custom.proteinPer100g, fat: custom.fatPer100g, carbs: custom.carbsPer100g, sodium: 0, isVerified: false)
                                         }
                                     }
@@ -220,6 +223,7 @@ struct FoodRowView: View {
     let name: String
     let desc: String
     let icon: String
+    var peRatio: Double? = nil
     let action: () -> Void
     
     var body: some View {
@@ -241,6 +245,10 @@ struct FoodRowView: View {
                     Text(desc)
                         .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
+                    if let peRatio = peRatio {
+                        DensityMeterView(peRatio: peRatio)
+                            .padding(.top, 2)
+                    }
                 }
                 
                 Spacer()
@@ -282,6 +290,9 @@ struct APIFoodResultCard: View {
                 Text("\(item.brand) • \(Int(item.calories)) kcal")
                     .font(.system(size: 12, weight: .medium, design: .rounded))
                     .foregroundColor(FriendlyTheme.textSecondary)
+                
+                DensityMeterView(peRatio: item.protein / max(item.fat + item.carbs, 1.0))
+                    .padding(.top, 2)
             }
             
             Spacer()
@@ -315,5 +326,31 @@ struct APIFoodResultCard: View {
         )
         modelContext.insert(newCustom)
         HapticManager.shared.success()
+    }
+}
+
+struct DensityMeterView: View {
+    let peRatio: Double
+    
+    var meterColor: Color {
+        if peRatio > 1.2 {
+            return FriendlyTheme.apexGreen
+        } else if peRatio >= 0.8 {
+            return .white
+        } else {
+            return Color.gray.opacity(0.5)
+        }
+    }
+    
+    var body: some View {
+        HStack(spacing: 4) {
+            Rectangle()
+                .fill(meterColor)
+                .frame(width: 20, height: 2)
+            
+            Text("P:E \(String(format: "%.1f", peRatio))")
+                .font(.system(size: 8, weight: .black, design: .rounded))
+                .foregroundColor(meterColor)
+        }
     }
 }

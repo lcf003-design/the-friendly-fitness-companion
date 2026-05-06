@@ -7,7 +7,7 @@ struct SnapLogView: View {
     
     let type: SnapLogType
     
-    @State private var inputString = "0"
+    @State private var inputValue: Double = 0
     @State private var showSuccess = false
     
     @Query private var dailyLogs: [DailyLog]
@@ -61,7 +61,7 @@ struct SnapLogView: View {
                 
                 // Display
                 HStack(alignment: .bottom, spacing: 8) {
-                    Text(inputString)
+                    Text(type == .weight ? String(format: "%.1f", inputValue) : "\(Int(inputValue))")
                         .font(.system(size: 64, weight: .black, design: .rounded))
                         .foregroundColor(.white)
                         .lineLimit(1)
@@ -75,31 +75,13 @@ struct SnapLogView: View {
                 .frame(height: 100)
                 .padding(.horizontal, 24)
                 
-                // Numpad
-                VStack(spacing: 16) {
-                    ForEach([
-                        ["1", "2", "3"],
-                        ["4", "5", "6"],
-                        ["7", "8", "9"],
-                        [".", "0", "⌫"]
-                    ], id: \.self) { row in
-                        HStack(spacing: 16) {
-                            ForEach(row, id: \.self) { key in
-                                Button(action: {
-                                    handleKeyPress(key)
-                                }) {
-                                    Text(key)
-                                        .font(.system(size: 28, weight: .medium, design: .rounded))
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: 64)
-                                        .background(Color.white.opacity(0.05))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(16)
-                                }
-                            }
-                        }
-                    }
-                }
+                // Macro-Dial Scroller
+                MacroDialView(
+                    value: $inputValue,
+                    range: 0...5000,
+                    step: type == .weight ? 0.1 : 10,
+                    label: type == .weight ? "SCROLL TO ADJUST WEIGHT" : "SCROLL TO ADJUST VALUE"
+                )
                 .padding(.horizontal, 24)
                 
                 if type == .water {
@@ -107,7 +89,7 @@ struct SnapLogView: View {
                         ForEach([8, 16, 32], id: \.self) { amount in
                             Button(action: {
                                 HapticManager.shared.light()
-                                inputString = "\(amount)"
+                                inputValue = Double(amount)
                                 saveLog()
                             }) {
                                 Text("\(amount)oz")
@@ -147,36 +129,15 @@ struct SnapLogView: View {
         .onAppear {
             if type == .weight {
                 if let lastWeight = dailyLogs.flatMap({ $0.bodyMeasurements }).max(by: { $0.timestamp < $1.timestamp })?.bodyWeight {
-                    inputString = String(format: "%.1f", lastWeight)
+                    inputValue = lastWeight
                 }
             }
         }
     }
     
-    private func handleKeyPress(_ key: String) {
-        HapticManager.shared.light()
-        
-        if key == "⌫" {
-            if inputString.count > 1 {
-                inputString.removeLast()
-            } else {
-                inputString = "0"
-            }
-        } else if key == "." {
-            if !inputString.contains(".") {
-                inputString += "."
-            }
-        } else {
-            if inputString == "0" {
-                inputString = key
-            } else {
-                inputString += key
-            }
-        }
-    }
-    
     private func saveLog() {
-        guard let value = Double(inputString), value > 0 else { return }
+        let valueToSave = inputValue
+        guard valueToSave > 0 else { return }
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -194,11 +155,10 @@ struct SnapLogView: View {
         case .water:
             break
         case .weight:
-            let measurement = BodyMeasurement(bodyWeight: value, timestamp: Date())
-            log.bodyMeasurements.append(measurement)
+            log.bodyMeasurements.append(BodyMeasurement(bodyWeight: valueToSave, timestamp: Date()))
         case .calories:
-            let food = FoodEntry(name: "Quick Calories", calories: Int(value), protein: 0, fat: 0, carbs: 0)
-            log.foodEntries.append(food)
+            let entry = FoodEntry(name: "Quick Calories", calories: Int(valueToSave), protein: 0, fat: 0, carbs: 0)
+            log.foodEntries.append(entry)
         }
         
         try? modelContext.save()
