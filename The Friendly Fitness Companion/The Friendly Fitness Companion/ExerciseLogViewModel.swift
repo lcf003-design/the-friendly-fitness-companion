@@ -105,9 +105,13 @@ class ExerciseLogViewModel: ObservableObject {
                 let increment = isLowerBody ? 5.0 : 2.5
                 suggestedWeight = lastWorkingSet.weight + increment
                 
-                // Estimate 1RM
-                let last1RM = lastWorkingSet.weight * (1.0 + (Double(lastWorkingSet.baseReps) / 30.0))
-                let newSuggested1RM = (suggestedWeight ?? 0) * (1.0 + (8.0 / 30.0)) // Assuming 8 reps for new weight
+                // Estimate 1RM (Intensity-Adjusted)
+                let effectiveReps = Double(lastWorkingSet.baseReps) + (Double(lastWorkingSet.forcedRepsCount) * 1.5) + (Double(lastWorkingSet.negativesCount) * 2.0)
+                let last1RM = lastWorkingSet.weight * (1.0 + (effectiveReps / 30.0))
+                
+                // Assume if they hit 8 standard reps at the new weight
+                let newSuggested1RM = (suggestedWeight ?? 0) * (1.0 + (8.0 / 30.0)) 
+                
                 if newSuggested1RM > last1RM {
                     isNewEstimated1RM = true
                 }

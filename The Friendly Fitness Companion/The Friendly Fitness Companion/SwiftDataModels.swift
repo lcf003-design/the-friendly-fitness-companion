@@ -115,6 +115,7 @@ class AppState: ObservableObject {
     
     // The active queue of exercises to perform
     @Published var forgeQueue: [String] = []
+    @Published var useIntensityAdjusted1RM: Bool = false
     
     // Live Workout Engine
     @Published var isWorkoutActive: Bool = false

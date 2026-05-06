@@ -4,6 +4,7 @@ import Charts
 
 struct ProgressViewTab: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .forward) private var dailyLogs: [DailyLog]
     
     // Generate dates for the current month
@@ -93,6 +94,12 @@ struct ProgressViewTab: View {
                                 .background(FriendlyTheme.apexGreen.opacity(0.2))
                                 .cornerRadius(6)
                         }
+                        
+                        Toggle("Use Intensity-Adjusted 1RM", isOn: $appState.useIntensityAdjusted1RM)
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                            .tint(FriendlyTheme.apexGreen)
+                            .padding(.bottom, 8)
                         
                         let chartData = generateChartData()
                         
@@ -210,11 +217,13 @@ struct ProgressViewTab: View {
                 for set in workout.sets {
                     // Brzycki: Weight / (1.0278 - (0.0278 * Reps))
                     // Using totalReps to account for Rest-Pause
-                    let r = Double(set.totalReps)
-                    let w = set.weight
-                    guard r > 0 else { continue }
+                    let baseReps = Double(set.totalReps)
+                    let effectiveReps = appState.useIntensityAdjusted1RM ? (baseReps + (Double(set.forcedRepsCount) * 1.5) + (Double(set.negativesCount) * 2.0)) : baseReps
                     
-                    let current1RM = w / (1.0278 - (0.0278 * r))
+                    let w = set.weight
+                    guard effectiveReps > 0 else { continue }
+                    
+                    let current1RM = w / (1.0278 - (0.0278 * effectiveReps))
                     if current1RM > best1RM {
                         best1RM = current1RM
                     }

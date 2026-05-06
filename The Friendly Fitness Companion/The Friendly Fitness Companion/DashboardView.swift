@@ -50,7 +50,7 @@ struct DashboardView: View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     // Header
                     HStack {
@@ -61,15 +61,25 @@ struct DashboardView: View {
                         Spacer()
                         
                         Text("COMMAND CENTER")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .tracking(2.5)
+                            .font(.system(size: 14, weight: .black))
+                            .tracking(4.0)
                             .foregroundColor(.white)
                         
                         Spacer()
                         
+                        HStack(spacing: 4) {
+                            Image(systemName: "icloud.and.arrow.up")
+                                .font(.system(size: 14))
+                            Text("SYNCED")
+                                .font(.system(size: 10, weight: .bold))
+                                .tracking(1.0)
+                        }
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                        
                         Image(systemName: "bell")
-                            .font(.system(size: 24))
+                            .font(.system(size: 20))
                             .foregroundColor(FriendlyTheme.textSecondary)
+                            .padding(.leading, 12)
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 20)
@@ -78,9 +88,9 @@ struct DashboardView: View {
                     VStack(spacing: 12) {
                         HennemanMeterView(recruitmentLevel: averageRecruitment)
                         Text("LAST 3 WORKOUTS (AVG)")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(1.5)
+                            .tracking(3.0)
                     }
                     .padding(.bottom, 10)
                     
@@ -88,9 +98,9 @@ struct DashboardView: View {
                     if dailyLogs.filter({ $0.totalVolume > 0 }).count > 0 {
                         VStack(alignment: .leading, spacing: 20) {
                             Text("WORKOUT VOLUME TRENDS")
-                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .font(.system(size: 12, weight: .bold))
                                 .foregroundColor(FriendlyTheme.textSecondary)
-                                .tracking(2.0)
+                                .tracking(3.0)
                                 .padding(.horizontal, 24)
                             
                             Chart {
@@ -117,7 +127,7 @@ struct DashboardView: View {
                                     if let volume = value.as(Double.self) {
                                         AxisValueLabel {
                                             Text("\(Int(volume / 1000))k")
-                                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                                .font(.system(size: 10, weight: .bold))
                                                 .foregroundColor(FriendlyTheme.textSecondary)
                                         }
                                     }
@@ -136,7 +146,7 @@ struct DashboardView: View {
                                 .font(.system(size: 40))
                                 .foregroundColor(FriendlyTheme.textSecondary.opacity(0.5))
                             Text("NO DATA YET")
-                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .font(.system(size: 14, weight: .bold))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                         }
                         .padding(.top, 40)
@@ -145,9 +155,9 @@ struct DashboardView: View {
                     // Heavy Duty Intensity & Recovery Section
                     VStack(alignment: .leading, spacing: 20) {
                         Text("HEAVY DUTY INTENSITY")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
-                            .tracking(2.0)
+                            .tracking(3.0)
                             .padding(.horizontal, 24)
                         
                         // Motor Unit Recruitment Trend Chart
@@ -177,7 +187,7 @@ struct DashboardView: View {
                                     if let pct = value.as(Double.self) {
                                         AxisValueLabel {
                                             Text("\(Int(pct))%")
-                                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                                .font(.system(size: 10, weight: .bold))
                                                 .foregroundColor(FriendlyTheme.textSecondary)
                                         }
                                     }
@@ -199,17 +209,17 @@ struct DashboardView: View {
                                 Image(systemName: status.color == FriendlyTheme.apexGreen ? "checkmark.circle.fill" : (status.color == .red ? "exclamationmark.triangle.fill" : "moon.zzz.fill"))
                                     .foregroundColor(status.color)
                                 Text("RECOVERY STATUS")
-                                    .font(.system(size: 10, weight: .black, design: .rounded))
+                                    .font(.system(size: 10, weight: .black))
                                     .foregroundColor(FriendlyTheme.textSecondary)
-                                    .tracking(1.5)
+                                    .tracking(3.0)
                             }
                             
                             Text(status.title)
-                                .font(.system(size: 18, weight: .black, design: .rounded))
+                                .font(.system(size: 18, weight: .black))
                                 .foregroundColor(status.color)
                             
                             Text(status.message)
-                                .font(.system(size: 14, weight: .medium, design: .rounded))
+                                .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white)
                                 .lineSpacing(4)
                         }
@@ -235,14 +245,14 @@ struct HennemanMeterView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("MOTOR UNIT RECRUITMENT")
-                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .font(.system(size: 10, weight: .bold))
                     .foregroundColor(FriendlyTheme.textSecondary)
-                    .tracking(1.0)
+                    .tracking(2.0)
                 
                 Spacer()
                 
                 Text("\(Int(recruitmentLevel * 100))%")
-                    .font(.system(size: 14, weight: .black, design: .rounded))
+                    .font(.system(size: 14, weight: .black))
                     .foregroundColor(FriendlyTheme.apexGreen)
             }
             

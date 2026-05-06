@@ -87,19 +87,27 @@ struct ExerciseLogCard: View {
                         vm.unit = prevUnit
                         UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
                     }) {
-                        HStack(spacing: 4) {
-                            Text("BEAT IT")
-                                .font(.system(size: 10, weight: .black, design: .rounded))
-                            Image(systemName: "flame.fill")
-                                .font(.system(size: 10))
-                            if vm.isNewEstimated1RM {
-                                Image(systemName: "sparkles")
-                                    .font(.system(size: 10))
+                        VStack(alignment: .trailing, spacing: 2) {
+                            HStack(spacing: 4) {
+                                Text("BEAT IT")
+                                    .font(.system(size: 12, weight: .black, design: .rounded))
+                                Image(systemName: "flame.fill")
+                                    .font(.system(size: 12))
+                                if vm.isNewEstimated1RM {
+                                    Image(systemName: "sparkles")
+                                        .font(.system(size: 10))
+                                }
+                            }
+                            if let sugg = vm.suggestedWeight {
+                                let suggStr = sugg == floor(sugg) ? "\(Int(sugg))" : "\(sugg)"
+                                Text("TARGET: \(suggStr) \(prevUnit) × \(prevReps)")
+                                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                                    .opacity(0.8)
                             }
                         }
                         .foregroundColor(FriendlyTheme.mutedAmber)
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
+                        .padding(.vertical, 8)
                     }
                 }
                 .background(Color.white.opacity(0.05))
@@ -173,23 +181,49 @@ struct ExerciseLogCard: View {
                     
                     TextField("0", text: $vm.weight)
                         .keyboardType(.decimalPad)
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .font(.system(size: 40, weight: .black, design: .rounded))
                         .foregroundColor(FriendlyTheme.apexGreen)
+                        .multilineTextAlignment(.center)
+                        
+                    // Quick-Add Buttons
+                    HStack(spacing: 6) {
+                        ForEach([2.5, 5.0, 10.0], id: \.self) { val in
+                            Button(action: {
+                                if let cur = Double(vm.weight) {
+                                    vm.weight = String(cur + val == floor(cur + val) ? "\(Int(cur + val))" : "\(cur + val)")
+                                } else {
+                                    vm.weight = String(val == floor(val) ? "\(Int(val))" : "\(val)")
+                                }
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            }) {
+                                Text("+\(val == floor(val) ? "\(Int(val))" : "\(val)")")
+                                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 6)
+                                    .background(Color.white.opacity(0.15))
+                                    .cornerRadius(6)
+                            }
+                        }
+                    }
                 }
+                .frame(maxWidth: .infinity)
                 
-                Divider().background(Color.white.opacity(0.1)).frame(height: 40)
+                Divider().background(Color.white.opacity(0.1)).frame(height: 60)
                 
                 // Reps Column
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .center, spacing: 4) {
                     Text("REPS")
                         .font(.system(size: 10, weight: .bold, design: .rounded))
                         .foregroundColor(FriendlyTheme.textSecondary)
                     
                     TextField("0", text: $vm.baseReps)
                         .keyboardType(.numberPad)
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .font(.system(size: 40, weight: .black, design: .rounded))
                         .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)

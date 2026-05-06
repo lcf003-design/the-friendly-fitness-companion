@@ -8,6 +8,7 @@ struct RoutinesView: View {
     @Query(sort: \CustomExercise.name) private var customExercises: [CustomExercise]
     
     @State private var showingCreateRoutine = false
+    @State private var routineToEdit: RoutineTemplate?
     @State private var newRoutineName = ""
     @State private var newRoutineExercises: [String] = []
     
@@ -27,7 +28,7 @@ struct RoutinesView: View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
             
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     // Header
                     HStack {
@@ -36,13 +37,18 @@ struct RoutinesView: View {
                             .font(.system(size: 18))
                         
                         Text("ROUTINES")
-                            .font(.system(size: 14, weight: .black, design: .rounded))
-                            .tracking(2.5)
+                            .font(.system(size: 14, weight: .black))
+                            .tracking(4.0)
                             .foregroundColor(.white)
                         
                         Spacer()
                         
-                        Button(action: { showingCreateRoutine = true }) {
+                        Button(action: {
+                            routineToEdit = nil
+                            newRoutineName = ""
+                            newRoutineExercises = []
+                            showingCreateRoutine = true
+                        }) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title2)
                                 .foregroundColor(FriendlyTheme.apexGreen)
@@ -54,7 +60,7 @@ struct RoutinesView: View {
                     // Saved Routines List
                     if routines.isEmpty {
                         Text("NO ROUTINES SAVED.\nTAP + TO BUILD ONE.")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .multilineTextAlignment(.center)
                             .tracking(2.0)
@@ -62,10 +68,44 @@ struct RoutinesView: View {
                     } else {
                         ForEach(routines) { routine in
                             VStack(alignment: .leading, spacing: 16) {
-                                Text(routine.name.uppercased())
-                                    .font(.system(size: 18, weight: .black, design: .rounded))
-                                    .foregroundColor(.white)
-                                    .tracking(1.5)
+                                HStack {
+                                    Text(routine.name.uppercased())
+                                        .font(.system(size: 18, weight: .black))
+                                        .foregroundColor(.white)
+                                        .tracking(2.0)
+                                    Spacer()
+                                    
+                                    Menu {
+                                        Button(action: {
+                                            routineToEdit = routine
+                                            newRoutineName = routine.name
+                                            newRoutineExercises = routine.exercises
+                                            showingCreateRoutine = true
+                                        }) {
+                                            Label("Edit Routine", systemImage: "pencil")
+                                        }
+                                        
+                                        Button(action: {
+                                            let newRoutine = RoutineTemplate(name: "\(routine.name) (Copy)", exercises: routine.exercises)
+                                            modelContext.insert(newRoutine)
+                                            try? modelContext.save()
+                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                        }) {
+                                            Label("Duplicate", systemImage: "doc.on.doc")
+                                        }
+                                        
+                                        Button(role: .destructive, action: {
+                                            modelContext.delete(routine)
+                                            try? modelContext.save()
+                                        }) {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    } label: {
+                                        Image(systemName: "ellipsis")
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                            .padding(8)
+                                    }
+                                }
                                 
                                 VStack(alignment: .leading, spacing: 8) {
                                     ForEach(routine.exercises, id: \.self) { exercise in
@@ -74,7 +114,7 @@ struct RoutinesView: View {
                                                 .fill(FriendlyTheme.apexGreen)
                                                 .frame(width: 6, height: 6)
                                             Text(exercise)
-                                                .font(.system(size: 14, weight: .semibold, design: .rounded))
+                                                .font(.system(size: 14, weight: .semibold))
                                                 .foregroundColor(FriendlyTheme.textSecondary)
                                         }
                                     }
@@ -90,7 +130,7 @@ struct RoutinesView: View {
                                     appState.selectedTab = 2 // The Forge
                                 }) {
                                     Text("LAUNCH ROUTINE")
-                                        .font(.system(size: 12, weight: .black, design: .rounded))
+                                        .font(.system(size: 12, weight: .black))
                                         .tracking(1.5)
                                         .frame(maxWidth: .infinity)
                                         .padding(.vertical, 12)
@@ -104,7 +144,7 @@ struct RoutinesView: View {
                             .padding(24)
                             .background(.ultraThinMaterial)
                             .cornerRadius(30)
-                            .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+                            .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .padding(.horizontal, 20)
                         }
                     }
@@ -120,31 +160,61 @@ struct RoutinesView: View {
                     }
                 
                 VStack(spacing: 20) {
-                    Text("BUILD ROUTINE")
-                        .font(.system(size: 14, weight: .black, design: .rounded))
-                        .tracking(2.5)
+                    Text(routineToEdit != nil ? "EDIT ROUTINE" : "BUILD ROUTINE")
+                        .font(.system(size: 14, weight: .black))
+                        .tracking(4.0)
                         .foregroundColor(.white)
                         .padding(.top, 24)
                     
                     TextField("Routine Name (e.g., Upper Body)", text: $newRoutineName)
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundColor(.white)
                         .padding()
                         .background(Color(white: 0.1))
                         .cornerRadius(12)
                         .padding(.horizontal, 24)
                     
-                    Text("SELECT EXERCISES")
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                    if !newRoutineExercises.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("SELECTED EXERCISES (DRAG TO REORDER)")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .tracking(2.0)
+                                .padding(.horizontal, 24)
+                            
+                            List {
+                                ForEach(newRoutineExercises, id: \.self) { exercise in
+                                    Text(exercise)
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(.white)
+                                        .listRowBackground(Color(white: 0.1))
+                                }
+                                .onMove { indices, newOffset in
+                                    newRoutineExercises.move(fromOffsets: indices, toOffset: newOffset)
+                                }
+                                .onDelete { indices in
+                                    newRoutineExercises.remove(atOffsets: indices)
+                                }
+                            }
+                            .listStyle(PlainListStyle())
+                            .environment(\.editMode, .constant(.active))
+                            .frame(height: min(CGFloat(newRoutineExercises.count * 50), 200))
+                        }
+                    }
+                    
+                    Text("ADD EXERCISES")
+                        .font(.system(size: 10, weight: .bold))
                         .foregroundColor(FriendlyTheme.textSecondary)
-                        .tracking(1.5)
+                        .tracking(2.0)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 24)
                     
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         VStack(spacing: 12) {
                             ForEach(allExercises, id: \.self) { exercise in
-                                ExerciseSelectionRow(exercise: exercise, selectedExercises: $newRoutineExercises)
+                                if !newRoutineExercises.contains(exercise) {
+                                    ExerciseSelectionRow(exercise: exercise, selectedExercises: $newRoutineExercises)
+                                }
                             }
                         }
                     }
@@ -152,16 +222,22 @@ struct RoutinesView: View {
                     
                     Button(action: {
                         if !newRoutineName.isEmpty && !newRoutineExercises.isEmpty {
-                            let newRoutine = RoutineTemplate(name: newRoutineName, exercises: newRoutineExercises)
-                            modelContext.insert(newRoutine)
+                            if let routine = routineToEdit {
+                                routine.name = newRoutineName
+                                routine.exercises = newRoutineExercises
+                            } else {
+                                let newRoutine = RoutineTemplate(name: newRoutineName, exercises: newRoutineExercises)
+                                modelContext.insert(newRoutine)
+                            }
+                            try? modelContext.save()
                             newRoutineName = ""
                             newRoutineExercises = []
                             showingCreateRoutine = false
                         }
                     }) {
-                        Text("SAVE ROUTINE")
-                            .font(.system(size: 16, weight: .bold, design: .rounded))
-                            .tracking(1.5)
+                        Text(routineToEdit != nil ? "SAVE CHANGES" : "SAVE ROUTINE")
+                            .font(.system(size: 16, weight: .bold))
+                            .tracking(2.0)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(FriendlyTheme.apexGreen)
@@ -186,34 +262,24 @@ struct ExerciseSelectionRow: View {
     let exercise: String
     @Binding var selectedExercises: [String]
     
-    var isSelected: Bool {
-        selectedExercises.contains(exercise)
-    }
-    
     var body: some View {
         Button(action: {
-            if let index = selectedExercises.firstIndex(of: exercise) {
-                selectedExercises.remove(at: index)
-            } else {
-                selectedExercises.append(exercise)
-            }
+            selectedExercises.append(exercise)
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
         }) {
             HStack {
                 Text(exercise)
-                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundColor(isSelected ? .black : .white)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
                 Spacer()
-                if isSelected {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.black)
-                }
+                Image(systemName: "plus.circle")
+                    .foregroundColor(FriendlyTheme.apexGreen)
             }
             .padding()
-            .background(isSelected ? AnyShapeStyle(FriendlyTheme.apexGreen) : AnyShapeStyle(.ultraThinMaterial))
+            .background(AnyShapeStyle(.ultraThinMaterial))
             .cornerRadius(12)
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
         }
         .padding(.horizontal, 24)
     }
