@@ -8,6 +8,7 @@ struct ForgeLogbookView: View {
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
     @State private var isShowingExercisePicker: Bool = false
+    @State private var swapExerciseIndex: Int? = nil
     @State private var showSuccessFeedback: Bool = false
     
     // Live Timer
@@ -135,7 +136,16 @@ struct ForgeLogbookView: View {
                         if !appState.forgeQueue.isEmpty {
                             VStack(spacing: 24) {
                                 ForEach(appState.forgeQueue, id: \.self) { exercise in
-                                    ExerciseLogCard(exerciseName: exercise, showSuccessFeedback: $showSuccessFeedback)
+                                    ExerciseLogCard(
+                                        exerciseName: exercise,
+                                        showSuccessFeedback: $showSuccessFeedback,
+                                        onSwapRequested: {
+                                            if let index = appState.forgeQueue.firstIndex(of: exercise) {
+                                                swapExerciseIndex = index
+                                                isShowingExercisePicker = true
+                                            }
+                                        }
+                                    )
                                 }
                             }
                             .padding(.top, 16)
@@ -143,6 +153,7 @@ struct ForgeLogbookView: View {
                         
                         // Add Exercise Button
                         Button(action: {
+                            swapExerciseIndex = nil
                             isShowingExercisePicker = true
                         }) {
                             HStack {
@@ -218,7 +229,7 @@ struct ForgeLogbookView: View {
             }
         }
         .sheet(isPresented: $isShowingExercisePicker) {
-            ExercisePickerViewAdapter(isShowing: $isShowingExercisePicker)
+            ExercisePickerViewAdapter(isShowing: $isShowingExercisePicker, swapExerciseIndex: $swapExerciseIndex)
         }
         .sheet(isPresented: $appState.showWorkoutSummary) {
             WorkoutSummaryModal(
@@ -462,6 +473,7 @@ struct StepperRow: View {
 // MARK: - Exercise Picker Adapter
 struct ExercisePickerViewAdapter: View {
     @Binding var isShowing: Bool
+    @Binding var swapExerciseIndex: Int?
     @EnvironmentObject var appState: AppState
     
     @State private var dummyExercise: String = ""
@@ -473,8 +485,12 @@ struct ExercisePickerViewAdapter: View {
             selectedExercise: Binding(
                 get: { dummyExercise },
                 set: { newEx in
-                    if !newEx.isEmpty && !appState.forgeQueue.contains(newEx) {
-                        appState.forgeQueue.append(newEx)
+                    if !newEx.isEmpty {
+                        if let index = swapExerciseIndex {
+                            appState.forgeQueue[index] = newEx
+                        } else if !appState.forgeQueue.contains(newEx) {
+                            appState.forgeQueue.append(newEx)
+                        }
                     }
                 }
             ),

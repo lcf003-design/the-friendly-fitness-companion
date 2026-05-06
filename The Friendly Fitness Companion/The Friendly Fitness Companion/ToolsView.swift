@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct ToolsView: View {
     var body: some View {
@@ -39,6 +40,14 @@ struct ToolsView: View {
                                 title: "PLATE MATH",
                                 subtitle: "Quickly calculate exactly which plates to load onto the barbell for a target weight.",
                                 systemImage: "circle.circle.fill"
+                            )
+                        }
+                        
+                        NavigationLink(destination: SettingsView()) {
+                            ToolMenuCard(
+                                title: "SYSTEM SETTINGS",
+                                subtitle: "Manage your data persistence, CloudKit conflict resolution, and global synchronization.",
+                                systemImage: "gearshape.fill"
                             )
                         }
                         
@@ -370,6 +379,77 @@ struct StrengthRow: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 4)
+    }
+}
+
+// MARK: - System Settings View
+struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
+    @State private var isSyncing: Bool = false
+    @State private var syncStatus: String = "IDLE"
+    
+    var body: some View {
+        ZStack {
+            FriendlyTheme.midnightMatte.ignoresSafeArea()
+            
+            VStack(spacing: 24) {
+                HStack {
+                    Text("GLOBAL PERSISTENCE")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                        .tracking(1.5)
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 40)
+                
+                Button(action: forceSync) {
+                    HStack {
+                        if isSyncing {
+                            ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .black))
+                        } else {
+                            Image(systemName: "icloud.and.arrow.up.fill")
+                            Text("FORCE CLOUD SYNC")
+                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .tracking(2.0)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(FriendlyTheme.apexGreen)
+                    .foregroundColor(.black)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal, 24)
+                
+                Text(syncStatus)
+                    .font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundColor(isSyncing ? FriendlyTheme.mutedAmber : FriendlyTheme.textSecondary)
+                    .padding(.top, 8)
+                
+                Spacer()
+            }
+        }
+        .navigationTitle("SETTINGS")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private func forceSync() {
+        isSyncing = true
+        syncStatus = "PUSHING TO ICLOUD..."
+        
+        do {
+            try modelContext.save()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                isSyncing = false
+                syncStatus = "LAST SYNC: JUST NOW"
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            }
+        } catch {
+            isSyncing = false
+            syncStatus = "SYNC FAILED: \(error.localizedDescription)"
+        }
     }
 }
 

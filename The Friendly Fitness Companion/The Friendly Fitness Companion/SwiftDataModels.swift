@@ -34,6 +34,9 @@ class WorkoutEntry {
     @Relationship(deleteRule: .cascade) var sets: [ExerciseSet] = []
     var dailyLog: DailyLog?
     
+    var equipmentBrand: String?
+    var resistanceType: String?
+    
     init(exerciseName: String) {
         self.id = UUID()
         self.exerciseName = exerciseName
@@ -62,8 +65,9 @@ class ExerciseSet {
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
     var workoutEntry: WorkoutEntry?
+    var isAbsoluteFailure: Bool?
     
-    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, isWarmup: Bool = false, recruitment: Double) {
+    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, isWarmup: Bool = false, recruitment: Double, isAbsoluteFailure: Bool? = false) {
         self.id = UUID()
         self.weight = weight
         self.unit = unit
@@ -76,6 +80,7 @@ class ExerciseSet {
         self.negativesCount = negativesCount
         self.isWarmup = isWarmup
         self.motorUnitRecruitment = recruitment
+        self.isAbsoluteFailure = isAbsoluteFailure
     }
     
     // Helper to calculate total reps in the set
@@ -127,6 +132,9 @@ class AppState: ObservableObject {
 @Model
 class CustomExercise {
     @Attribute(.unique) var name: String
+    
+    var equipmentBrand: String?
+    var resistanceType: String?
     
     init(name: String) {
         self.name = name

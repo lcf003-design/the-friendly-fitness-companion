@@ -5,6 +5,7 @@ import Combine
 struct ExerciseLogCard: View {
     let exerciseName: String
     @Binding var showSuccessFeedback: Bool
+    var onSwapRequested: (() -> Void)?
     
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
@@ -33,6 +34,10 @@ struct ExerciseLogCard: View {
                 Text(exerciseName)
                     .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundColor(.white)
+                    .onLongPressGesture {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        onSwapRequested?()
+                    }
                 Spacer()
                 Button(action: {
                     let impact = UIImpactFeedbackGenerator(style: .rigid)
@@ -153,6 +158,45 @@ struct ExerciseLogCard: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
+            
+            Divider().background(Color.white.opacity(0.1))
+            
+            // Equipment Profile
+            HStack {
+                Text("EQUIPMENT")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                Spacer()
+                Menu {
+                    ForEach(["Standard", "Nautilus", "Hammer Strength", "MedX", "Cybex"], id: \.self) { brand in
+                        Button(brand) { vm.equipmentBrand = brand }
+                    }
+                } label: {
+                    Text(vm.equipmentBrand)
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(6)
+                }
+                
+                Menu {
+                    ForEach(["Free Weight", "Selectorized", "Plate-Loaded", "Cable"], id: \.self) { type in
+                        Button(type) { vm.resistanceType = type }
+                    }
+                } label: {
+                    Text(vm.resistanceType)
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(6)
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
             
             Divider().background(Color.white.opacity(0.1))
             
@@ -325,7 +369,7 @@ struct ExerciseLogCard: View {
             }
             
             // Log Set Button
-            Button(action: saveSet) {
+            Button(action: handleLogSetTapped) {
                 HStack {
                     if vm.submissionState == .loading {
                         ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .black))
@@ -345,6 +389,57 @@ struct ExerciseLogCard: View {
         .cornerRadius(16)
         .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
         .padding(.horizontal, 16)
+        .overlay(
+            Group {
+                if showingFailureAudit {
+                    ZStack {
+                        Color.black.opacity(0.9)
+                            .cornerRadius(16)
+                        
+                        VStack(spacing: 24) {
+                            Text("DID YOU HIT ABSOLUTE FAILURE?")
+                                .font(.system(size: 14, weight: .black, design: .rounded))
+                                .tracking(2.0)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                            
+                            HStack(spacing: 16) {
+                                Button(action: {
+                                    vm.isAbsoluteFailure = false
+                                    showingFailureAudit = false
+                                    saveSet()
+                                }) {
+                                    Text("NO")
+                                        .font(.system(size: 16, weight: .black, design: .rounded))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(Color.white.opacity(0.1))
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
+                                }
+                                
+                                Button(action: {
+                                    vm.isAbsoluteFailure = true
+                                    showingFailureAudit = false
+                                    saveSet()
+                                }) {
+                                    Text("YES")
+                                        .font(.system(size: 16, weight: .black, design: .rounded))
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 12)
+                                        .background(FriendlyTheme.apexGreen)
+                                        .foregroundColor(.black)
+                                        .cornerRadius(8)
+                                }
+                            }
+                            .padding(.horizontal, 24)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .transition(.opacity)
+                }
+            }
+        )
         .onReceive(timer) { _ in
             guard vm.isTimerRunning, let endTime = vm.timerEndTime else { return }
             let remaining = endTime.timeIntervalSinceNow
@@ -368,6 +463,23 @@ struct ExerciseLogCard: View {
         }
         .alert(isPresented: $vm.showValidationError) {
             Alert(title: Text("Invalid Input"), message: Text(vm.validationErrorMessage), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    @State private var showingFailureAudit = false
+    
+    private func handleLogSetTapped() {
+        if vm.isWarmup {
+            saveSet()
+        } else {
+            guard let wAmount = Double(vm.weight), let bReps = Int(vm.baseReps), wAmount > 0, wAmount < 2000, bReps > 0, bReps < 500 else {
+                saveSet() // Just to trigger the validation visual error
+                return
+            }
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            withAnimation {
+                showingFailureAudit = true
+            }
         }
     }
     
@@ -404,8 +516,12 @@ struct ExerciseLogCard: View {
         
         if let existingWorkout = todayLog.workouts.first(where: { $0.exerciseName == exerciseName }) {
             workoutEntry = existingWorkout
+            workoutEntry.equipmentBrand = vm.equipmentBrand
+            workoutEntry.resistanceType = vm.resistanceType
         } else {
             workoutEntry = WorkoutEntry(exerciseName: exerciseName)
+            workoutEntry.equipmentBrand = vm.equipmentBrand
+            workoutEntry.resistanceType = vm.resistanceType
             workoutEntry.dailyLog = todayLog
             todayLog.workouts.append(workoutEntry)
             modelContext.insert(workoutEntry)
@@ -420,7 +536,8 @@ struct ExerciseLogCard: View {
             forcedRepsCount: vm.isWarmup ? 0 : vm.forcedRepsCount,
             negativesCount: vm.isWarmup ? 0 : vm.negativesCount,
             isWarmup: vm.isWarmup,
-            recruitment: vm.recruitmentPercentage
+            recruitment: vm.recruitmentPercentage,
+            isAbsoluteFailure: vm.isAbsoluteFailure
         )
         
         newSet.workoutEntry = workoutEntry

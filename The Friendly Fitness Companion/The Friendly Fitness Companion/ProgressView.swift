@@ -7,6 +7,8 @@ struct ProgressViewTab: View {
     @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .forward) private var dailyLogs: [DailyLog]
     
+    @State private var pdfURL: URL?
+    
     // Generate dates for the current month
     private var currentMonthDays: [Date] {
         let calendar = Calendar.current
@@ -48,6 +50,14 @@ struct ProgressViewTab: View {
                             .foregroundColor(.white)
                         
                         Spacer()
+                        
+                        if let url = TechnicalReportGenerator.generatePDF(dailyLogs: dailyLogs) {
+                            ShareLink(item: url) {
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(.title2)
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                        }
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 20)
@@ -158,7 +168,7 @@ struct ProgressViewTab: View {
                                         x: .value("Date", point.date),
                                         y: .value("1RM (Lbs)", point.calculated1RM)
                                     )
-                                    .foregroundStyle(FriendlyTheme.limeSignal)
+                                    .foregroundStyle(point.hitAbsoluteFailure ? FriendlyTheme.limeSignal : FriendlyTheme.apexGreen)
                                     .symbolSize(50)
                                 }
                             }
@@ -205,6 +215,7 @@ struct ProgressViewTab: View {
         let date: Date
         let exercise: String
         let calculated1RM: Double
+        let hitAbsoluteFailure: Bool
     }
     
     private func generateChartData() -> [ChartDataPoint] {
@@ -214,7 +225,10 @@ struct ProgressViewTab: View {
             for workout in log.workouts {
                 // Find the best set for this workout to represent the 1RM
                 var best1RM: Double = 0
+                var hitAbsoluteFailure: Bool = false
                 for set in workout.sets {
+                    if set.isAbsoluteFailure == true { hitAbsoluteFailure = true }
+                    
                     // Brzycki: Weight / (1.0278 - (0.0278 * Reps))
                     // Using totalReps to account for Rest-Pause
                     let baseReps = Double(set.totalReps)
@@ -233,7 +247,8 @@ struct ProgressViewTab: View {
                     dataPoints.append(ChartDataPoint(
                         date: log.date,
                         exercise: workout.exerciseName,
-                        calculated1RM: best1RM
+                        calculated1RM: best1RM,
+                        hitAbsoluteFailure: hitAbsoluteFailure
                     ))
                 }
             }

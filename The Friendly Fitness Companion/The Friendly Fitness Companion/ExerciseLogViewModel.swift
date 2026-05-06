@@ -24,6 +24,13 @@ class ExerciseLogViewModel: ObservableObject {
     @Published var previousSetReps: String?
     @Published var previousSetUnit: String?
     
+    // Machine Profile
+    @Published var equipmentBrand: String = "Standard"
+    @Published var resistanceType: String = "Free Weight"
+    
+    // Failure Audit
+    @Published var isAbsoluteFailure: Bool? = nil
+    
     // Progressive Overload Suggestions
     @Published var suggestedWeight: Double?
     @Published var isNewEstimated1RM: Bool = false
@@ -51,6 +58,7 @@ class ExerciseLogViewModel: ObservableObject {
         forcedRepsCount = 0
         negativesCount = 0
         isWarmup = false
+        isAbsoluteFailure = nil
         submissionState = .idle
     }
     
