@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     
     init() {
         let appearance = UITabBarAppearance()
@@ -25,7 +26,10 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $appState.selectedTab) {
+        if !hasCompletedOnboarding {
+            OnboardingView()
+        } else {
+            TabView(selection: $appState.selectedTab) {
             // 1. Dashboard Tab
             DashboardView()
                 .tabItem {
@@ -68,6 +72,7 @@ struct ContentView: View {
         }
         .preferredColorScheme(.dark)
         .accentColor(Color(red: 0, green: 1, blue: 0)) // Apex Green fallback
+        }
     }
 }
 

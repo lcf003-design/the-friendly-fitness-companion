@@ -5,7 +5,13 @@ import Combine
 struct ForgeLogbookView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
-    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    @Query private var dailyLogs: [DailyLog]
+    
+    init() {
+        var descriptor = FetchDescriptor<DailyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        descriptor.fetchLimit = 7 // We primarily only need today's log, so 7 is extremely safe and fast
+        _dailyLogs = Query(descriptor)
+    }
     
     @State private var isShowingExercisePicker: Bool = false
     @State private var swapExerciseIndex: Int? = nil
@@ -388,7 +394,18 @@ struct WorkoutHistoryCard: View {
                                 .cornerRadius(4)
                         }
                         
+                        if set.isAbsoluteFailure == true {
+                            Text("HD")
+                                .font(.system(size: 10, weight: .black))
+                                .foregroundColor(FriendlyTheme.limeSignal)
+                                .padding(4)
+                                .background(FriendlyTheme.limeSignal.opacity(0.2))
+                                .cornerRadius(4)
+                        }
+                        
                         Spacer()
+                        
+                        IntensityShareButton(workout: workout, set: set)
                         
                         Button(action: {
                             deleteSet(set)
@@ -418,7 +435,26 @@ struct WorkoutHistoryCard: View {
     }
 }
 
-
+// MARK: - Intensity Share Button
+struct IntensityShareButton: View {
+    let workout: WorkoutEntry
+    let set: ExerciseSet
+    
+    var body: some View {
+        if set.isAbsoluteFailure == true {
+            let loadStr = "\(Int(set.weight))\(set.unit)"
+            let brandStr = workout.equipmentBrand ?? "Standard"
+            if let image = IntensityShareGenerator.generateImage(exerciseName: workout.exerciseName, load: loadStr, brand: brandStr) {
+                ShareLink(item: image, preview: SharePreview(workout.exerciseName, image: image)) {
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.system(size: 14))
+                        .foregroundColor(FriendlyTheme.limeSignal)
+                }
+                .padding(.trailing, 8)
+            }
+        }
+    }
+}
 
 // MARK: - Premium Stepper UI
 struct StepperRow: View {

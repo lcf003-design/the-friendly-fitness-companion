@@ -1,6 +1,49 @@
 import SwiftUI
 import SwiftData
 import Combine
+import CoreHaptics
+
+// MARK: - Haptic Engine Manager
+class HapticManager {
+    static let shared = HapticManager()
+    private var engine: CHHapticEngine?
+    
+    init() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        do {
+            engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("Haptics error: \(error)")
+        }
+    }
+    
+    func triggerFailure() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        
+        var events = [CHHapticEvent]()
+        
+        // Deep, heavy start
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1.0)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.1) // Low sharpness = heavy feel
+        let event1 = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        
+        // Sustained rumble
+        let event2 = CHHapticEvent(eventType: .hapticContinuous, parameters: [intensity, sharpness], relativeTime: 0.1, duration: 0.4)
+        
+        events.append(event1)
+        events.append(event2)
+        
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error)")
+        }
+    }
+}
+
 
 struct ExerciseLogCard: View {
     let exerciseName: String
@@ -90,7 +133,7 @@ struct ExerciseLogCard: View {
                         }
                         vm.baseReps = prevReps
                         vm.unit = prevUnit
-                        UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                        UINotificationFeedbackGenerator().notificationOccurred(.success)
                     }) {
                         VStack(alignment: .trailing, spacing: 2) {
                             HStack(spacing: 4) {
@@ -421,6 +464,7 @@ struct ExerciseLogCard: View {
                                 Button(action: {
                                     vm.isAbsoluteFailure = true
                                     showingFailureAudit = false
+                                    HapticManager.shared.triggerFailure()
                                     saveSet()
                                 }) {
                                     Text("YES")

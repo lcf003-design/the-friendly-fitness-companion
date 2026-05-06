@@ -87,6 +87,59 @@ struct ProgressViewTab: View {
                     .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                     .padding(.horizontal, 20)
                     
+                    // Advanced Audit Panel
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("ADVANCED AUDIT")
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        
+                        Toggle("Only Heavy Duty Certified Sets", isOn: $filterOnlyFailureSets)
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.white)
+                            .tint(FriendlyTheme.limeSignal)
+                        
+                        HStack {
+                            Menu {
+                                ForEach(["All", "Standard", "Nautilus", "Hammer Strength", "MedX", "Cybex"], id: \.self) { brand in
+                                    Button(brand) { filterEquipmentBrand = brand }
+                                }
+                            } label: {
+                                HStack {
+                                    Text("BRAND: \(filterEquipmentBrand)")
+                                    Spacer()
+                                    Image(systemName: "chevron.down")
+                                }
+                                .font(.system(size: 12, weight: .bold))
+                                .padding()
+                                .background(Color.white.opacity(0.1))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                            }
+                            
+                            Menu {
+                                ForEach(["All", "Free Weight", "Selectorized", "Plate-Loaded", "Cable"], id: \.self) { type in
+                                    Button(type) { filterResistanceType = type }
+                                }
+                            } label: {
+                                HStack {
+                                    Text("TYPE: \(filterResistanceType)")
+                                    Spacer()
+                                    Image(systemName: "chevron.down")
+                                }
+                                .font(.system(size: 12, weight: .bold))
+                                .padding()
+                                .background(Color.white.opacity(0.1))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    .padding(24)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(30)
+                    .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+                    .padding(.horizontal, 20)
+                    
                     // Deep Analytics: 1RM Progression Chart
                     VStack(alignment: .leading, spacing: 20) {
                         HStack {
@@ -210,6 +263,11 @@ struct ProgressViewTab: View {
     // MARK: - Analytics Data Engine
     @State private var selectedChartExercise: String? = nil
     
+    // Advanced Audit Filters
+    @State private var filterEquipmentBrand: String = "All"
+    @State private var filterResistanceType: String = "All"
+    @State private var filterOnlyFailureSets: Bool = false
+    
     struct ChartDataPoint: Identifiable {
         let id = UUID()
         let date: Date
@@ -242,6 +300,11 @@ struct ProgressViewTab: View {
                         best1RM = current1RM
                     }
                 }
+                
+                // Advanced Audit Filters
+                if filterEquipmentBrand != "All" && (workout.equipmentBrand ?? "Standard") != filterEquipmentBrand { continue }
+                if filterResistanceType != "All" && (workout.resistanceType ?? "Free Weight") != filterResistanceType { continue }
+                if filterOnlyFailureSets && !hitAbsoluteFailure { continue }
                 
                 if best1RM > 0 {
                     dataPoints.append(ChartDataPoint(

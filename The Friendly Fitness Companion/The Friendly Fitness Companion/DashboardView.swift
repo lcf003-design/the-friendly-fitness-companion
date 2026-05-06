@@ -15,7 +15,13 @@ struct FriendlyTheme {
 
 struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    @Query private var dailyLogs: [DailyLog]
+    
+    init() {
+        var descriptor = FetchDescriptor<DailyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        descriptor.fetchLimit = 30 // Prevent querying hundreds of logs unnecessarily
+        _dailyLogs = Query(descriptor)
+    }
     
     // Average Recruitment (Last 3 Workouts)
     private var averageRecruitment: Double {
