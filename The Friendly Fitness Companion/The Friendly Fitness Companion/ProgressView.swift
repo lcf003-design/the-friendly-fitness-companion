@@ -6,6 +6,7 @@ struct ProgressViewTab: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .forward) private var dailyLogs: [DailyLog]
+    @Query(sort: \FastingSession.startTime, order: .reverse) private var fastingSessions: [FastingSession]
     
     @State private var pdfURL: URL?
     
@@ -247,6 +248,31 @@ struct ProgressViewTab: View {
                     .cornerRadius(30)
                     .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
                     .padding(.horizontal, 20)
+                    
+                    // Prime Performance Insight
+                    if let insight = generatePrimeInsight() {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Image(systemName: "bolt.fill")
+                                    .foregroundColor(FriendlyTheme.limeSignal)
+                                Text("PRIME PERFORMANCE")
+                                    .font(.system(size: 12, weight: .black, design: .rounded))
+                                    .tracking(2.0)
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                Spacer()
+                            }
+                            
+                            Text(insight)
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                                .lineSpacing(4)
+                        }
+                        .padding(24)
+                        .background(FriendlyTheme.limeSignal.opacity(0.05))
+                        .overlay(RoundedRectangle(cornerRadius: 30).stroke(FriendlyTheme.limeSignal.opacity(0.3), lineWidth: 1))
+                        .cornerRadius(30)
+                        .padding(.horizontal, 20)
+                    }
                 }
                 .padding(.bottom, 50)
             }
@@ -318,6 +344,33 @@ struct ProgressViewTab: View {
         }
         
         return dataPoints.sorted(by: { $0.date < $1.date })
+    }
+    
+    private func generatePrimeInsight() -> String? {
+        let chartData = generateChartData()
+        guard !chartData.isEmpty, !fastingSessions.isEmpty else { return nil }
+        
+        let allSessions = fastingSessions.filter { $0.endTime != nil }
+        guard !allSessions.isEmpty else { return nil }
+        
+        // Find the absolute highest 1RM
+        if let max1RM = chartData.max(by: { $0.calculated1RM < $1.calculated1RM }) {
+            // Find fasting sessions within 24h before this workout
+            let calendar = Calendar.current
+            for session in allSessions {
+                if let end = session.endTime, end <= max1RM.date, calendar.dateComponents([.hour], from: end, to: max1RM.date).hour ?? 24 < 24 {
+                    let hours = Int(session.duration / 3600)
+                    if hours >= 12 {
+                        // Estimate spike
+                        let avg1RM = chartData.map { $0.calculated1RM }.reduce(0, +) / Double(chartData.count)
+                        let spikePercent = Int(((max1RM.calculated1RM - avg1RM) / avg1RM) * 100)
+                        let percentStr = spikePercent > 0 ? "\(spikePercent)%" : "Peak"
+                        return "PRIME WINDOW DETECTED: \(hours)h Fast = \(percentStr) Intensity Spike for \(max1RM.exercise)."
+                    }
+                }
+            }
+        }
+        return nil
     }
 }
 

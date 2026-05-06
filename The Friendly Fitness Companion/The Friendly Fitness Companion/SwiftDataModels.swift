@@ -285,17 +285,26 @@ class FoodEntry {
     var protein: Int
     var fat: Int
     var carbs: Int
+    
+    // Electrolytes (mg)
+    var sodium: Int
+    var potassium: Int
+    var magnesium: Int
+    
     var timestamp: Date
     
     var dailyLog: DailyLog?
     
-    init(name: String, calories: Int, protein: Int, fat: Int, carbs: Int) {
+    init(name: String, calories: Int, protein: Int, fat: Int, carbs: Int, sodium: Int = 0, potassium: Int = 0, magnesium: Int = 0) {
         self.id = UUID()
         self.name = name
         self.calories = calories
         self.protein = protein
         self.fat = fat
         self.carbs = carbs
+        self.sodium = sodium
+        self.potassium = potassium
+        self.magnesium = magnesium
         self.timestamp = Date()
     }
 }

@@ -579,48 +579,99 @@ struct NutrientCard: View {
     }
 }
 
-// MARK: - 5. Exercise Plan Placeholder
+// MARK: - 5. Exercise Plan Tab
 struct ExercisePlanTab: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) var dismiss
     
+    @Query private var routines: [RoutineTemplate]
+    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    
+    private var currentProtocolName: String {
+        routines.first?.name ?? "Heavy Duty HIT - 3 Day Split"
+    }
+    
+    private var weeklyCommitment: String {
+        let count = max(routines.first?.exercises.count ?? 3, 3)
+        return "\(count) Days / Week"
+    }
+    
+    private var volumeProjection: String {
+        let recentLogs = dailyLogs.prefix(7).filter { $0.totalVolume > 0 }
+        let avgVolume = recentLogs.isEmpty ? 15000 : recentLogs.reduce(0) { $0 + $1.totalVolume } / Double(recentLogs.count)
+        let weeklyProjected = avgVolume * 3.0 // Assume 3 days a week
+        return "\(Int(weeklyProjected / 1000))k lbs / week"
+    }
+    
     var body: some View {
-        VStack(spacing: 24) {
-            Image(systemName: "dumbbell.fill")
-                .font(.system(size: 60))
-                .foregroundColor(FriendlyTheme.apexGreen)
-                .padding(.top, 40)
-            
-            Text("THE FORGE PROTOCOL")
-                .font(.system(size: 18, weight: .black, design: .rounded))
-                .tracking(2.0)
-                .foregroundColor(.white)
-            
-            Text("Your exercise plan is strictly managed via High-Intensity Training principles within The Forge.")
-                .font(.system(size: 14, weight: .medium, design: .rounded))
-                .foregroundColor(FriendlyTheme.textSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
-            
-            Button(action: {
-                dismiss()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    appState.selectedTab = 10
-                }
-            }) {
-                Text("ENTER THE FORGE")
-                    .font(.system(size: 14, weight: .black, design: .rounded))
+        ScrollView {
+            VStack(spacing: 24) {
+                Image(systemName: "dumbbell.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(FriendlyTheme.apexGreen)
+                    .padding(.top, 40)
+                
+                Text("THE FORGE PROTOCOL")
+                    .font(.system(size: 18, weight: .black, design: .rounded))
                     .tracking(2.0)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(FriendlyTheme.apexGreen)
-                    .foregroundColor(.black)
-                    .cornerRadius(12)
+                    .foregroundColor(.white)
+                
+                Text("Your exercise plan is strictly managed via High-Intensity Training principles within The Forge.")
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+                
+                VStack(spacing: 16) {
+                    ExercisePlanCard(title: "CURRENT PROTOCOL", value: currentProtocolName)
+                    ExercisePlanCard(title: "WEEKLY COMMITMENT", value: weeklyCommitment)
+                    ExercisePlanCard(title: "VOLUME PROJECTION", value: volumeProjection)
+                }
+                .padding(.top, 24)
+                
+                Button(action: {
+                    dismiss()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        appState.selectedTab = 10
+                    }
+                }) {
+                    Text("ENTER THE FORGE")
+                        .font(.system(size: 14, weight: .black, design: .rounded))
+                        .tracking(2.0)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(FriendlyTheme.apexGreen)
+                        .foregroundColor(.black)
+                        .cornerRadius(12)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 20)
+                
+                Spacer()
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 20)
-            
-            Spacer()
         }
+    }
+}
+
+struct ExercisePlanCard: View {
+    let title: String
+    let value: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.system(size: 10, weight: .bold, design: .rounded))
+                .tracking(2.0)
+                .foregroundColor(FriendlyTheme.textSecondary)
+            Text(value)
+                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .foregroundColor(.white)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.white.opacity(0.05))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+        .cornerRadius(16)
+        .padding(.horizontal, 24)
     }
 }

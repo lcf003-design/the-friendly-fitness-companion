@@ -371,6 +371,46 @@ struct MetabolicBudgetView: View {
         todayLog?.foodEntries.reduce(0) { $0 + $1.carbs } ?? 0
     }
     
+    private var consumedSodium: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.sodium } ?? 0
+    }
+    
+    private var consumedPotassium: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.potassium } ?? 0
+    }
+    
+    private var consumedMagnesium: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.magnesium } ?? 0
+    }
+    
+    private var hasRecentAbsoluteFailure: Bool {
+        let calendar = Calendar.current
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
+        
+        return dailyLogs.contains { log in
+            log.date >= yesterday && log.workouts.contains { workout in
+                workout.sets.contains { set in
+                    set.isAbsoluteFailure == true
+                }
+            }
+        }
+    }
+    
+    private var effectiveCalorieTarget: Int {
+        if goal.isAutopilotEnabled && hasRecentAbsoluteFailure {
+            return Int(Double(goal.dailyCalorieTarget) * 1.10)
+        }
+        return goal.dailyCalorieTarget
+    }
+    
+    private var effectiveProteinTarget: Int {
+        let baseTarget = Int((Double(effectiveCalorieTarget) * (goal.proteinPercent / 100)) / 4.0)
+        if goal.isAutopilotEnabled && hasRecentAbsoluteFailure {
+            return baseTarget + 15
+        }
+        return baseTarget
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
@@ -378,6 +418,16 @@ struct MetabolicBudgetView: View {
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(FriendlyTheme.textSecondary)
                     .tracking(3.0)
+                
+                if goal.isAutopilotEnabled && hasRecentAbsoluteFailure {
+                    Text("AUTOPILOT ACTIVE")
+                        .font(.system(size: 8, weight: .black, design: .rounded))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(FriendlyTheme.apexGreen.opacity(0.2))
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                        .cornerRadius(4)
+                }
                 
                 Spacer()
                 
@@ -399,7 +449,7 @@ struct MetabolicBudgetView: View {
             
             VStack(spacing: 16) {
                 // Calorie Card
-                let remaining = goal.dailyCalorieTarget - consumedCalories
+                let remaining = effectiveCalorieTarget - consumedCalories
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("\(remaining)")
@@ -414,7 +464,7 @@ struct MetabolicBudgetView: View {
                     Spacer()
                     
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text("\(consumedCalories) / \(goal.dailyCalorieTarget)")
+                        Text("\(consumedCalories) / \(effectiveCalorieTarget)")
                             .font(.system(size: 14, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         Text("CONSUMED")
@@ -429,14 +479,31 @@ struct MetabolicBudgetView: View {
                 // Macro Strips
                 VStack(spacing: 12) {
                     // Calculate targets based on calorie split
-                    let pTarget = Int((Double(goal.dailyCalorieTarget) * (goal.proteinPercent / 100)) / 4.0)
-                    let fTarget = Int((Double(goal.dailyCalorieTarget) * (goal.fatPercent / 100)) / 9.0)
-                    let cTarget = Int((Double(goal.dailyCalorieTarget) * (goal.carbPercent / 100)) / 4.0)
+                    let fTarget = Int((Double(effectiveCalorieTarget) * (goal.fatPercent / 100)) / 9.0)
+                    let cTarget = Int((Double(effectiveCalorieTarget) * (goal.carbPercent / 100)) / 4.0)
                     
-                    MacroStrip(label: "PROTEIN", current: consumedProtein, target: pTarget, color: FriendlyTheme.apexGreen)
+                    MacroStrip(label: "PROTEIN", current: consumedProtein, target: effectiveProteinTarget, color: FriendlyTheme.apexGreen)
                     MacroStrip(label: "FAT", current: consumedFat, target: fTarget, color: Color(red: 214/255, green: 160/255, blue: 84/255))
                     MacroStrip(label: "NET CARBS", current: consumedCarbs, target: cTarget, color: Color(red: 47/255, green: 79/255, blue: 79/255))
                 }
+                
+                Divider().background(Color.white.opacity(0.1))
+                
+                // Electrolyte Command
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("ELECTROLYTE COMMAND")
+                            .font(.system(size: 10, weight: .black, design: .rounded))
+                            .tracking(2.0)
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        Spacer()
+                    }
+                    
+                    ElectrolyteStrip(label: "SODIUM", current: consumedSodium, target: 5000)
+                    ElectrolyteStrip(label: "POTASSIUM", current: consumedPotassium, target: 3500)
+                    ElectrolyteStrip(label: "MAGNESIUM", current: consumedMagnesium, target: 400)
+                }
+                .padding(.top, 4)
             }
             .padding(20)
             .background(Color.white.opacity(0.05))
@@ -482,6 +549,45 @@ struct MacroStrip: View {
                 }
             }
             .frame(height: 4)
+        }
+    }
+}
+
+struct ElectrolyteStrip: View {
+    let label: String
+    let current: Int
+    let target: Int
+    
+    var body: some View {
+        VStack(spacing: 4) {
+            HStack {
+                Text(label)
+                    .font(.system(size: 8, weight: .bold, design: .rounded))
+                    .tracking(1.0)
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                Spacer()
+                Text("\(current)/\(target)mg")
+                    .font(.system(size: 8, weight: .black, design: .rounded))
+                    .foregroundColor(FriendlyTheme.limeSignal)
+            }
+            
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(height: 2)
+                        .cornerRadius(1)
+                    
+                    let progress = target > 0 ? min(Double(current) / Double(target), 1.0) : (current > 0 ? 1.0 : 0.0)
+                    
+                    Rectangle()
+                        .fill(FriendlyTheme.limeSignal)
+                        .frame(width: geometry.size.width * CGFloat(progress), height: 2)
+                        .shadow(color: FriendlyTheme.limeSignal.opacity(0.6), radius: 2, x: 0, y: 0)
+                        .cornerRadius(1)
+                }
+            }
+            .frame(height: 2)
         }
     }
 }

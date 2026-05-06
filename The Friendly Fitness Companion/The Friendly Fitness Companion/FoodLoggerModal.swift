@@ -7,13 +7,14 @@ struct FoodLoggerModal: View {
     
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
     
-    // Quick Add Staples
+    // Quick Add Staples (Name, Cal, Pro, Fat, Carb, Sodium, Potassium, Magnesium)
     let presets = [
-        ("Ribeye (1 lb)", 1050, 80, 85, 0),
-        ("Ground Beef 80/20 (1 lb)", 1150, 75, 90, 0),
-        ("Large Egg (1)", 78, 6, 5, 0),
-        ("Butter (1 tbsp)", 100, 0, 11, 0),
-        ("Bacon (3 slices)", 130, 9, 10, 0)
+        ("Ribeye (1 lb)", 1050, 80, 85, 0, 250, 1400, 90),
+        ("Ground Beef 80/20 (1 lb)", 1150, 75, 90, 0, 300, 1200, 80),
+        ("Large Egg (1)", 78, 6, 5, 0, 70, 70, 5),
+        ("Butter (1 tbsp)", 100, 0, 11, 0, 90, 3, 0),
+        ("Bacon (3 slices)", 130, 9, 10, 0, 400, 150, 10),
+        ("Electrolyte Mix", 0, 0, 0, 0, 1000, 200, 60)
     ]
     
     var body: some View {
@@ -32,7 +33,7 @@ struct FoodLoggerModal: View {
                         
                         VStack(spacing: 12) {
                             ForEach(presets, id: \.0) { preset in
-                                Button(action: { logFood(name: preset.0, cal: preset.1, pro: preset.2, fat: preset.3, carb: preset.4) }) {
+                                Button(action: { logFood(name: preset.0, cal: preset.1, pro: preset.2, fat: preset.3, carb: preset.4, sod: preset.5, pot: preset.6, mag: preset.7) }) {
                                     HStack {
                                         VStack(alignment: .leading, spacing: 4) {
                                             Text(preset.0.uppercased())
@@ -100,11 +101,11 @@ struct FoodLoggerModal: View {
         .preferredColorScheme(.dark)
     }
     
-    private func logFood(name: String, cal: Int, pro: Int, fat: Int, carb: Int) {
+    private func logFood(name: String, cal: Int, pro: Int, fat: Int, carb: Int, sod: Int, pot: Int, mag: Int) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
         let todayLog = getTodayLog()
-        let newEntry = FoodEntry(name: name, calories: cal, protein: pro, fat: fat, carbs: carb)
+        let newEntry = FoodEntry(name: name, calories: cal, protein: pro, fat: fat, carbs: carb, sodium: sod, potassium: pot, magnesium: mag)
         todayLog.foodEntries.append(newEntry)
         
         try? modelContext.save()
