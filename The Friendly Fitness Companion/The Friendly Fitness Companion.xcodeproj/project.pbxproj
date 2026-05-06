@@ -13,6 +13,8 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "The Friendly Fitness Companion";
 			sourceTree = "<group>";
 		};
@@ -64,8 +66,6 @@
 				B16AB3DC2FAA74BA0068D7DA /* The Friendly Fitness Companion */,
 			);
 			name = "The Friendly Fitness Companion";
-			packageProductDependencies = (
-			);
 			productName = "The Friendly Fitness Companion";
 			productReference = B16AB3DA2FAA74BA0068D7DA /* The Friendly Fitness Companion.app */;
 			productType = "com.apple.product-type.application";
@@ -256,6 +256,8 @@
 				DEVELOPMENT_TEAM = 5HY722746C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "The Friendly Fitness Companion uses HealthKit to sync your body measurements and metabolic data.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The Friendly Fitness Companion uses HealthKit to save your workouts and nutrition to Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +290,8 @@
 				DEVELOPMENT_TEAM = 5HY722746C;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "The Friendly Fitness Companion uses HealthKit to sync your body measurements and metabolic data.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The Friendly Fitness Companion uses HealthKit to save your workouts and nutrition to Apple Health.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
