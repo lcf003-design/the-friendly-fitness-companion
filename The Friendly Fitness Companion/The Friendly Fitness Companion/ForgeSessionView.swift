@@ -30,7 +30,7 @@ struct ForgeSessionView: View {
         let current = currentExercise
         for log in dailyLogs {
             for workout in log.workouts {
-                if let lastSet = workout.sets.last(where: { $0.workoutEntry?.name == current || current.contains($0.workoutEntry?.name ?? "") }) {
+                if let lastSet = workout.sets.reversed().first(where: { $0.workoutEntry?.exerciseName == current || current.contains($0.workoutEntry?.exerciseName ?? "") }) {
                     return "\(Int(lastSet.weight)) \(lastSet.unit) x \(lastSet.totalReps)"
                 }
             }
@@ -74,6 +74,7 @@ struct ForgeSessionView: View {
                         .font(.system(size: 14, weight: .bold))
                     Spacer()
                 } else {
+                    ScrollView {
                     // Exercise Title
                     HStack {
                         Button(action: previousExercise) {
@@ -232,7 +233,50 @@ struct ForgeSessionView: View {
                         .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, y: 5)
                     }
                     .padding(.horizontal, 24)
-                    .padding(.bottom, 40)
+                    .padding(.bottom, 24)
+                    
+                    // Recent History Section (Ledger)
+                    if let workout = activeWorkout, !workout.sets.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("CURRENT SESSION LEDGER")
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .tracking(1.5)
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .padding(.horizontal, 24)
+                                
+                            VStack(spacing: 8) {
+                                ForEach(workout.sets) { set in
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text("\(Int(set.weight)) \(set.unit) × \(set.totalReps)")
+                                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                                .foregroundColor(.white)
+                                        }
+                                        Spacer()
+                                        
+                                        if set.isAbsoluteFailure == true {
+                                            Image(systemName: "flame.fill")
+                                                .foregroundColor(FriendlyTheme.limeSignal)
+                                        }
+                                        
+                                        Text("\(Int(set.motorUnitRecruitment * 100))%")
+                                            .font(.system(size: 12, weight: .black, design: .rounded))
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(FriendlyTheme.apexGreen.opacity(0.2))
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .cornerRadius(4)
+                                    }
+                                    .padding()
+                                    .background(Color.white.opacity(0.05))
+                                    .cornerRadius(12)
+                                    .padding(.horizontal, 24)
+                                }
+                            }
+                        }
+                        .padding(.bottom, 40)
+                    }
+                    } // End ScrollView
                 }
             }
         }
