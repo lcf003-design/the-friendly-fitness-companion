@@ -176,7 +176,7 @@ struct DashboardView: View {
     private func currentWeight() -> String {
         guard let latestLog = dailyLogs.first(where: { !$0.bodyMeasurements.isEmpty }),
               let measurement = latestLog.bodyMeasurements.last else { return "--" }
-        return String(format: "%.1f", measurement.bodyWeight)
+        return String(format: "%.1f", measurement.bodyWeight ?? 0.0)
     }
     
     private func weightGoalSubtitle() -> String {
@@ -184,9 +184,9 @@ struct DashboardView: View {
         let diff = abs(goal.targetWeight - (Double(currentWeight()) ?? 0))
         let diffStr = String(format: "%.1f", diff)
         if goal.targetWeight > (Double(currentWeight()) ?? 0) {
-            return "Gain \(diffStr) \(preferredUnit) in \(goal.targetDays) days"
+            return "Gain \(diffStr) \(preferredUnit) to reach target"
         } else {
-            return "Lose \(diffStr) \(preferredUnit) in \(goal.targetDays) days"
+            return "Lose \(diffStr) \(preferredUnit) to reach target"
         }
     }
 }
