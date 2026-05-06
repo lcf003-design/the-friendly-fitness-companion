@@ -139,6 +139,7 @@ struct ToolMenuCard: View {
 struct OneRepMaxView: View {
     @State private var weightInput: String = ""
     @State private var repsInput: String = ""
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     let strengthTableData: [(percentage: Int, reps: Int)] = [
         (100, 1), (95, 2), (90, 4), (85, 6), (80, 8),
@@ -259,12 +260,13 @@ struct OneRepMaxView: View {
 
 // MARK: - Plate Math Subview
 struct PlateMathView: View {
-    @State private var targetBarbellWeight: String = "135"
+    @State private var targetWeight: String = "135"
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     @State private var barWeight: Double = 45.0
     let availablePlates: [Double] = [45, 35, 25, 10, 5, 2.5]
     
     private func calculatePlates() -> [Double] {
-        guard let target = Double(targetBarbellWeight), target > barWeight else { return [] }
+        guard let target = Double(targetWeight), target > barWeight else { return [] }
         var weightToFillPerSide = (target - barWeight) / 2.0
         var plates: [Double] = []
         for plate in availablePlates {
@@ -287,7 +289,7 @@ struct PlateMathView: View {
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Spacer()
-                        TextField("0", text: $targetBarbellWeight)
+                        TextField("0", text: $targetWeight)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .font(.system(size: 32, weight: .bold, design: .rounded))
@@ -391,6 +393,7 @@ struct PlateMathView: View {
 struct StrengthRow: View {
     var percentage: Int
     var weight: Double
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     var reps: Int
     
     var body: some View {
