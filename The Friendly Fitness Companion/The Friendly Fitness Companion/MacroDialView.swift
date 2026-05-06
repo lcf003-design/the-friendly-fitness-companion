@@ -16,9 +16,7 @@ struct MacroDialView: View {
                 .tracking(2.0)
                 .foregroundColor(FriendlyTheme.textSecondary)
             
-            GeometryReader { geometry in
-                let width = geometry.size.width
-                let center = width / 2
+            GeometryReader { _ in
                 
                 ZStack {
                     // Tick marks

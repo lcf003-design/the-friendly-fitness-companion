@@ -19,7 +19,7 @@ struct CommunityView: View {
         
         let localHeavyDuty = allWorkouts.contains(where: { $0.sets.contains(where: { $0.isAbsoluteFailure == true }) })
         
-        var performers = [
+        let performers = [
             ("USR-7A8B", 84500.0, true),
             ("USR-1X9Q", 78200.0, true),
             ("USR-LOCAL", localMax > 0 ? localMax : 32000.0, localHeavyDuty),

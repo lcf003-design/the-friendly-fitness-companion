@@ -194,22 +194,28 @@ class HealthKitManager: ObservableObject {
             "ExerciseName": workout.exerciseName
         ]
         
-        let hkWorkout = HKWorkout(
-            activityType: .traditionalStrengthTraining,
-            start: startDate,
-            end: endDate,
-            duration: endDate.timeIntervalSince(startDate),
-            totalEnergyBurned: nil, // Could be estimated based on volume
-            totalDistance: nil,
-            device: HKDevice.local(),
-            metadata: metadata
-        )
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = .traditionalStrengthTraining
         
-        healthStore.save(hkWorkout) { success, error in
-            if success {
-                print("Successfully saved workout '\(workout.exerciseName)' to HealthKit.")
-            } else {
-                print("Failed to save workout to HealthKit: \(error?.localizedDescription ?? "Unknown error")")
+        let builder = HKWorkoutBuilder(healthStore: healthStore, configuration: configuration, device: .local())
+        
+        builder.beginCollection(withStart: startDate) { success, error in
+            guard success else { return }
+            
+            builder.addMetadata(metadata) { success, error in
+                guard success else { return }
+                
+                builder.endCollection(withEnd: endDate) { success, error in
+                    guard success else { return }
+                    
+                    builder.finishWorkout { savedWorkout, error in
+                        if savedWorkout != nil {
+                            print("Successfully saved workout '\(workout.exerciseName)' to HealthKit.")
+                        } else {
+                            print("Failed to save workout to HealthKit: \(error?.localizedDescription ?? "Unknown error")")
+                        }
+                    }
+                }
             }
         }
     }

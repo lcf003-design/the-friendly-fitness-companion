@@ -297,7 +297,7 @@ struct WeightAndCaloriesTab: View {
                             .labelsHidden()
                             .colorScheme(.dark)
                             .accentColor(FriendlyTheme.apexGreen)
-                            .onChange(of: targetDate) { _ in
+                            .onChange(of: targetDate) { _, _ in
                                 let diff = Calendar.current.dateComponents([.day], from: Date(), to: targetDate).day ?? 1
                                 targetDays = max(diff, 1)
                                 action = targetWeight > currentWeight ? "Gain" : (targetWeight < currentWeight ? "Lose" : "Maintain")

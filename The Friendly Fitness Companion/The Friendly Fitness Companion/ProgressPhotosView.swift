@@ -93,7 +93,7 @@ struct ProgressPhotosView: View {
                         .foregroundColor(.black)
                         .cornerRadius(12)
                     }
-                    .onChange(of: selectedItem) { _ in
+                    .onChange(of: selectedItem) { _, _ in
                         Task {
                             if let data = try? await selectedItem?.loadTransferable(type: Data.self) {
                                 let photo = ProgressPhoto(category: selectedCategory, imageData: data)

@@ -172,7 +172,7 @@ struct ForgeSessionView: View {
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(isAbsoluteFailure ? FriendlyTheme.limeSignal : Color.white.opacity(0.1), lineWidth: 1))
                         .padding(.horizontal, 24)
-                        .onChange(of: isAbsoluteFailure) { val in
+                        .onChange(of: isAbsoluteFailure) { _, val in
                             if val {
                                 HapticManager.shared.heavy()
                             }

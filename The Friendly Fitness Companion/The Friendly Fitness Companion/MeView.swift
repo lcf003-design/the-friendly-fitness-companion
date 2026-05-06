@@ -617,8 +617,8 @@ struct PersonalInfoView: View {
                     .padding(16)
                     .background(Color.white.opacity(0.05))
                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
-                    .onChange(of: feet) { _ in updateHeight() }
-                    .onChange(of: inches) { _ in updateHeight() }
+                    .onChange(of: feet) { _, _ in updateHeight() }
+                    .onChange(of: inches) { _, _ in updateHeight() }
                     
                     // Date of Birth
                     HStack {
@@ -672,9 +672,9 @@ struct PersonalInfoView: View {
                 .padding(24)
             }
         }
-        .onChange(of: profile.sex) { _ in autoSave() }
-        .onChange(of: profile.dateOfBirth) { _ in autoSave() }
-        .onChange(of: profile.activityLevelIndex) { _ in autoSave() }
+        .onChange(of: profile.sex) { _, _ in autoSave() }
+        .onChange(of: profile.dateOfBirth) { _, _ in autoSave() }
+        .onChange(of: profile.activityLevelIndex) { _, _ in autoSave() }
         .navigationTitle("Personal Info")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {

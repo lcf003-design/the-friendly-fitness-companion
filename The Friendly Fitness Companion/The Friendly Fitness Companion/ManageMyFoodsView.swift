@@ -68,7 +68,7 @@ struct ManageMyFoodsView: View {
                             .foregroundColor(.white)
                             .autocapitalization(.none)
                             .disableAutocorrection(true)
-                            .onChange(of: searchText) { newValue in
+                            .onChange(of: searchText) { _, newValue in
                                 if !newValue.isEmpty && newValue.count > 2 {
                                     apiManager.searchFoods(query: newValue)
                                 }
