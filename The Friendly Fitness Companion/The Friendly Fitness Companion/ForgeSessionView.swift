@@ -26,6 +26,18 @@ struct ForgeSessionView: View {
         return appState.forgeQueue.last ?? "No Exercise Selected"
     }
     
+    private var lastSessionStats: String? {
+        let current = currentExercise
+        for log in dailyLogs {
+            for workout in log.workouts {
+                if let lastSet = workout.sets.last(where: { $0.workoutEntry?.name == current || current.contains($0.workoutEntry?.name ?? "") }) {
+                    return "\(Int(lastSet.weight)) \(lastSet.unit) x \(lastSet.totalReps)"
+                }
+            }
+        }
+        return nil
+    }
+    
     var body: some View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
@@ -95,6 +107,13 @@ struct ForgeSessionView: View {
                     Spacer()
                     
                     // Massive Typography Controls
+                    if let lastStats = lastSessionStats {
+                        Text("LAST SESSION: \(lastStats)")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                            .padding(.bottom, 8)
+                    }
+                    
                     HStack(spacing: 40) {
                         // Weight
                         VStack(spacing: 8) {
