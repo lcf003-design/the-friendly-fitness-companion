@@ -12,8 +12,7 @@ struct MacroDialView: View {
     var body: some View {
         VStack(spacing: 8) {
             Text(label)
-                .font(.system(size: 12, weight: .bold, design: .rounded))
-                .tracking(2.0)
+                .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(FriendlyTheme.textSecondary)
             
             GeometryReader { _ in
@@ -48,7 +47,8 @@ struct MacroDialView: View {
                             
                             // Trigger haptics
                             if abs(newValue - lastHapticValue) >= step {
-                                if Int(newValue) % Int(step * 8) == 0 {
+                                let stepsTaken = Int(round(newValue / step))
+                                if stepsTaken % 5 == 0 {
                                     HapticManager.shared.medium()
                                 } else {
                                     HapticManager.shared.light()
@@ -69,9 +69,8 @@ struct MacroDialView: View {
                 )
             }
             .frame(height: 60)
-            .background(Color.white.opacity(0.02))
-            .cornerRadius(12)
-            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .background(FriendlyTheme.midnightMatteLight)
+            .cornerRadius(20)
         }
     }
 }
