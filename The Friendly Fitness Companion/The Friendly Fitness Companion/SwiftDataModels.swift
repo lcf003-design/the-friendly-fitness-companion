@@ -57,12 +57,13 @@ class ExerciseSet {
     
     var forcedRepsCount: Int
     var negativesCount: Int
+    var isWarmup: Bool
     
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
     var workoutEntry: WorkoutEntry?
     
-    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, recruitment: Double) {
+    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, isWarmup: Bool = false, recruitment: Double) {
         self.id = UUID()
         self.weight = weight
         self.unit = unit
@@ -73,6 +74,7 @@ class ExerciseSet {
         self.negatives = negatives
         self.forcedRepsCount = forcedRepsCount
         self.negativesCount = negativesCount
+        self.isWarmup = isWarmup
         self.motorUnitRecruitment = recruitment
     }
     
