@@ -84,7 +84,7 @@ struct ExercisePickerView: View {
                                     Spacer()
                                     
                                     if let lastPerformance = findLastPerformance(for: exercise) {
-                                        Text("Last: \(Int(lastPerformance.weight))lbs × \(lastPerformance.reps)")
+                                        Text("Last: \(Int(lastPerformance.weight))lbs × \(lastPerformance.totalReps)")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(FriendlyTheme.apexGreen)
                                     } else {
@@ -115,7 +115,7 @@ struct ExercisePickerView: View {
         
         if let last = findLastPerformance(for: exercise) {
             suggestedWeight = String(Int(last.weight))
-            suggestedReps = String(last.reps)
+            suggestedReps = String(last.totalReps)
         } else {
             suggestedWeight = ""
             suggestedReps = ""

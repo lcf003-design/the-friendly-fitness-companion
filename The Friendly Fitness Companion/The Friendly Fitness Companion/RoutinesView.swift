@@ -135,32 +135,7 @@ struct RoutinesView: View {
                     ScrollView {
                         VStack(spacing: 12) {
                             ForEach(exerciseDatabase, id: \.self) { exercise in
-                                let isSelected = newRoutineExercises.contains(exercise)
-                                Button(action: {
-                                    if let index = newRoutineExercises.firstIndex(of: exercise) {
-                                        newRoutineExercises.remove(at: index)
-                                    } else {
-                                        newRoutineExercises.append(exercise)
-                                    }
-                                    let impact = UIImpactFeedbackGenerator(style: .light)
-                                    impact.impactOccurred()
-                                }) {
-                                    HStack {
-                                        Text(exercise)
-                                            .font(.system(size: 14, weight: .bold, design: .rounded))
-                                            .foregroundColor(isSelected ? .black : .white)
-                                        Spacer()
-                                        if isSelected {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.black)
-                                        }
-                                    }
-                                    .padding()
-                                    .background(isSelected ? FriendlyTheme.apexGreen : .ultraThinMaterial)
-                                    .cornerRadius(12)
-                                    .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
-                                }
-                                .padding(.horizontal, 24)
+                                ExerciseSelectionRow(exercise: exercise, selectedExercises: $newRoutineExercises)
                             }
                         }
                     }
@@ -195,4 +170,41 @@ struct RoutinesView: View {
 #Preview {
     RoutinesView()
         .modelContainer(for: RoutineTemplate.self, inMemory: true)
+}
+
+struct ExerciseSelectionRow: View {
+    let exercise: String
+    @Binding var selectedExercises: [String]
+    
+    var isSelected: Bool {
+        selectedExercises.contains(exercise)
+    }
+    
+    var body: some View {
+        Button(action: {
+            if let index = selectedExercises.firstIndex(of: exercise) {
+                selectedExercises.remove(at: index)
+            } else {
+                selectedExercises.append(exercise)
+            }
+            let impact = UIImpactFeedbackGenerator(style: .light)
+            impact.impactOccurred()
+        }) {
+            HStack {
+                Text(exercise)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundColor(isSelected ? .black : .white)
+                Spacer()
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.black)
+                }
+            }
+            .padding()
+            .background(isSelected ? AnyShapeStyle(FriendlyTheme.apexGreen) : AnyShapeStyle(.ultraThinMaterial))
+            .cornerRadius(12)
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.2), lineWidth: 0.5))
+        }
+        .padding(.horizontal, 24)
+    }
 }
