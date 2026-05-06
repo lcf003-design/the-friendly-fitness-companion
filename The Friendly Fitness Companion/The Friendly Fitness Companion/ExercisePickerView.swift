@@ -16,6 +16,7 @@ struct ExercisePickerView: View {
     @Binding var suggestedReps: String
     
     @State private var searchText: String = ""
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     // Pre-populated High Intensity Training movements
     let hitExercises = [
@@ -112,7 +113,7 @@ struct ExercisePickerView: View {
                                     Spacer()
                                     
                                     if let lastPerformance = findLastPerformance(for: exercise) {
-                                        Text("Last: \(Int(lastPerformance.weight))lbs × \(lastPerformance.totalReps)")
+                                        Text("Last: \(Int(lastPerformance.weight))\(preferredUnit) × \(lastPerformance.totalReps)")
                                             .font(.system(size: 12, weight: .bold, design: .rounded))
                                             .foregroundColor(FriendlyTheme.apexGreen)
                                     } else {

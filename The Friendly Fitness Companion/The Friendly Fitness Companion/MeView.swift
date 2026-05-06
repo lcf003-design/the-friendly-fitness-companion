@@ -703,7 +703,7 @@ struct PersonalInfoView: View {
             let recentLog = dailyLogs.sorted(by: { $0.date > $1.date }).first(where: { !$0.bodyMeasurements.isEmpty })
             let latestWeight = recentLog?.bodyMeasurements.last?.bodyWeight ?? goal.targetWeight
             
-            let newTdee = profile.calculateTDEE(weightInLbs: latestWeight)
+            let newTdee = profile.calculateTDEE(weight: latestWeight, unit: preferredUnit)
             goal.dailyCalorieTarget = newTdee
         }
         

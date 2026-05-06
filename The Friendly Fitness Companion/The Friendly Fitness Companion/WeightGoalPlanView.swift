@@ -6,6 +6,7 @@ import Charts
 struct WeightGoalPlanView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var appState: AppState
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     @State private var selectedTab = "Overview"
     let tabs = ["Overview", "Weight & Cals", "Macros", "Nutrients", "Exercise Plan"]
@@ -29,7 +30,7 @@ struct WeightGoalPlanView: View {
                             .tracking(2.0)
                             .foregroundColor(FriendlyTheme.textSecondary)
                         
-                        Text("I plan to \(action) \(String(format: "%.0f", targetWeight)) lbs in \(targetDays) Days by eating \(dailyCalories) kcal.")
+                        Text("I plan to \(action) \(String(format: "%.0f", targetWeight)) \(preferredUnit) in \(targetDays) Days by eating \(dailyCalories) kcal.")
                             .font(.system(size: 16, weight: .black, design: .rounded))
                             .foregroundColor(.white)
                             .lineLimit(2)
@@ -153,7 +154,7 @@ struct OverviewTab: View {
                 .padding(.top, 24)
                 
                 // Weight Card
-                OverviewCard(title: "WEIGHT PLAN", value: "Maintain at 180 lbs", icon: "scalemass.fill")
+                OverviewCard(title: "WEIGHT PLAN", value: "Maintain at 180 \(preferredUnit)", icon: "scalemass.fill")
                 
                 // Calories Card
                 OverviewCard(title: "CALORIC BUDGET", value: "2,800 kcal / day", icon: "flame.fill")
@@ -245,9 +246,9 @@ struct WeightAndCaloriesTab: View {
         let rate = abs(diff / weeks)
         
         if diff > 0 {
-            return String(format: "Gain %.1f lbs / week", rate)
-        } else if diff < 0 {
-            return String(format: "Lose %.1f lbs / week", rate)
+            return String(format: "Gain %.1f \(preferredUnit) / week", rate)
+        } else if targetWeight < currentWeight {
+            return String(format: "Lose %.1f \(preferredUnit) / week", rate)
         } else {
             return "Maintain Weight"
         }
@@ -265,7 +266,7 @@ struct WeightAndCaloriesTab: View {
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Current Weight (lbs)")
+                            Text("Current Weight (\(preferredUnit.uppercased()))")
                                 .font(.system(size: 10, weight: .bold))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                             TextField("180.0", value: $currentWeight, format: .number)
@@ -275,7 +276,7 @@ struct WeightAndCaloriesTab: View {
                         }
                         Spacer()
                         VStack(alignment: .trailing, spacing: 4) {
-                            Text("Target Weight (lbs)")
+                            Text("Target Weight (\(preferredUnit.uppercased()))")
                                 .font(.system(size: 10, weight: .bold))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                             TextField("180.0", value: $targetWeight, format: .number)
@@ -600,7 +601,7 @@ struct ExercisePlanTab: View {
         let recentLogs = dailyLogs.prefix(7).filter { $0.totalVolume > 0 }
         let avgVolume = recentLogs.isEmpty ? 15000 : recentLogs.reduce(0) { $0 + $1.totalVolume } / Double(recentLogs.count)
         let weeklyProjected = avgVolume * 3.0 // Assume 3 days a week
-        return "\(Int(weeklyProjected / 1000))k lbs / week"
+        return "\(Int(weeklyProjected / 1000))k \(preferredUnit) / week"
     }
     
     var body: some View {

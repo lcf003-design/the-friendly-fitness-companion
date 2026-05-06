@@ -139,6 +139,7 @@ struct ProgressPhotosView: View {
 struct ProgressCompareView: View {
     @Environment(\.dismiss) var dismiss
     let photos: [ProgressPhoto]
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     @State private var leftPhotoId: UUID?
     @State private var rightPhotoId: UUID?
@@ -254,7 +255,7 @@ struct ProgressCompareView: View {
                 .tracking(1.0)
             
             if let bw = bodyWeight {
-                Text("\(String(format: "%.1f", bw)) lbs")
+                Text("\(String(format: "%.1f", bw)) \(preferredUnit)")
                     .font(.system(size: 14, weight: .bold, design: .rounded))
                     .foregroundColor(FriendlyTheme.limeSignal)
             }

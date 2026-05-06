@@ -4,6 +4,7 @@ import SwiftData
 struct ForgeSessionView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     @State private var currentExerciseIndex = 0
     @State private var weight: Double = 135
@@ -97,7 +98,7 @@ struct ForgeSessionView: View {
                     HStack(spacing: 40) {
                         // Weight
                         VStack(spacing: 8) {
-                            Text("WEIGHT (LBS)")
+                            Text("WEIGHT (\(preferredUnit.uppercased()))")
                                 .font(.system(size: 12, weight: .black, design: .rounded))
                                 .tracking(2.0)
                                 .foregroundColor(FriendlyTheme.textSecondary)
@@ -278,7 +279,7 @@ struct ForgeSessionView: View {
         
         let newSet = ExerciseSet(
             weight: weight,
-            unit: "lbs",
+            unit: preferredUnit,
             baseReps: reps,
             rpe: isAbsoluteFailure ? 10.0 : 8.0,
             recruitment: recruitment,

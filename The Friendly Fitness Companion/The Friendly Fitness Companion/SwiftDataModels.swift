@@ -180,9 +180,9 @@ class UserProfile {
         }
     }
     
-    func calculateTDEE(weightInLbs: Double) -> Int {
+    func calculateTDEE(weight: Double, unit: String) -> Int {
         // Mifflin-St Jeor
-        let weightKg = weightInLbs * 0.453592
+        let weightKg = unit.lowercased() == "kg" ? weight : weight * 0.453592
         let heightCm = heightInInches * 2.54
         
         var bmr = (10.0 * weightKg) + (6.25 * heightCm) - (5.0 * Double(age))

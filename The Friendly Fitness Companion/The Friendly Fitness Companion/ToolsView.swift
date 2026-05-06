@@ -4,6 +4,7 @@ import SwiftData
 struct ToolsView: View {
     @State private var selectedTab = "TRAINING"
     @State private var showDietGoal = false
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     var body: some View {
         NavigationStack {
@@ -161,7 +162,7 @@ struct OneRepMaxView: View {
                     // Inputs
                     HStack(spacing: 16) {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("WEIGHT (LBS)")
+                            Text("WEIGHT (\(preferredUnit.uppercased()))")
                                 .font(.system(size: 10, weight: .bold, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
                             
@@ -199,7 +200,7 @@ struct OneRepMaxView: View {
                             .foregroundColor(.black.opacity(0.6))
                             .tracking(1.5)
                         
-                        Text(oneRepMax > 0 ? "\(String(format: "%.1f", oneRepMax)) LBS" : "--")
+                        Text(oneRepMax > 0 ? "\(String(format: "%.1f", oneRepMax)) \(preferredUnit.uppercased())" : "--")
                             .font(.system(size: 48, weight: .black, design: .rounded))
                             .foregroundColor(.black)
                             .contentTransition(.numericText())
@@ -282,7 +283,7 @@ struct PlateMathView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     HStack {
-                        Text("TARGET (LBS)")
+                        Text("TARGET (\(preferredUnit.uppercased()))")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Spacer()
@@ -313,7 +314,7 @@ struct PlateMathView: View {
                                     .font(.system(size: 14, weight: .bold, design: .rounded))
                                     .foregroundColor(FriendlyTheme.apexGreen)
                                 Spacer()
-                                Text("ACTUAL: \(actualWeight == floor(actualWeight) ? "\(Int(actualWeight))" : String(format: "%.1f", actualWeight)) LBS")
+                                Text("ACTUAL: \(actualWeight == floor(actualWeight) ? "\(Int(actualWeight))" : String(format: "%.1f", actualWeight)) \(preferredUnit.uppercased())")
                                     .font(.system(size: 14, weight: .bold, design: .rounded))
                                     .foregroundColor(FriendlyTheme.textSecondary)
                             }
@@ -399,7 +400,7 @@ struct StrengthRow: View {
                 .foregroundColor(FriendlyTheme.apexGreen)
                 .frame(width: 60, alignment: .leading)
             Spacer()
-            Text("\(String(format: "%.1f", weight)) lbs")
+            Text("\(String(format: "%.1f", weight)) \(preferredUnit)")
                 .font(.system(size: 16, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
                 .frame(width: 80, alignment: .center)

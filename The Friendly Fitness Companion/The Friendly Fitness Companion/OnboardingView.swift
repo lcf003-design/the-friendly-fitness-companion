@@ -18,7 +18,7 @@ struct OnboardingView: View {
                         .font(.system(size: 60))
                         .foregroundColor(.white)
                     
-                    Text("ORIGIN INTL BOUTIQUE")
+                    Text("THE FRIENDLY FITNESS COMPANION")
                         .font(.system(size: 14, weight: .black, design: .rounded))
                         .tracking(4.0)
                         .foregroundColor(.white)

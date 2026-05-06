@@ -139,7 +139,7 @@ struct NavigationDrawerView: View {
                 }
                 
                 // Footer
-                Text("ORIGIN INTL BOUTIQUE")
+                Text("THE FRIENDLY FITNESS COMPANION")
                     .font(.system(size: 10, weight: .bold, design: .rounded))
                     .tracking(2.0)
                     .foregroundColor(FriendlyTheme.textSecondary)

@@ -5,6 +5,7 @@ struct TrainingLedgerView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
     @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
     // Flatten workouts for the ledger view
     var allWorkouts: [(date: Date, workout: WorkoutEntry)] {
@@ -88,7 +89,7 @@ struct LedgerRowView: View {
                 
                 Spacer()
                 
-                Text("\(Int(totalTonnage)) lbs")
+                Text("\(Int(totalTonnage)) \(preferredUnit)")
                     .font(.system(size: 14, weight: .black, design: .rounded))
                     .foregroundColor(FriendlyTheme.apexGreen)
                 
@@ -126,7 +127,7 @@ struct LedgerRowView: View {
                                     .foregroundColor(FriendlyTheme.textSecondary)
                                     .frame(width: 50, alignment: .leading)
                                 
-                                Text("\(Int(set.weight)) lbs × \(set.totalReps)")
+                                Text("\(Int(set.weight)) \(preferredUnit) × \(set.totalReps)")
                                     .font(.system(size: 16, weight: .bold, design: .rounded))
                                     .foregroundColor(.white)
                                 

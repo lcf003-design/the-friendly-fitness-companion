@@ -2,7 +2,8 @@ import SwiftUI
 import SwiftData
 
 struct CommunityView: View {
-    @Query private var dailyLogs: [DailyLog]
+    @Query(sort: \DailyLog.date, order: .reverse) private var dailyLogs: [DailyLog]
+    @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     @Query private var allWorkouts: [WorkoutEntry]
     
     // Fake "GLOBAL TONNAGE" based on local + huge number
@@ -64,7 +65,7 @@ struct CommunityView: View {
                             .foregroundColor(.white)
                             .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, x: 0, y: 0)
                         
-                        Text("LBS MOVED BY THE FORGE")
+                        Text("\(preferredUnit.uppercased()) MOVED BY THE FORGE")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .tracking(1.5)
                             .foregroundColor(FriendlyTheme.apexGreen)
@@ -128,7 +129,7 @@ struct LeaderboardRow: View {
             
             Spacer()
             
-            Text("\(Int(volume).formatted()) lbs")
+            Text("\(Int(volume).formatted()) \(preferredUnit)")
                 .font(.system(size: 14, weight: .bold, design: .rounded))
                 .foregroundColor(.white)
         }

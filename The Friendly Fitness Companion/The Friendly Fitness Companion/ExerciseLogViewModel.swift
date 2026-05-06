@@ -4,7 +4,7 @@ import Combine
 
 class ExerciseLogViewModel: ObservableObject {
     @Published var weight: String = ""
-    @Published var unit: String = "lbs"
+    @Published var unit: String = UserDefaults.standard.string(forKey: "preferredUnit") ?? "lbs"
     @Published var baseReps: String = ""
     @Published var rpe: Double = 8.0
     @Published var isWarmup: Bool = false

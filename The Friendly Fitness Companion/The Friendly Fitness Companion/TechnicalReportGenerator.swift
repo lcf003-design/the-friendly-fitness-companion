@@ -15,7 +15,7 @@ struct TechnicalReportPDFView: View {
                     .foregroundColor(FriendlyTheme.apexGreen)
                     .padding(.bottom, 8)
                 
-                Text("ORIGIN INTL BOUTIQUE")
+                Text("THE FRIENDLY FITNESS COMPANION")
                     .font(.system(size: 10, weight: .black))
                     .tracking(4.0)
                     .foregroundColor(FriendlyTheme.textSecondary)
