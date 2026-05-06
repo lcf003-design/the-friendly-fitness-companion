@@ -15,6 +15,7 @@ class DailyLog {
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
     @Relationship(deleteRule: .cascade) var progressPhotos: [ProgressPhoto] = []
     @Relationship(deleteRule: .cascade) var bodyMeasurements: [BodyMeasurement] = []
+    @Relationship(deleteRule: .cascade) var foodEntries: [FoodEntry] = []
     
     init(date: Date = Date()) {
         let formatter = DateFormatter()
@@ -272,5 +273,52 @@ class FastingSession {
     init(startTime: Date = Date()) {
         self.id = UUID()
         self.startTime = startTime
+    }
+}
+
+// MARK: - Nutrition & Metabolic Tracking
+@Model
+class FoodEntry {
+    var id: UUID
+    var name: String
+    var calories: Int
+    var protein: Int
+    var fat: Int
+    var carbs: Int
+    var timestamp: Date
+    
+    var dailyLog: DailyLog?
+    
+    init(name: String, calories: Int, protein: Int, fat: Int, carbs: Int) {
+        self.id = UUID()
+        self.name = name
+        self.calories = calories
+        self.protein = protein
+        self.fat = fat
+        self.carbs = carbs
+        self.timestamp = Date()
+    }
+}
+
+@Model
+class MetabolicGoal {
+    var id: UUID
+    var targetWeight: Double
+    var dailyCalorieTarget: Int
+    var fatPercent: Double
+    var proteinPercent: Double
+    var carbPercent: Double
+    var isAutopilotEnabled: Bool
+    var lastUpdated: Date
+    
+    init(targetWeight: Double = 180.0, dailyCalorieTarget: Int = 2800, fatPercent: Double = 80.0, proteinPercent: Double = 20.0, carbPercent: Double = 0.0, isAutopilotEnabled: Bool = true) {
+        self.id = UUID()
+        self.targetWeight = targetWeight
+        self.dailyCalorieTarget = dailyCalorieTarget
+        self.fatPercent = fatPercent
+        self.proteinPercent = proteinPercent
+        self.carbPercent = carbPercent
+        self.isAutopilotEnabled = isAutopilotEnabled
+        self.lastUpdated = Date()
     }
 }

@@ -17,6 +17,9 @@ struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var appState: AppState
     @Query private var dailyLogs: [DailyLog]
+    @Query private var metabolicGoals: [MetabolicGoal]
+    
+    @State private var showFoodLogger = false
     
     init() {
         var descriptor = FetchDescriptor<DailyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
@@ -106,6 +109,10 @@ struct DashboardView: View {
                             .tracking(3.0)
                     }
                     .padding(.bottom, 10)
+                    
+                    // Dynamic Budgeting
+                    MetabolicBudgetView(dailyLogs: dailyLogs, metabolicGoals: metabolicGoals, showFoodLogger: $showFoodLogger)
+                        .padding(.bottom, 10)
                     
                     // Analytics: Tonnage Volume Chart
                     if dailyLogs.filter({ $0.totalVolume > 0 }).count > 0 {
@@ -283,6 +290,9 @@ struct DashboardView: View {
                 .padding(.bottom, 100)
             }
         }
+        .sheet(isPresented: $showFoodLogger) {
+            FoodLoggerModal()
+        }
     }
 }
 
@@ -326,6 +336,153 @@ struct HennemanMeterView: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 10)
+    }
+}
+
+// MARK: - Dynamic Budgeting Component
+struct MetabolicBudgetView: View {
+    var dailyLogs: [DailyLog]
+    var metabolicGoals: [MetabolicGoal]
+    @Binding var showFoodLogger: Bool
+    
+    private var goal: MetabolicGoal {
+        metabolicGoals.first ?? MetabolicGoal()
+    }
+    
+    private var todayLog: DailyLog? {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        return dailyLogs.first(where: { calendar.startOfDay(for: $0.date) == today })
+    }
+    
+    private var consumedCalories: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.calories } ?? 0
+    }
+    
+    private var consumedProtein: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.protein } ?? 0
+    }
+    
+    private var consumedFat: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.fat } ?? 0
+    }
+    
+    private var consumedCarbs: Int {
+        todayLog?.foodEntries.reduce(0) { $0 + $1.carbs } ?? 0
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Text("METABOLIC FUEL")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .tracking(3.0)
+                
+                Spacer()
+                
+                Button(action: { showFoodLogger = true }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "plus.circle.fill")
+                        Text("LOG FOOD")
+                    }
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .tracking(1.0)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(FriendlyTheme.apexGreen)
+                    .foregroundColor(.black)
+                    .cornerRadius(8)
+                }
+            }
+            .padding(.horizontal, 24)
+            
+            VStack(spacing: 16) {
+                // Calorie Card
+                let remaining = goal.dailyCalorieTarget - consumedCalories
+                HStack(alignment: .bottom) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("\(remaining)")
+                            .font(.system(size: 40, weight: .black, design: .rounded))
+                            .foregroundColor(remaining < 0 ? Color(red: 214/255, green: 160/255, blue: 84/255) : .white) // Turn Gold if over
+                        Text(remaining < 0 ? "KCAL OVER" : "KCAL LEFT")
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .tracking(2.0)
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .trailing, spacing: 4) {
+                        Text("\(consumedCalories) / \(goal.dailyCalorieTarget)")
+                            .font(.system(size: 14, weight: .bold, design: .rounded))
+                            .foregroundColor(.white)
+                        Text("CONSUMED")
+                            .font(.system(size: 10, weight: .bold, design: .rounded))
+                            .tracking(1.0)
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                    }
+                }
+                
+                Divider().background(Color.white.opacity(0.1))
+                
+                // Macro Strips
+                VStack(spacing: 12) {
+                    // Calculate targets based on calorie split
+                    let pTarget = Int((Double(goal.dailyCalorieTarget) * (goal.proteinPercent / 100)) / 4.0)
+                    let fTarget = Int((Double(goal.dailyCalorieTarget) * (goal.fatPercent / 100)) / 9.0)
+                    let cTarget = Int((Double(goal.dailyCalorieTarget) * (goal.carbPercent / 100)) / 4.0)
+                    
+                    MacroStrip(label: "PROTEIN", current: consumedProtein, target: pTarget, color: FriendlyTheme.apexGreen)
+                    MacroStrip(label: "FAT", current: consumedFat, target: fTarget, color: Color(red: 214/255, green: 160/255, blue: 84/255))
+                    MacroStrip(label: "NET CARBS", current: consumedCarbs, target: cTarget, color: Color(red: 47/255, green: 79/255, blue: 79/255))
+                }
+            }
+            .padding(20)
+            .background(Color.white.opacity(0.05))
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .cornerRadius(16)
+            .padding(.horizontal, 20)
+        }
+    }
+}
+
+struct MacroStrip: View {
+    let label: String
+    let current: Int
+    let target: Int
+    let color: Color
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            HStack {
+                Text(label)
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .tracking(1.0)
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                Spacer()
+                Text("\(current) / \(target)g")
+                    .font(.system(size: 10, weight: .black, design: .rounded))
+                    .foregroundColor(.white)
+            }
+            
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(height: 4)
+                        .cornerRadius(2)
+                    
+                    let progress = target > 0 ? min(Double(current) / Double(target), 1.0) : (current > 0 ? 1.0 : 0.0)
+                    
+                    Rectangle()
+                        .fill(color)
+                        .frame(width: geometry.size.width * CGFloat(progress), height: 4)
+                        .cornerRadius(2)
+                }
+            }
+            .frame(height: 4)
+        }
     }
 }
 
