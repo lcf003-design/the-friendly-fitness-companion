@@ -14,6 +14,7 @@ class DailyLog {
     
     @Relationship(deleteRule: .cascade) var workouts: [WorkoutEntry] = []
     @Relationship(deleteRule: .cascade) var progressPhotos: [ProgressPhoto] = []
+    @Relationship(deleteRule: .cascade) var bodyMeasurements: [BodyMeasurement] = []
     
     init(date: Date = Date()) {
         let formatter = DateFormatter()
@@ -191,5 +192,64 @@ class ShoppingItem {
         self.name = name
         self.isChecked = isChecked
         self.createdAt = Date()
+    }
+}
+
+// MARK: - Body Measurements
+@Model
+class BodyMeasurement {
+    var id: UUID
+    var timestamp: Date
+    
+    var neckInches: Double?
+    var waistInches: Double?
+    var chestInches: Double?
+    var thighsInches: Double?
+    
+    var dailyLog: DailyLog?
+    
+    init(neckInches: Double? = nil, waistInches: Double? = nil, chestInches: Double? = nil, thighsInches: Double? = nil, timestamp: Date = Date()) {
+        self.id = UUID()
+        self.timestamp = timestamp
+        self.neckInches = neckInches
+        self.waistInches = waistInches
+        self.chestInches = chestInches
+        self.thighsInches = thighsInches
+    }
+}
+
+// MARK: - Custom Food
+@Model
+class CustomFood {
+    var id: UUID
+    var name: String
+    var caloriesPer100g: Double
+    var proteinPer100g: Double
+    var carbsPer100g: Double
+    var fatPer100g: Double
+    
+    init(name: String, calories: Double, protein: Double, carbs: Double, fat: Double) {
+        self.id = UUID()
+        self.name = name
+        self.caloriesPer100g = calories
+        self.proteinPer100g = protein
+        self.carbsPer100g = carbs
+        self.fatPer100g = fat
+    }
+}
+
+// MARK: - Custom Recipe
+@Model
+class CustomRecipe {
+    var id: UUID
+    var name: String
+    var instructions: String
+    var ingredients: [String]
+    
+    init(name: String, instructions: String, ingredients: [String]) {
+        self.id = UUID()
+        self.name = name
+        self.instructions = instructions
+        self.ingredients = ingredients
     }
 }

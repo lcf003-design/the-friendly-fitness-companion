@@ -118,6 +118,32 @@ struct MeView: View {
                             .padding(.horizontal, 24)
                         }
                         
+
+                        // BODY STATS
+                        NavigationLink(destination: BodyMeasurementsView()) {
+                            HStack {
+                                Image(systemName: "figure.arms.open")
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .font(.system(size: 20))
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("BODY STATS")
+                                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                                        .foregroundColor(.white)
+                                    Text("Track neck, waist, chest, and thighs")
+                                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(FriendlyTheme.textSecondary)
+                            }
+                            .padding(16)
+                            .background(Color.white.opacity(0.05))
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        }
+                        
                         // PROGRESS PHOTOS
                         NavigationLink(destination: ProgressPhotosView()) {
                             HStack {
@@ -143,30 +169,89 @@ struct MeView: View {
                             .padding(.horizontal, 24)
                         }
                         
-                        // SHOPPING LIST Placeholder
-                        NavigationLink(destination: ShoppingListView()) {
-                            HStack {
-                                Image(systemName: "cart.fill")
-                                    .foregroundColor(FriendlyTheme.apexGreen)
-                                    .font(.system(size: 20))
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("SHOPPING LIST")
-                                        .font(.system(size: 14, weight: .bold, design: .rounded))
-                                        .foregroundColor(.white)
-                                    Text("Manual nutrition checklist framework")
-                                        .font(.system(size: 12, weight: .medium, design: .rounded))
-                                        .foregroundColor(FriendlyTheme.textSecondary)
+                        // NUTRITION & GROCERY
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("NUTRITION & GROCERY")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .tracking(2.0)
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .padding(.horizontal, 24)
+                            
+                            VStack(spacing: 0) {
+                                NavigationLink(destination: CustomFoodsView()) {
+                                    HStack {
+                                        Image(systemName: "fork.knife.circle.fill")
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .font(.system(size: 20))
+                                        Text("MY FOODS")
+                                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                    }
+                                    .padding(16)
                                 }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                Divider().background(Color.white.opacity(0.1))
+                                
+                                NavigationLink(destination: CustomRecipesView()) {
+                                    HStack {
+                                        Image(systemName: "book.pages.fill")
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .font(.system(size: 20))
+                                        Text("CUSTOM RECIPES")
+                                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                    }
+                                    .padding(16)
+                                }
+                                Divider().background(Color.white.opacity(0.1))
+                                
+                                NavigationLink(destination: GroceryCheckView()) {
+                                    HStack {
+                                        Image(systemName: "scale.3d")
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .font(.system(size: 20))
+                                        Text("GROCERY CHECK")
+                                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                    }
+                                    .padding(16)
+                                }
+                                Divider().background(Color.white.opacity(0.1))
+                                
+                                NavigationLink(destination: ShoppingListView()) {
+                                    HStack {
+                                        Image(systemName: "cart.fill")
+                                            .foregroundColor(FriendlyTheme.apexGreen)
+                                            .font(.system(size: 20))
+                                        Text("SHOPPING LIST")
+                                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.system(size: 12))
+                                            .foregroundColor(FriendlyTheme.textSecondary)
+                                    }
+                                    .padding(16)
+                                }
                             }
-                            .padding(16)
                             .background(Color.white.opacity(0.05))
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
                             .cornerRadius(12)
                             .padding(.horizontal, 24)
                         }
+                        
+
                         
                         // APP SETTINGS
                         NavigationLink(destination: AppSettingsView()) {
