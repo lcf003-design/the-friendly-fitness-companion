@@ -143,17 +143,17 @@ struct MeView: View {
                             .padding(.horizontal, 24)
                         }
                         
-                        // BODY STATS
-                        NavigationLink(destination: BodyMeasurementsView()) {
+                        // MY HEALTH
+                        NavigationLink(destination: MyHealthView()) {
                             HStack {
-                                Image(systemName: "figure.arms.open")
+                                Image(systemName: "heart.text.square.fill")
                                     .foregroundColor(FriendlyTheme.apexGreen)
                                     .font(.system(size: 20))
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("BODY STATS")
+                                    Text("MY HEALTH")
                                         .font(.system(size: 14, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
-                                    Text("Track neck, waist, chest, and thighs")
+                                    Text("Track clinical markers and body log")
                                         .font(.system(size: 12, weight: .medium, design: .rounded))
                                         .foregroundColor(FriendlyTheme.textSecondary)
                                 }

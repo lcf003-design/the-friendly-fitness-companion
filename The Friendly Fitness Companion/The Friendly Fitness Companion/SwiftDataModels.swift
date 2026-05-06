@@ -158,11 +158,56 @@ class UserProfile {
     var heightInCm: Double?
     var activityLevel: String
     
+    @Relationship(deleteRule: .cascade) var healthRecords: [HealthRecord] = []
+    
     init(dateOfBirth: Date? = nil, heightInCm: Double? = nil, activityLevel: String = "Sedentary") {
         self.id = UUID()
         self.dateOfBirth = dateOfBirth
         self.heightInCm = heightInCm
         self.activityLevel = activityLevel
+    }
+}
+
+// MARK: - Health Records (Clinical)
+@Model
+class HealthRecord {
+    var id: UUID
+    var timestamp: Date
+    
+    // Cardiovascular
+    var bloodPressureSystolic: Double?
+    var bloodPressureDiastolic: Double?
+    var heartRate: Double?
+    var restingHeartRate: Double?
+    
+    // Metabolic
+    var bloodGlucose: Double?
+    var hba1c: Double?
+    
+    // Lipid Profile
+    var totalCholesterol: Double?
+    var hdl: Double?
+    var ldl: Double?
+    var triglycerides: Double?
+    
+    // Ketones
+    var breathKetones: Double?
+    var urineKetones: Double?
+    var bloodKetones: Double?
+    
+    // Body Log
+    var hipSize: Double?
+    var waistSize: Double?
+    var neckSize: Double?
+    
+    var notes: String?
+    
+    var userProfile: UserProfile?
+    
+    init(timestamp: Date = Date(), notes: String? = nil) {
+        self.id = UUID()
+        self.timestamp = timestamp
+        self.notes = notes
     }
 }
 
