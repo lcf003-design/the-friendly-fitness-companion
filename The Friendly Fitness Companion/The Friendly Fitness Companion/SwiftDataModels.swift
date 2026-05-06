@@ -116,6 +116,7 @@ class RoutineTemplate {
 // MARK: - Global App State
 class AppState: ObservableObject {
     @Published var selectedTab: Int = 0
+    @Published var isDrawerOpen: Bool = false
     @Published var activeRoutine: RoutineTemplate? = nil
     
     // The active queue of exercises to perform

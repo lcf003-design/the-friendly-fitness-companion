@@ -15,6 +15,7 @@ struct FriendlyTheme {
 
 struct DashboardView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
     @Query private var dailyLogs: [DailyLog]
     
     init() {
@@ -60,9 +61,15 @@ struct DashboardView: View {
                 VStack(spacing: 24) {
                     // Header
                     HStack {
-                        Image(systemName: "gauge.with.dots.needle.bottom.100percent")
-                            .font(.system(size: 24))
-                            .foregroundColor(FriendlyTheme.apexGreen)
+                        Button(action: {
+                            withAnimation {
+                                appState.isDrawerOpen = true
+                            }
+                        }) {
+                            Image(systemName: "line.3.horizontal")
+                                .font(.system(size: 24))
+                                .foregroundColor(FriendlyTheme.apexGreen)
+                        }
                         
                         Spacer()
                         

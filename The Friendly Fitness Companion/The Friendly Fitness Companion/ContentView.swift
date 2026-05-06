@@ -1,77 +1,136 @@
 import SwiftUI
 
+struct ComingSoonView: View {
+    let title: String
+    
+    var body: some View {
+        ZStack {
+            FriendlyTheme.midnightMatte.ignoresSafeArea()
+            VStack {
+                Image(systemName: "circle.hexagongrid.fill")
+                    .font(.system(size: 60))
+                    .foregroundColor(FriendlyTheme.textSecondary.opacity(0.3))
+                Text(title.uppercased())
+                    .font(.system(size: 24, weight: .black, design: .rounded))
+                    .tracking(4.0)
+                    .foregroundColor(.white)
+                    .padding(.top, 20)
+                Text("COMING SOON")
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .tracking(2.0)
+                    .foregroundColor(FriendlyTheme.apexGreen)
+                    .padding(.top, 8)
+            }
+        }
+    }
+}
+
+struct TabBarItemView: View {
+    let icon: String
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                    .foregroundColor(isSelected ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
+                Text(title)
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .foregroundColor(isSelected ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary)
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+}
+
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
-    
-    init() {
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 10/255, green: 10/255, blue: 10/255, alpha: 1) // Midnight Matte
-        
-        let itemAppearance = UITabBarItemAppearance()
-        itemAppearance.selected.iconColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1) // Apex Green
-        itemAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(red: 0, green: 1, blue: 0, alpha: 1)]
-        itemAppearance.normal.iconColor = UIColor.gray
-        itemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
-        
-        appearance.stackedLayoutAppearance = itemAppearance
-        appearance.inlineLayoutAppearance = itemAppearance
-        appearance.compactInlineLayoutAppearance = itemAppearance
-        
-        UITabBar.appearance().standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
-    }
     
     var body: some View {
         if !hasCompletedOnboarding {
             OnboardingView()
         } else {
-            TabView(selection: $appState.selectedTab) {
-            // 1. Dashboard Tab
-            DashboardView()
-                .tabItem {
-                    Image(systemName: "gauge.with.dots.needle.bottom.100percent")
-                    Text("Dashboard")
+            ZStack(alignment: .leading) {
+                ZStack(alignment: .bottom) {
+                    // Main Content
+                    Group {
+                        switch appState.selectedTab {
+                        case 0: DashboardView()
+                        case 1: ToolsView()
+                        case 2: DashboardView() // Center + Visual Only placeholder
+                        case 3: ComingSoonView(title: "Community")
+                        case 4: ComingSoonView(title: "Me")
+                        // Drawer Navigation
+                        case 10: ForgeLogbookView()
+                        case 11: RoutinesView()
+                        case 12: ProgressViewTab()
+                        default: DashboardView()
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    
+                    // Custom Tab Bar Overlay
+                    VStack(spacing: 0) {
+                        Spacer()
+                        HStack(spacing: 0) {
+                            TabBarItemView(icon: "chart.bar.fill", title: "Dashboard", isSelected: appState.selectedTab == 0) {
+                                appState.selectedTab = 0
+                            }
+                            
+                            TabBarItemView(icon: "wrench.and.screwdriver.fill", title: "Tools", isSelected: appState.selectedTab == 1) {
+                                appState.selectedTab = 1
+                            }
+                            
+                            // Center +
+                            Button(action: {
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            }) {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 24, weight: .black))
+                                    .foregroundColor(.black)
+                                    .frame(width: 56, height: 56)
+                                    .background(FriendlyTheme.apexGreen)
+                                    .clipShape(Circle())
+                                    .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, y: 5)
+                            }
+                            .offset(y: -15)
+                            .frame(maxWidth: .infinity)
+                            
+                            TabBarItemView(icon: "person.2.fill", title: "Community", isSelected: appState.selectedTab == 3) {
+                                appState.selectedTab = 3
+                            }
+                            
+                            TabBarItemView(icon: "person.circle.fill", title: "Me", isSelected: appState.selectedTab == 4) {
+                                appState.selectedTab = 4
+                            }
+                        }
+                        .padding(.top, 12)
+                        .padding(.bottom, 12)
+                        .background(
+                            FriendlyTheme.midnightMatte
+                                .overlay(Rectangle().frame(height: 1).foregroundColor(Color.white.opacity(0.1)), alignment: .top)
+                                .ignoresSafeArea(edges: .bottom)
+                        )
+                    }
                 }
-                .tag(0)
-            
-            // 2. Routines Tab
-            RoutinesView()
-                .tabItem {
-                    Image(systemName: "list.bullet.clipboard.fill")
-                    Text("Routines")
+                
+                // Navigation Drawer Overlay
+                if appState.isDrawerOpen {
+                    Color.black.opacity(0.6)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation { appState.isDrawerOpen = false }
+                        }
+                    
+                    NavigationDrawerView()
+                        .transition(.move(edge: .leading))
                 }
-                .tag(1)
-            
-            // 3. The Forge Tab
-            ForgeLogbookView()
-                .tabItem {
-                    Image(systemName: "dumbbell.fill")
-                    Text("The Forge")
-                }
-                .tag(2)
-            
-            // 4. Progress Tab
-            ProgressViewTab()
-                .tabItem {
-                    Image(systemName: "chart.xyaxis.line")
-                    Text("Progress")
-                }
-                .tag(3)
-            
-            // 5. Tools Tab
-            ToolsView()
-                .tabItem {
-                    Image(systemName: "wrench.and.screwdriver.fill")
-                    Text("Tools")
-                }
-                .tag(4)
-        }
-        .preferredColorScheme(.dark)
-        .accentColor(Color(red: 0, green: 1, blue: 0)) // Apex Green fallback
+            }
+            .preferredColorScheme(.dark)
         }
     }
 }
