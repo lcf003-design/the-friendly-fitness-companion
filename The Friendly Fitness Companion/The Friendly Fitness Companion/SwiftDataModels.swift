@@ -253,3 +253,24 @@ class CustomRecipe {
         self.ingredients = ingredients
     }
 }
+
+// MARK: - Fasting Session
+@Model
+class FastingSession {
+    var id: UUID
+    var startTime: Date
+    var endTime: Date?
+    
+    var duration: TimeInterval {
+        if let end = endTime {
+            return end.timeIntervalSince(startTime)
+        } else {
+            return Date().timeIntervalSince(startTime)
+        }
+    }
+    
+    init(startTime: Date = Date()) {
+        self.id = UUID()
+        self.startTime = startTime
+    }
+}

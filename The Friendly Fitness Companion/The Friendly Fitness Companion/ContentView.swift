@@ -68,6 +68,7 @@ struct ContentView: View {
                         case 10: ForgeLogbookView()
                         case 11: RoutinesView()
                         case 12: ProgressViewTab()
+                        case 13: FastingHubView()
                         default: DashboardView()
                         }
                     }

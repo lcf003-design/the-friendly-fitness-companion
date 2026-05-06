@@ -40,6 +40,11 @@ struct NavigationDrawerView: View {
                         appState.selectedTab = 12
                         withAnimation { appState.isDrawerOpen = false }
                     }
+                    
+                    DrawerItemView(icon: "flame.fill", title: "FASTING HUB", isSelected: appState.selectedTab == 13) {
+                        appState.selectedTab = 13
+                        withAnimation { appState.isDrawerOpen = false }
+                    }
                 }
                 
                 Spacer()
