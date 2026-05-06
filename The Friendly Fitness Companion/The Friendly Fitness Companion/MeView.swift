@@ -4,6 +4,7 @@ import SwiftData
 struct MeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var userProfiles: [UserProfile]
+    @Query private var dailyLogs: [DailyLog]
     @StateObject private var healthKitManager = HealthKitManager.shared
     
     // UI State

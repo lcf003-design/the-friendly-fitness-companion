@@ -6,6 +6,7 @@ struct MyHealthView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var healthRecords: [HealthRecord]
+    @Query private var userProfiles: [UserProfile]
     
     @State private var showEntryModal = false
     @State private var selectedMarker: HealthMarkerType?
@@ -47,8 +48,18 @@ struct MyHealthView: View {
                 
                 ScrollView {
                     VStack(spacing: 30) {
+                        // GKI Engine at top of HEALTH
+                        GKIEngineView(records: healthRecords)
+                        
                         healthSection(title: "HEALTH", markers: HealthMarkerType.healthMarkers)
+                        
+                        // Lipid Ratio beneath HEALTH section
+                        LipidRatioView(records: healthRecords)
+                        
                         healthSection(title: "BODY LOG", markers: HealthMarkerType.bodyLogMarkers)
+                        
+                        // Aesthetic & Health Ratios beneath BODY LOG
+                        AestheticRatiosView(records: healthRecords, profile: userProfiles.first)
                     }
                     .padding(.horizontal, 24)
                     .padding(.bottom, 100)
@@ -122,8 +133,8 @@ enum HealthMarkerType: String, CaseIterable, Codable, Identifiable {
         case .bloodGlucose: return "Blood Glucose"
         case .hba1c: return "HbA1c"
         case .totalCholesterol: return "Total Cholesterol"
-        case .hdl: return "HDL"
-        case .ldl: return "LDL"
+        case .hdl: return "HDL (High-Density Lipoprotein)"
+        case .ldl: return "LDL (Low-Density Lipoprotein)"
         case .triglycerides: return "Triglycerides"
         case .hipSize: return "Hip Size"
         case .waistSize: return "Waist Size"
@@ -329,5 +340,194 @@ struct SparklineView: View {
             }
             .stroke(color, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
         }
+    }
+}
+
+// MARK: - GKI Engine View
+struct GKIEngineView: View {
+    var records: [HealthRecord]
+    
+    var currentGKI: Double? {
+        // Find the latest record that has both blood glucose and blood ketones
+        // Or find the latest blood glucose and latest blood ketone on the same day.
+        // Let's assume the user logged them together in the same record or same day.
+        let today = Calendar.current.startOfDay(for: Date())
+        let todayRecords = records.filter { Calendar.current.startOfDay(for: $0.timestamp) == today }
+        
+        let latestGlucose = todayRecords.compactMap { $0.bloodGlucose }.last ?? records.compactMap { $0.bloodGlucose }.last
+        let latestKetones = todayRecords.compactMap { $0.bloodKetones }.last ?? records.compactMap { $0.bloodKetones }.last
+        
+        guard let glucose = latestGlucose, let ketones = latestKetones, ketones > 0 else { return nil }
+        
+        // GKI = Ketones (mmol/L) / (Glucose (mg/dL) / 18.016)
+        let gki = ketones / (glucose / 18.016)
+        return gki
+    }
+    
+    var gkiLevelText: String {
+        guard let gki = currentGKI else { return "No Data" }
+        if gki < 1.0 { return "Highest Therapeutic Ketosis" }
+        else if gki <= 3.0 { return "Deep Therapeutic Ketosis" }
+        else if gki <= 6.0 { return "Moderate Ketosis" }
+        else if gki <= 9.0 { return "Low Ketosis" }
+        else { return "Not in Ketosis" }
+    }
+    
+    var gkiColor: Color {
+        guard let gki = currentGKI else { return FriendlyTheme.textSecondary }
+        if gki <= 3.0 { return FriendlyTheme.apexGreen }
+        else if gki <= 6.0 { return .white }
+        else { return .gray }
+    }
+    
+    var body: some View {
+        if let gki = currentGKI {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("GLUCOSE-KETONE INDEX (GKI)")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .tracking(2.0)
+                
+                HStack {
+                    Text(String(format: "%.2f", gki))
+                        .font(.system(size: 32, weight: .black, design: .rounded))
+                        .foregroundColor(gkiColor)
+                    
+                    Spacer()
+                    
+                    Text(gkiLevelText)
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundColor(gkiColor)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(gkiColor.opacity(0.1))
+                        .cornerRadius(8)
+                }
+            }
+            .padding(16)
+            .background(Color.white.opacity(0.05))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .cornerRadius(12)
+        }
+    }
+}
+
+// MARK: - Lipid Ratio View
+struct LipidRatioView: View {
+    var records: [HealthRecord]
+    
+    var trigHdlRatio: Double? {
+        let latestTrig = records.compactMap { $0.triglycerides }.last
+        let latestHdl = records.compactMap { $0.hdl }.last
+        
+        guard let trig = latestTrig, let hdl = latestHdl, hdl > 0 else { return nil }
+        return trig / hdl
+    }
+    
+    var body: some View {
+        if let ratio = trigHdlRatio {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("TRIGLYCERIDE / HDL RATIO")
+                    .font(.system(size: 10, weight: .bold, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .tracking(2.0)
+                
+                HStack {
+                    Text(String(format: "%.2f", ratio))
+                        .font(.system(size: 24, weight: .black, design: .rounded))
+                        .foregroundColor(ratio < 2.0 ? FriendlyTheme.apexGreen : .white)
+                    
+                    Spacer()
+                    
+                    if ratio < 2.0 {
+                        Text("Optimal Metabolic Health")
+                            .font(.system(size: 12, weight: .bold, design: .rounded))
+                            .foregroundColor(FriendlyTheme.apexGreen)
+                    }
+                }
+                
+                Text("Triglyceride/HDL ratio is a superior predictor of cardiovascular health in low-carb/carnivore populations.")
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .padding(.top, 4)
+            }
+            .padding(16)
+            .background(Color.white.opacity(0.05))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .cornerRadius(12)
+        }
+    }
+}
+
+// MARK: - Aesthetic Ratios View
+struct AestheticRatiosView: View {
+    var records: [HealthRecord]
+    var profile: UserProfile?
+    
+    var whtr: Double? { // Waist-to-Height Ratio
+        guard let heightInCm = profile?.heightInCm, heightInCm > 0 else { return nil }
+        let heightInInches = heightInCm / 2.54
+        guard let waist = records.compactMap({ $0.waistSize }).last else { return nil }
+        return waist / heightInInches
+    }
+    
+    var whr: Double? { // Waist-to-Hip Ratio
+        guard let waist = records.compactMap({ $0.waistSize }).last,
+              let hip = records.compactMap({ $0.hipSize }).last, hip > 0 else { return nil }
+        return waist / hip
+    }
+    
+    var body: some View {
+        if whtr != nil || whr != nil {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("AESTHETIC & HEALTH RATIOS")
+                    .font(.system(size: 12, weight: .black, design: .rounded))
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                    .tracking(2.0)
+                
+                VStack(spacing: 12) {
+                    if let ratio = whtr {
+                        RatioCard(title: "WAIST-TO-HEIGHT", value: ratio, optimalThreshold: 0.5, isOptimal: ratio <= 0.5)
+                    }
+                    if let ratio = whr {
+                        // Assuming optimal WHR is <= 0.90 roughly for general population, we just show value
+                        RatioCard(title: "WAIST-TO-HIP", value: ratio, optimalThreshold: 0.90, isOptimal: ratio <= 0.90)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct RatioCard: View {
+    var title: String
+    var value: Double
+    var optimalThreshold: Double
+    var isOptimal: Bool
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .foregroundColor(.white)
+                
+                if isOptimal {
+                    Text("Optimal Health Marker")
+                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                        .foregroundColor(FriendlyTheme.apexGreen)
+                }
+            }
+            
+            Spacer()
+            
+            Text(String(format: "%.2f", value))
+                .font(.system(size: 20, weight: .black, design: .rounded))
+                .foregroundColor(isOptimal ? FriendlyTheme.apexGreen : .white)
+        }
+        .padding(16)
+        .background(Color.white.opacity(0.05))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+        .cornerRadius(12)
     }
 }

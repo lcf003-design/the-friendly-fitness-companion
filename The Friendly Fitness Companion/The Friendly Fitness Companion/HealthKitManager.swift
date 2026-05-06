@@ -1,6 +1,7 @@
 import Foundation
 import HealthKit
 import Combine
+import SwiftData
 
 class HealthKitManager: ObservableObject {
     static let shared = HealthKitManager()
@@ -14,13 +15,24 @@ class HealthKitManager: ObservableObject {
     private let activeEnergyType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
     private let sleepAnalysisType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!
     
+    // Clinical Markers
+    private let restingHeartRateType = HKObjectType.quantityType(forIdentifier: .restingHeartRate)!
+    private let bloodPressureSystolicType = HKObjectType.quantityType(forIdentifier: .bloodPressureSystolic)!
+    private let bloodPressureDiastolicType = HKObjectType.quantityType(forIdentifier: .bloodPressureDiastolic)!
+    private let bloodGlucoseType = HKObjectType.quantityType(forIdentifier: .bloodGlucose)!
+    private let bodyMassType = HKObjectType.quantityType(forIdentifier: .bodyMass)!
+    
     func requestAuthorization() {
         guard HKHealthStore.isHealthDataAvailable() else {
             print("HealthKit is not available on this device.")
             return
         }
         
-        let typesToRead: Set<HKObjectType> = [activeEnergyType, sleepAnalysisType]
+        let typesToRead: Set<HKObjectType> = [
+            activeEnergyType, sleepAnalysisType,
+            restingHeartRateType, bloodPressureSystolicType,
+            bloodPressureDiastolicType, bloodGlucoseType, bodyMassType
+        ]
         let typesToWrite: Set<HKSampleType> = [HKObjectType.workoutType()]
         
         healthStore.requestAuthorization(toShare: typesToWrite, read: typesToRead) { [weak self] success, error in
@@ -89,6 +101,81 @@ class HealthKitManager: ObservableObject {
         }
         
         healthStore.execute(query)
+    }
+    
+    // MARK: - Clinical Data Polling
+    func pollClinicalData(modelContext: SwiftData.ModelContext, dailyLog: DailyLog) {
+        guard isAuthorized else { return }
+        
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+        
+        // Fetch Weight
+        let weightQuery = HKSampleQuery(sampleType: bodyMassType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { _, samples, _ in
+            if let sample = samples?.first as? HKQuantitySample {
+                let weight = sample.quantity.doubleValue(for: HKUnit.pound())
+                DispatchQueue.main.async {
+                    if !dailyLog.bodyMeasurements.contains(where: { abs(($0.bodyWeight ?? 0) - weight) < 0.1 }) {
+                        let measurement = BodyMeasurement(bodyWeight: weight, timestamp: sample.endDate)
+                        dailyLog.bodyMeasurements.append(measurement)
+                        try? modelContext.save()
+                    }
+                }
+            }
+        }
+        
+        // Fetch Blood Glucose
+        let glucoseQuery = HKSampleQuery(sampleType: bloodGlucoseType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { _, samples, _ in
+            if let sample = samples?.first as? HKQuantitySample {
+                let glucose = sample.quantity.doubleValue(for: HKUnit(from: "mg/dL"))
+                DispatchQueue.main.async {
+                    let record = HealthRecord(timestamp: sample.endDate)
+                    record.bloodGlucose = glucose
+                    record.notes = "Apple Health Sync"
+                    modelContext.insert(record)
+                    try? modelContext.save()
+                }
+            }
+        }
+        
+        // Fetch RHR
+        let rhrQuery = HKSampleQuery(sampleType: restingHeartRateType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { _, samples, _ in
+            if let sample = samples?.first as? HKQuantitySample {
+                let rhr = sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                DispatchQueue.main.async {
+                    let record = HealthRecord(timestamp: sample.endDate)
+                    record.restingHeartRate = rhr
+                    record.notes = "Apple Health Sync"
+                    modelContext.insert(record)
+                    try? modelContext.save()
+                }
+            }
+        }
+        
+        // Fetch BP
+        let bpSystolicQuery = HKSampleQuery(sampleType: bloodPressureSystolicType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { _, sysSamples, _ in
+            let bpDiastolicQuery = HKSampleQuery(sampleType: self.bloodPressureDiastolicType, predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { _, diaSamples, _ in
+                if let sysSample = sysSamples?.first as? HKQuantitySample,
+                   let diaSample = diaSamples?.first as? HKQuantitySample,
+                   sysSample.startDate == diaSample.startDate {
+                    let sys = sysSample.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
+                    let dia = diaSample.quantity.doubleValue(for: HKUnit.millimeterOfMercury())
+                    DispatchQueue.main.async {
+                        let record = HealthRecord(timestamp: sysSample.endDate)
+                        record.bloodPressureSystolic = sys
+                        record.bloodPressureDiastolic = dia
+                        record.notes = "Apple Health Sync"
+                        modelContext.insert(record)
+                        try? modelContext.save()
+                    }
+                }
+            }
+            self.healthStore.execute(bpDiastolicQuery)
+        }
+        
+        healthStore.execute(weightQuery)
+        healthStore.execute(glucoseQuery)
+        healthStore.execute(rhrQuery)
+        healthStore.execute(bpSystolicQuery)
     }
     
     // Save workout to Apple Health

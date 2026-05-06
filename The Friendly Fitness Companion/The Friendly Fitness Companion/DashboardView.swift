@@ -20,6 +20,8 @@ struct DashboardView: View {
     @Query private var metabolicGoals: [MetabolicGoal]
     
     @State private var showFoodLogger = false
+    @State private var showMyHealth = false
+    @Query private var healthRecords: [HealthRecord]
     
     init() {
         var descriptor = FetchDescriptor<DailyLog>(sortBy: [SortDescriptor(\.date, order: .reverse)])
@@ -108,6 +110,13 @@ struct DashboardView: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                             .tracking(3.0)
                     }
+                    .padding(.bottom, 10)
+                    
+                    // Clinical Snapshot Widget
+                    ClinicalSnapshotWidget(records: healthRecords) {
+                        showMyHealth = true
+                    }
+                    .padding(.horizontal, 24)
                     .padding(.bottom, 10)
                     
                     // Dynamic Budgeting
@@ -292,6 +301,9 @@ struct DashboardView: View {
         }
         .sheet(isPresented: $showFoodLogger) {
             FoodLoggerModal()
+        }
+        .fullScreenCover(isPresented: $showMyHealth) {
+            MyHealthView()
         }
     }
 }
@@ -599,6 +611,109 @@ struct ElectrolyteStrip: View {
     }
 }
 
+// MARK: - Clinical Snapshot Widget
+struct ClinicalSnapshotWidget: View {
+    var records: [HealthRecord]
+    var action: () -> Void
+    
+    var currentGKI: Double? {
+        let today = Calendar.current.startOfDay(for: Date())
+        let todayRecords = records.filter { Calendar.current.startOfDay(for: $0.timestamp) == today }
+        let latestGlucose = todayRecords.compactMap { $0.bloodGlucose }.last ?? records.compactMap { $0.bloodGlucose }.last
+        let latestKetones = todayRecords.compactMap { $0.bloodKetones }.last ?? records.compactMap { $0.bloodKetones }.last
+        guard let glucose = latestGlucose, let ketones = latestKetones, ketones > 0 else { return nil }
+        return ketones / (glucose / 18.016)
+    }
+    
+    var lastBP: String {
+        let latestWithBP = records.sorted(by: { $0.timestamp > $1.timestamp }).first(where: { $0.bloodPressureSystolic != nil && $0.bloodPressureDiastolic != nil })
+        if let sys = latestWithBP?.bloodPressureSystolic, let dia = latestWithBP?.bloodPressureDiastolic {
+            return "\(Int(sys))/\(Int(dia))"
+        }
+        return "--"
+    }
+    
+    var lastRHR: Int? {
+        let latest = records.sorted(by: { $0.timestamp > $1.timestamp }).first(where: { $0.restingHeartRate != nil })
+        if let rhr = latest?.restingHeartRate { return Int(rhr) }
+        return nil
+    }
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text("CLINICAL SNAPSHOT")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                        .tracking(3.0)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(FriendlyTheme.textSecondary)
+                        .font(.system(size: 12))
+                }
+                
+                HStack(spacing: 12) {
+                    // GKI
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("GKI")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        
+                        if let gki = currentGKI {
+                            Text(String(format: "%.1f", gki))
+                                .font(.system(size: 20, weight: .black, design: .rounded))
+                                .foregroundColor(FriendlyTheme.apexGreen)
+                                .shadow(color: FriendlyTheme.apexGreen.opacity(0.4), radius: 4, x: 0, y: 0)
+                        } else {
+                            Text("--")
+                                .font(.system(size: 20, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    // BP
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("BLOOD PRESSURE")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        
+                        Text(lastBP)
+                            .font(.system(size: 20, weight: .black, design: .rounded))
+                            .foregroundColor(.white)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    // RHR
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("RESTING HR")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundColor(FriendlyTheme.textSecondary)
+                        
+                        HStack(alignment: .bottom, spacing: 2) {
+                            Text(lastRHR != nil ? "\(lastRHR!)" : "--")
+                                .font(.system(size: 20, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                            Text("BPM")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .padding(.bottom, 2)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+            .padding(16)
+            .background(Color.white.opacity(0.05))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.1), lineWidth: 1))
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
 #Preview {
     DashboardView()
         .modelContainer(for: DailyLog.self, inMemory: true)
