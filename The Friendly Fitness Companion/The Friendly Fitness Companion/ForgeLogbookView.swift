@@ -267,8 +267,23 @@ struct WorkoutSummaryModal: View {
         ZStack {
             FriendlyTheme.midnightMatte.ignoresSafeArea()
             
-            VStack(spacing: 40) {
-                Spacer()
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 40) {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            appState.isWorkoutActive = false
+                            appState.workoutStartTime = nil
+                            appState.forgeQueue.removeAll()
+                            dismiss()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                        }
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
                 
                 // Confetti / Icon
                 ZStack {
@@ -347,6 +362,8 @@ struct WorkoutSummaryModal: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 40)
+                    .padding(.bottom, 40)
+                }
             }
         }
     }
