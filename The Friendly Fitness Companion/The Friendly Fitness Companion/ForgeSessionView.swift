@@ -39,250 +39,230 @@ struct ForgeSessionView: View {
     }
     
     var body: some View {
-        ZStack {
-            FriendlyTheme.midnightMatte.ignoresSafeArea()
-            
-            VStack {
-                // Header
-                HStack {
-                    Button(action: {
-                        appState.showLiveForge = false
-                    }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                    }
-                    Spacer()
-                    Text("LIVE FORGE")
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
-                        
-                        .foregroundColor(FriendlyTheme.apexGreen)
-                    Spacer()
-                    Button(action: finishSession) {
-                        Text("FINISH")
-                            .font(.system(size: 14, weight: .bold, design: .rounded))
-                            .foregroundColor(.red)
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 20)
+        NavigationStack {
+            ZStack {
+                FriendlyTheme.midnightMatte.ignoresSafeArea()
                 
                 if appState.forgeQueue.isEmpty {
-                    Spacer()
                     Text("No exercises in queue.")
                         .foregroundColor(FriendlyTheme.textSecondary)
-                        .font(.system(size: 14, weight: .bold))
-                    Spacer()
+                        .font(.system(size: 14, weight: .medium))
                 } else {
                     ScrollView {
-                    // Exercise Title
-                    HStack {
-                        Button(action: previousExercise) {
-                            Image(systemName: "chevron.left")
-                                .font(.title2)
-                                .foregroundColor(currentExerciseIndex > 0 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary.opacity(0.3))
-                        }
-                        .disabled(currentExerciseIndex == 0)
-                        
-                        Spacer()
-                        
-                        Text(currentExercise.uppercased())
-                            .font(.system(size: 32, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.5)
-                        
-                        Spacer()
-                        
-                        Button(action: nextExercise) {
-                            Image(systemName: "chevron.right")
-                                .font(.title2)
-                                .foregroundColor(currentExerciseIndex < appState.forgeQueue.count - 1 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary.opacity(0.3))
-                        }
-                        .disabled(currentExerciseIndex >= appState.forgeQueue.count - 1)
-                    }
-                    .padding(.top, 40)
-                    .padding(.horizontal, 24)
-                    
-                    Spacer()
-                    
-                    // Massive Typography Controls
-                    if let lastStats = lastSessionStats {
-                        Text("LAST SESSION: \(lastStats)")
-                            .font(.system(size: 14, weight: .bold, design: .rounded))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                            .padding(.bottom, 8)
-                    }
-                    
-                    HStack(spacing: 40) {
-                        // Weight
-                        VStack(spacing: 8) {
-                            Text("WEIGHT (\(preferredUnit.uppercased()))")
-                                .font(.system(size: 12, weight: .black, design: .rounded))
-                                
-                                .foregroundColor(FriendlyTheme.textSecondary)
+                        VStack(spacing: 24) {
                             
-                            HStack(spacing: 16) {
-                                Button("-") { 
-                                    if weight >= 5 { weight -= 5 }
-                                    HapticManager.shared.light()
+                            // Exercise Selector Header
+                            HStack {
+                                Button(action: previousExercise) {
+                                    Image(systemName: "chevron.left.circle.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundColor(currentExerciseIndex > 0 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary.opacity(0.3))
                                 }
-                                .font(.system(size: 40, weight: .light))
-                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .disabled(currentExerciseIndex == 0)
                                 
-                                Text("\(Int(weight))")
-                                    .font(.system(size: 64, weight: .black, design: .rounded))
+                                Spacer()
+                                
+                                Text(currentExercise)
+                                    .font(.system(size: 24, weight: .semibold, design: .rounded))
                                     .foregroundColor(.white)
-                                    .frame(width: 120)
+                                    .multilineTextAlignment(.center)
+                                    .lineLimit(2)
                                 
-                                Button("+") { 
-                                    weight += 5
-                                    HapticManager.shared.light()
+                                Spacer()
+                                
+                                Button(action: nextExercise) {
+                                    Image(systemName: "chevron.right.circle.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundColor(currentExerciseIndex < appState.forgeQueue.count - 1 ? FriendlyTheme.apexGreen : FriendlyTheme.textSecondary.opacity(0.3))
                                 }
-                                .font(.system(size: 40, weight: .light))
-                                .foregroundColor(FriendlyTheme.textSecondary)
+                                .disabled(currentExerciseIndex >= appState.forgeQueue.count - 1)
                             }
-                        }
-                    }
-                    
-                    Spacer().frame(height: 40)
-                    
-                    // Reps
-                    VStack(spacing: 8) {
-                        Text("REPS")
-                            .font(.system(size: 12, weight: .black, design: .rounded))
-                            
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                        
-                        HStack(spacing: 16) {
-                            Button("-") { 
-                                if reps > 0 { reps -= 1 }
-                                HapticManager.shared.light()
-                            }
-                            .font(.system(size: 40, weight: .light))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                            
-                            Text("\(reps)")
-                                .font(.system(size: 64, weight: .black, design: .rounded))
-                                .foregroundColor(.white)
-                                .frame(width: 100)
-                            
-                            Button("+") { 
-                                reps += 1
-                                HapticManager.shared.light()
-                            }
-                            .font(.system(size: 40, weight: .light))
-                            .foregroundColor(FriendlyTheme.textSecondary)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    // Failure Toggle
-                    VStack(spacing: 16) {
-                        Toggle(isOn: $isAbsoluteFailure) {
-                            Text("HIT ABSOLUTE FAILURE?")
-                                .font(.system(size: 16, weight: .black, design: .rounded))
-                                .tracking(1.0)
-                                .foregroundColor(isAbsoluteFailure ? FriendlyTheme.limeSignal : .white)
-                        }
-                        .toggleStyle(SwitchToggleStyle(tint: FriendlyTheme.limeSignal))
-                        .padding()
-                        .background(FriendlyTheme.midnightMatteLight)
-                        .cornerRadius(12)
-                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(isAbsoluteFailure ? FriendlyTheme.limeSignal : Color.white.opacity(0.1), lineWidth: 1))
-                        .padding(.horizontal, 24)
-                        .onChange(of: isAbsoluteFailure) { _, val in
-                            if val {
-                                HapticManager.shared.heavy()
-                            }
-                        }
-                        
-                        // The Audit
-                        Text(isAbsoluteFailure ? "HEAVY DUTY CERTIFIED" : "Push to failure next set for maximum recruitment.")
-                            .font(.system(size: 12, weight: .bold, design: .rounded))
-                            .foregroundColor(isAbsoluteFailure ? FriendlyTheme.limeSignal : FriendlyTheme.textSecondary)
-                            .tracking(isAbsoluteFailure ? 2.0 : 0)
-                            .multilineTextAlignment(.center)
                             .padding(.horizontal, 24)
-                    }
-                    
-                    Spacer()
-                    
-                    // Henneman Meter Live
-                    VStack(spacing: 8) {
-                        let recruitment = calculateRecruitment(weight: weight, reps: reps, isFailure: isAbsoluteFailure)
-                        HennemanMeterView(recruitmentLevel: recruitment, isFailure: isAbsoluteFailure)
-                            .padding(.horizontal, 24)
-                    }
-                    
-                    // Log Set Button
-                    Button(action: logSet) {
-                        HStack {
-                            Image(systemName: "checkmark")
-                            Text("LOG SET")
-                        }
-                        .font(.system(size: 18, weight: .black, design: .rounded))
-                        
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 20)
-                        .background(FriendlyTheme.apexGreen)
-                        .foregroundColor(.black)
-                        .cornerRadius(20)
-                        .shadow(color: FriendlyTheme.apexGreen.opacity(0.3), radius: 10, y: 5)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 24)
-                    
-                    // Recent History Section (Ledger)
-                    if let workout = activeWorkout, !workout.sets.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("CURRENT SESSION LEDGER")
-                                .font(.system(size: 12, weight: .bold, design: .rounded))
-                                .tracking(1.5)
-                                .foregroundColor(FriendlyTheme.textSecondary)
-                                .padding(.horizontal, 24)
-                                
-                            VStack(spacing: 8) {
-                                ForEach(workout.sets) { set in
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("\(Int(set.weight)) \(set.unit) × \(set.totalReps)")
-                                                .font(.system(size: 14, weight: .bold, design: .rounded))
-                                                .foregroundColor(.white)
-                                        }
-                                        Spacer()
-                                        
-                                        if set.isAbsoluteFailure == true {
-                                            Image(systemName: "flame.fill")
-                                                .foregroundColor(FriendlyTheme.limeSignal)
-                                        }
-                                        
-                                        Text("\(Int(set.motorUnitRecruitment * 100))%")
-                                            .font(.system(size: 12, weight: .black, design: .rounded))
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(FriendlyTheme.apexGreen.opacity(0.2))
-                                            .foregroundColor(FriendlyTheme.apexGreen)
-                                            .cornerRadius(4)
+                            .padding(.top, 16)
+                            
+                            if let lastStats = lastSessionStats {
+                                Button(action: {
+                                    // Parse last stats and copy (naive parse for prototype)
+                                    let parts = lastStats.split(separator: " ")
+                                    if let w = Double(parts.first ?? ""), let r = Int(parts.last ?? "") {
+                                        weight = w
+                                        reps = r
+                                        HapticManager.shared.light()
                                     }
-                                    .padding()
-                                    .background(Color.white.opacity(0.05))
+                                }) {
+                                    HStack {
+                                        Image(systemName: "clock.arrow.circlepath")
+                                        Text("Last Session: \(lastStats)")
+                                    }
+                                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    .foregroundColor(FriendlyTheme.apexGreen)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(FriendlyTheme.apexGreen.opacity(0.1))
+                                    .cornerRadius(20)
+                                }
+                            }
+                            
+                            // Clean Logging Input Form
+                            VStack(spacing: 0) {
+                                // Weight Row
+                                HStack {
+                                    Text("Weight")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    HStack(spacing: 12) {
+                                        Button(action: { if weight >= 5 { weight -= 5 }; HapticManager.shared.light() }) {
+                                            Image(systemName: "minus.circle.fill")
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                                .font(.system(size: 24))
+                                        }
+                                        Text("\(Int(weight))")
+                                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                            .frame(width: 60, alignment: .center)
+                                        Button(action: { weight += 5; HapticManager.shared.light() }) {
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(FriendlyTheme.apexGreen)
+                                                .font(.system(size: 24))
+                                        }
+                                    }
+                                }
+                                .padding(.vertical, 16)
+                                .padding(.horizontal, 20)
+                                
+                                Divider().background(Color.white.opacity(0.1)).padding(.leading, 20)
+                                
+                                // Reps Row
+                                HStack {
+                                    Text("Reps")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.white)
+                                    Spacer()
+                                    HStack(spacing: 12) {
+                                        Button(action: { if reps > 0 { reps -= 1 }; HapticManager.shared.light() }) {
+                                            Image(systemName: "minus.circle.fill")
+                                                .foregroundColor(FriendlyTheme.textSecondary)
+                                                .font(.system(size: 24))
+                                        }
+                                        Text("\(reps)")
+                                            .font(.system(size: 24, weight: .bold, design: .rounded))
+                                            .foregroundColor(.white)
+                                            .frame(width: 60, alignment: .center)
+                                        Button(action: { reps += 1; HapticManager.shared.light() }) {
+                                            Image(systemName: "plus.circle.fill")
+                                                .foregroundColor(FriendlyTheme.apexGreen)
+                                                .font(.system(size: 24))
+                                        }
+                                    }
+                                }
+                                .padding(.vertical, 16)
+                                .padding(.horizontal, 20)
+                                
+                                Divider().background(Color.white.opacity(0.1)).padding(.leading, 20)
+                                
+                                // Failure Row
+                                Toggle(isOn: $isAbsoluteFailure) {
+                                    Text("Pushed to Failure")
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(.white)
+                                }
+                                .tint(FriendlyTheme.limeSignal)
+                                .padding(.vertical, 16)
+                                .padding(.horizontal, 20)
+                                .onChange(of: isAbsoluteFailure) { _, val in
+                                    if val { HapticManager.shared.heavy() }
+                                }
+                            }
+                            .background(Color.white.opacity(0.05))
+                            .cornerRadius(16)
+                            .padding(.horizontal, 20)
+                            
+                            // Log Set Button
+                            Button(action: logSet) {
+                                Text("Log Set")
+                                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(FriendlyTheme.apexGreen)
+                                    .foregroundColor(.black)
+                                    .cornerRadius(16)
+                            }
+                            .padding(.horizontal, 20)
+                            
+                            // Minimalist Ledger
+                            if let workout = activeWorkout, !workout.sets.isEmpty {
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text("TODAY'S SETS")
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundColor(FriendlyTheme.textSecondary)
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 8)
+                                        .padding(.top, 16)
+                                    
+                                    VStack(spacing: 0) {
+                                        ForEach(Array(workout.sets.enumerated()), id: \.offset) { index, set in
+                                            HStack {
+                                                Text("\(index + 1)")
+                                                    .font(.system(size: 14, weight: .medium))
+                                                    .foregroundColor(FriendlyTheme.textSecondary)
+                                                    .frame(width: 24, alignment: .leading)
+                                                
+                                                Text("\(Int(set.weight)) \(set.unit) × \(set.totalReps)")
+                                                    .font(.system(size: 16, weight: .medium))
+                                                    .foregroundColor(.white)
+                                                
+                                                Spacer()
+                                                
+                                                if set.isAbsoluteFailure == true {
+                                                    Image(systemName: "flame.fill")
+                                                        .foregroundColor(FriendlyTheme.limeSignal)
+                                                        .font(.system(size: 14))
+                                                }
+                                            }
+                                            .padding(.vertical, 12)
+                                            .padding(.horizontal, 20)
+                                            
+                                            if index < workout.sets.count - 1 {
+                                                Divider().background(Color.white.opacity(0.1)).padding(.leading, 44)
+                                            }
+                                        }
+                                    }
+                                    .background(Color.white.opacity(0.02))
                                     .cornerRadius(12)
-                                    .padding(.horizontal, 24)
+                                    .padding(.horizontal, 20)
                                 }
                             }
                         }
-                        .padding(.bottom, 40)
+                        .padding(.bottom, 60)
                     }
-                    } // End ScrollView
                 }
             }
-        }
-        .onAppear {
-            if !appState.forgeQueue.isEmpty {
-                startNewWorkoutEntry()
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Close") {
+                        appState.showLiveForge = false
+                    }
+                    .foregroundColor(FriendlyTheme.textSecondary)
+                }
+                ToolbarItem(placement: .principal) {
+                    Text("Logbook")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Finish") {
+                        finishSession()
+                    }
+                    .foregroundColor(.red)
+                    .fontWeight(.bold)
+                }
+            }
+            .onAppear {
+                if !appState.forgeQueue.isEmpty {
+                    startNewWorkoutEntry()
+                }
             }
         }
     }
@@ -351,7 +331,6 @@ struct ForgeSessionView: View {
         
         workout.sets.append(newSet)
         
-        // Update DailyLog total volume
         let log = getOrCreateTodayLog()
         log.totalVolume += (weight * Double(reps))
         if recruitment > log.maxMotorUnitRecruitment {
@@ -359,17 +338,13 @@ struct ForgeSessionView: View {
         }
         
         try? modelContext.save()
-        
         HapticManager.shared.success()
-        
-        // Reset toggle for next set
         isAbsoluteFailure = false
     }
     
     private func finishSession() {
         HapticManager.shared.medium()
         appState.showLiveForge = false
-        // Trigger the summary in ForgeLogbookView
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             appState.showWorkoutSummary = true
         }
