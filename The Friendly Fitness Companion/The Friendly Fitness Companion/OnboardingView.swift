@@ -138,7 +138,7 @@ struct OnboardingView: View {
                     Spacer()
                     
                     Button(action: {
-                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                        HapticManager.shared.heavy()
                         withAnimation { hasCompletedOnboarding = true }
                     }) {
                         Text("ENTER COMMAND CENTER")

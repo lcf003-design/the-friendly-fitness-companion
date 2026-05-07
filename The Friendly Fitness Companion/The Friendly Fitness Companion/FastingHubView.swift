@@ -242,7 +242,7 @@ struct FastingHubView: View {
     }
     
     private func startFast() {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        HapticManager.shared.medium()
         let newSession = FastingSession()
         modelContext.insert(newSession)
         try? modelContext.save()
@@ -251,7 +251,7 @@ struct FastingHubView: View {
     }
     
     private func endFast() {
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        HapticManager.shared.heavy()
         activeSession?.endTime = Date()
         try? modelContext.save()
         activeSession = nil

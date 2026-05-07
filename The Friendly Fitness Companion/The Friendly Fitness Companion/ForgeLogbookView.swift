@@ -74,7 +74,7 @@ struct ForgeLogbookView: View {
                     // Live Workout Engine Header
                     if !appState.isWorkoutActive {
                         Button(action: {
-                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                            HapticManager.shared.heavy()
                             appState.isWorkoutActive = true
                             appState.workoutStartTime = Date()
                         }) {
@@ -108,7 +108,7 @@ struct ForgeLogbookView: View {
                             Spacer()
                             
                             Button(action: {
-                                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                                HapticManager.shared.rigid()
                                 appState.showWorkoutSummary = true
                                 
                                 // HealthKit Bi-Directional Sync
@@ -476,8 +476,7 @@ struct WorkoutHistoryCard: View {
     }
     
     private func deleteSet(_ set: ExerciseSet) {
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
+        HapticManager.shared.medium()
         workout.sets.removeAll(where: { $0.id == set.id })
         modelContext.delete(set)
         try? modelContext.save()
@@ -521,7 +520,7 @@ struct StepperRow: View {
                 Button(action: {
                     if value > 0 {
                         value -= 1
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        HapticManager.shared.light()
                     }
                 }) {
                     Text("-")
@@ -539,7 +538,7 @@ struct StepperRow: View {
                 
                 Button(action: {
                     value += 1
-                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    HapticManager.shared.light()
                 }) {
                     Text("+")
                         .font(.system(size: 18, weight: .bold))

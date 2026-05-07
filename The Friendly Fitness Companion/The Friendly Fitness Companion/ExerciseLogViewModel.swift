@@ -67,7 +67,7 @@ class ExerciseLogViewModel: ObservableObject {
             isTimerRunning = true
             restPauseTimer = 15
             timerEndTime = Date().addingTimeInterval(15.0)
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            HapticManager.shared.light()
         } else {
             isTimerRunning = false
             timerEndTime = nil
@@ -78,7 +78,7 @@ class ExerciseLogViewModel: ObservableObject {
         if let extra = Int(currentRestPauseExtraReps), extra > 0 {
             completedRestPauseReps.append(extra)
             currentRestPauseExtraReps = ""
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            HapticManager.shared.medium()
         }
     }
     

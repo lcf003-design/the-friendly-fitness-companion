@@ -148,8 +148,7 @@ struct ExercisePickerView: View {
     }
     
     private func selectExercise(_ exercise: String) {
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
+        HapticManager.shared.medium()
         
         selectedExercise = exercise
         

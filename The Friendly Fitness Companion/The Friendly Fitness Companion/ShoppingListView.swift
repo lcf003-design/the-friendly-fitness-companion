@@ -40,7 +40,7 @@ struct ShoppingListView: View {
                     VStack(spacing: 12) {
                         ForEach(items) { item in
                             Button(action: {
-                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                HapticManager.shared.light()
                                 item.isChecked.toggle()
                                 try? modelContext.save()
                             }) {
@@ -90,6 +90,6 @@ struct ShoppingListView: View {
         try? modelContext.save()
         
         newItemName = ""
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        HapticManager.shared.medium()
     }
 }

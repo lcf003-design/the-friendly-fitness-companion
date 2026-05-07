@@ -6,7 +6,19 @@ class HapticManager {
     static let shared = HapticManager()
     private var engine: CHHapticEngine?
     
+    private let lightGenerator = UIImpactFeedbackGenerator(style: .light)
+    private let mediumGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private let heavyGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    private let rigidGenerator = UIImpactFeedbackGenerator(style: .rigid)
+    private let notificationGenerator = UINotificationFeedbackGenerator()
+
     private init() {
+        lightGenerator.prepare()
+        mediumGenerator.prepare()
+        heavyGenerator.prepare()
+        rigidGenerator.prepare()
+        notificationGenerator.prepare()
+        
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         do {
             engine = try CHHapticEngine()
@@ -39,32 +51,32 @@ class HapticManager {
     }
     
     func heavy() {
-        let generator = UIImpactFeedbackGenerator(style: .heavy)
-        generator.prepare()
-        generator.impactOccurred()
+        heavyGenerator.prepare()
+        heavyGenerator.impactOccurred()
     }
     
     func success() {
-        let generator = UINotificationFeedbackGenerator()
-        generator.prepare()
-        generator.notificationOccurred(.success)
+        notificationGenerator.prepare()
+        notificationGenerator.notificationOccurred(.success)
     }
     
     func error() {
-        let generator = UINotificationFeedbackGenerator()
-        generator.prepare()
-        generator.notificationOccurred(.error)
+        notificationGenerator.prepare()
+        notificationGenerator.notificationOccurred(.error)
     }
     
     func light() {
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.prepare()
-        generator.impactOccurred()
+        lightGenerator.prepare()
+        lightGenerator.impactOccurred()
     }
     
     func medium() {
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.prepare()
-        generator.impactOccurred()
+        mediumGenerator.prepare()
+        mediumGenerator.impactOccurred()
+    }
+    
+    func rigid() {
+        rigidGenerator.prepare()
+        rigidGenerator.impactOccurred()
     }
 }

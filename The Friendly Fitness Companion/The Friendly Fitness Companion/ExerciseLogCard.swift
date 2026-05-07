@@ -39,13 +39,12 @@ struct ExerciseLogCard: View {
                     .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                     .onLongPressGesture {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        HapticManager.shared.medium()
                         onSwapRequested?()
                     }
                 Spacer()
                 Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .rigid)
-                    impact.impactOccurred()
+                    HapticManager.shared.rigid()
                     appState.forgeQueue.removeAll(where: { $0 == exerciseName })
                 }) {
                     Image(systemName: "xmark")
@@ -68,7 +67,7 @@ struct ExerciseLogCard: View {
                         vm.weight = prevWeight
                         vm.baseReps = prevReps
                         vm.unit = prevUnit
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        HapticManager.shared.medium()
                     }) {
                         HStack {
                             Image(systemName: "clock.arrow.circlepath")
@@ -94,7 +93,7 @@ struct ExerciseLogCard: View {
                         }
                         vm.baseReps = prevReps
                         vm.unit = prevUnit
-                        UINotificationFeedbackGenerator().notificationOccurred(.success)
+                        HapticManager.shared.success()
                     }) {
                         VStack(alignment: .trailing, spacing: 2) {
                             HStack(spacing: 4) {
@@ -135,7 +134,7 @@ struct ExerciseLogCard: View {
                 HStack(spacing: 0) {
                     Button(action: {
                         withAnimation { vm.isWarmup = true }
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        HapticManager.shared.light()
                     }) {
                         Text("WARMUP")
                             .font(.system(size: 10, weight: .black, design: .rounded))
@@ -147,7 +146,7 @@ struct ExerciseLogCard: View {
                     
                     Button(action: {
                         withAnimation { vm.isWarmup = false }
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        HapticManager.shared.light()
                     }) {
                         Text("WORKING")
                             .font(.system(size: 10, weight: .black, design: .rounded))
@@ -215,7 +214,7 @@ struct ExerciseLogCard: View {
                         Spacer()
                         Button(action: {
                             vm.unit = (vm.unit == "lbs") ? "kg" : "lbs"
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            HapticManager.shared.light()
                         }) {
                             Text(vm.unit.uppercased())
                                 .font(.system(size: 8, weight: .bold, design: .rounded))
@@ -242,7 +241,7 @@ struct ExerciseLogCard: View {
                                 } else {
                                     vm.weight = String(val == floor(val) ? "\(Int(val))" : "\(val)")
                                 }
-                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                HapticManager.shared.light()
                             }) {
                                 Text("+\(val == floor(val) ? "\(Int(val))" : "\(val)")")
                                     .font(.system(size: 12, weight: .bold, design: .rounded))
@@ -453,7 +452,7 @@ struct ExerciseLogCard: View {
                 vm.restPauseTimer = 0
                 vm.isTimerRunning = false
                 vm.timerEndTime = nil
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                HapticManager.shared.success()
                 
                 if vm.completedRestPauseReps.isEmpty {
                     vm.completedRestPauseReps.append(0)
@@ -481,7 +480,7 @@ struct ExerciseLogCard: View {
                 saveSet() // Just to trigger the validation visual error
                 return
             }
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            HapticManager.shared.heavy()
             withAnimation {
                 showingFailureAudit = true
             }
@@ -496,7 +495,7 @@ struct ExerciseLogCard: View {
             vm.validationErrorMessage = "Please enter valid numeric values for Weight and Reps."
             vm.showValidationError = true
             vm.submissionState = .error
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            HapticManager.shared.error()
             return
         }
         
@@ -504,7 +503,7 @@ struct ExerciseLogCard: View {
             vm.validationErrorMessage = "Weight must be between 1 and 2000."
             vm.showValidationError = true
             vm.submissionState = .error
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            HapticManager.shared.error()
             return
         }
         
@@ -512,7 +511,7 @@ struct ExerciseLogCard: View {
             vm.validationErrorMessage = "Reps must be between 1 and 500."
             vm.showValidationError = true
             vm.submissionState = .error
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            HapticManager.shared.error()
             return
         }
         
@@ -563,12 +562,12 @@ struct ExerciseLogCard: View {
             vm.validationErrorMessage = "Failed to save to database: \(error.localizedDescription)"
             vm.showValidationError = true
             vm.submissionState = .error
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            HapticManager.shared.error()
         }
     }
     
     private func triggerSuccessFeedback(wasWorkingSet: Bool) {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        HapticManager.shared.medium()
         withAnimation { showSuccessFeedback = true }
         
         vm.resetAfterSuccess()

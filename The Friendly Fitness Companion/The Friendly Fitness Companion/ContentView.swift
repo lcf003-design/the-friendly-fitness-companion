@@ -53,10 +53,6 @@ struct ContentView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     @State private var showShortcuts = false
     @State private var isPulsing = false
-    @State private var currentDurationString = "00:00"
-    
-    let liveTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
     var body: some View {
         if !hasCompletedOnboarding {
             OnboardingView()
@@ -145,19 +141,6 @@ struct ContentView: View {
                 }
             }
             .preferredColorScheme(.dark)
-            .onReceive(liveTimer) { _ in
-                if appState.isWorkoutActive, let start = appState.workoutStartTime {
-                    let interval = Date().timeIntervalSince(start)
-                    let hours = Int(interval) / 3600
-                    let minutes = Int(interval) / 60 % 60
-                    let seconds = Int(interval) % 60
-                    if hours > 0 {
-                        currentDurationString = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-                    } else {
-                        currentDurationString = String(format: "%02d:%02d", minutes, seconds)
-                    }
-                }
-            }
             .sheet(isPresented: $showShortcuts) {
                 ShortcutsMenuSheet()
                     .presentationDetents([.medium, .large])

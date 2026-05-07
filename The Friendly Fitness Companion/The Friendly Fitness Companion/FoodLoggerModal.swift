@@ -182,7 +182,7 @@ struct FoodLoggerModal: View {
     }
     
     private func logFood(name: String, cal: Int, pro: Int, fat: Int, carb: Int, sod: Int, pot: Int, mag: Int) {
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        HapticManager.shared.medium()
         
         let todayLog = getTodayLog()
         let newEntry = FoodEntry(name: name, calories: cal, protein: pro, fat: fat, carbs: carb, sodium: sod, potassium: pot, magnesium: mag)

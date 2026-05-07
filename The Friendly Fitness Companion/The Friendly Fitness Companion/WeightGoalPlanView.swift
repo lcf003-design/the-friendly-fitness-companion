@@ -100,7 +100,7 @@ struct WeightGoalPlanView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        HapticManager.shared.medium()
                         dismiss()
                     }
                     .foregroundColor(FriendlyTheme.apexGreen)

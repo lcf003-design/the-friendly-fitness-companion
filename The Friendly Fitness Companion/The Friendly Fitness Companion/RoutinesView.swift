@@ -89,7 +89,7 @@ struct RoutinesView: View {
                                             let newRoutine = RoutineTemplate(name: "\(routine.name) (Copy)", exercises: routine.exercises)
                                             modelContext.insert(newRoutine)
                                             try? modelContext.save()
-                                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                            HapticManager.shared.medium()
                                         }) {
                                             Label("Duplicate", systemImage: "doc.on.doc")
                                         }
@@ -121,8 +121,7 @@ struct RoutinesView: View {
                                 }
                                 
                                 Button(action: {
-                                    let impact = UIImpactFeedbackGenerator(style: .heavy)
-                                    impact.impactOccurred()
+                                    HapticManager.shared.heavy()
                                     
                                     // Launch the routine
                                     appState.activeRoutine = routine
@@ -265,8 +264,7 @@ struct ExerciseSelectionRow: View {
     var body: some View {
         Button(action: {
             selectedExercises.append(exercise)
-            let impact = UIImpactFeedbackGenerator(style: .light)
-            impact.impactOccurred()
+            HapticManager.shared.light()
         }) {
             HStack {
                 Text(exercise)

@@ -497,7 +497,7 @@ struct AppSettingsView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 isSyncing = false
                 syncStatus = "LAST SYNC: JUST NOW"
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                HapticManager.shared.medium()
             }
         } catch {
             isSyncing = false

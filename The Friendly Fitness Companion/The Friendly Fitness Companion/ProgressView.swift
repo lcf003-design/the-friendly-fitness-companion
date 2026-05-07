@@ -179,8 +179,7 @@ struct ProgressViewTab: View {
                                     ForEach(Array(Set(chartData.map { $0.exercise })).sorted(), id: \.self) { exercise in
                                         Button(action: {
                                             selectedChartExercise = exercise
-                                            let impact = UIImpactFeedbackGenerator(style: .light)
-                                            impact.impactOccurred()
+                                            HapticManager.shared.light()
                                         }) {
                                             Text(exercise)
                                                 .font(.system(size: 12, weight: .bold, design: .rounded))
