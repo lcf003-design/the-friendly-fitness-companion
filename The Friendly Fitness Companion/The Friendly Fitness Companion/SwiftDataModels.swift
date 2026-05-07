@@ -63,19 +63,20 @@ class ExerciseSet {
     var restPauseReps: [Int] // Tracks the reps achieved after each 15s rest pause e.g., [2, 1]
     
     var rpe: Double // 1.0 - 10.0
-    var forcedReps: Bool // Deprecated
-    var negatives: Bool // Deprecated
+    var forcedReps: Bool
+    var negatives: Bool
     
     var forcedRepsCount: Int = 0
     var negativesCount: Int = 0
     var isWarmup: Bool = false
+    var hasRestPause: Bool? = false
     
     var motorUnitRecruitment: Double // Calculated Henneman Output (0.0 - 1.0)
     
     var workoutEntry: WorkoutEntry?
     var isAbsoluteFailure: Bool?
     
-    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, isWarmup: Bool = false, recruitment: Double, isAbsoluteFailure: Bool? = false) {
+    init(weight: Double, unit: String = "lbs", baseReps: Int, restPauseReps: [Int] = [], rpe: Double, forcedReps: Bool = false, negatives: Bool = false, forcedRepsCount: Int = 0, negativesCount: Int = 0, isWarmup: Bool = false, hasRestPause: Bool = false, recruitment: Double, isAbsoluteFailure: Bool? = false) {
         self.id = UUID()
         self.weight = weight
         self.unit = unit
@@ -87,6 +88,7 @@ class ExerciseSet {
         self.forcedRepsCount = forcedRepsCount
         self.negativesCount = negativesCount
         self.isWarmup = isWarmup
+        self.hasRestPause = hasRestPause
         self.motorUnitRecruitment = recruitment
         self.isAbsoluteFailure = isAbsoluteFailure
     }

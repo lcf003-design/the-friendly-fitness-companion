@@ -94,9 +94,8 @@ struct WeightGoalPlanView: View {
                         .font(.system(size: 16, weight: .bold))
                 }
                 ToolbarItem(placement: .principal) {
-                    Text("GOAL & PLAN")
-                        .font(.system(size: 16, weight: .black, design: .rounded))
-                        .tracking(2.0)
+                    Text("Goal & plan")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -127,10 +126,9 @@ struct OverviewTab: View {
                 VStack(spacing: 12) {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("ADVANCED AUTOPILOT")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
-                                .tracking(2.0)
-                                .foregroundColor(.white)
+                            Text("Advanced autopilot")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
                             Text("Dynamically adjusts calories based on Forge intensity")
                                 .font(.system(size: 12, weight: .medium, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)
@@ -172,10 +170,9 @@ struct OverviewTab: View {
                             .foregroundColor(FriendlyTheme.apexGreen)
                             .font(.system(size: 24))
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("EXERCISE PLAN")
-                                .font(.system(size: 14, weight: .black, design: .rounded))
-                                .tracking(2.0)
-                                .foregroundColor(.white)
+                            Text("Exercise plan")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
                             Text("View Routine in The Forge")
                                 .font(.system(size: 12, weight: .medium, design: .rounded))
                                 .foregroundColor(FriendlyTheme.textSecondary)

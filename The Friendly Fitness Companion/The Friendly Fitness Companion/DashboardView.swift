@@ -90,9 +90,8 @@ struct DashboardView: View {
                         let latestSet = dailyLogs.first?.workouts.last?.sets.last
                         VStack(spacing: 8) {
                             HStack {
-                                Text("LATEST FORGE METRICS")
-                                    .font(.system(size: 12, weight: .bold, design: .rounded))
-                                    .tracking(1.5)
+                                Text("Latest forge metrics")
+                                    .font(.system(size: 14, weight: .bold, design: .rounded))
                                     .foregroundColor(FriendlyTheme.textSecondary)
                                 Spacer()
                             }
@@ -103,12 +102,39 @@ struct DashboardView: View {
                             } else {
                                 VStack(spacing: 4) {
                                     HennemanMeterView(recruitmentLevel: 0.0, isFailure: false)
-                                    Text("READY FOR FORGE").font(.system(size: 10, weight: .bold, design: .rounded)).foregroundColor(FriendlyTheme.textSecondary).padding(.top, 4)
+                                    Text("Ready for forge").font(.system(size: 14, weight: .bold, design: .rounded)).foregroundColor(FriendlyTheme.textSecondary).padding(.top, 4)
                                 }
                             }
                         }
                         .padding(.top, 16)
                     }
+                    
+                    // My Daily Advice Section
+                    VStack(spacing: 8) {
+                        HStack {
+                            Text("My daily advice")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                                .foregroundColor(FriendlyTheme.textSecondary)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 24)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                let adviceItems = Array(ExerciseLibrary.hitMovements.prefix(3))
+                                ForEach(adviceItems, id: \.name) { exercise in
+                                    AdviceTileView(
+                                        title: exercise.name,
+                                        description: exercise.proTip,
+                                        accentColor: FriendlyTheme.limeSignal
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 8)
+                        }
+                    }
+                    .padding(.top, 8)
                     
                     // Modular List Cards
                     VStack(spacing: 12) {
@@ -260,7 +286,7 @@ struct MetabolicHubWidget: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Text("0")
                             .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundColor(FriendlyTheme.calmBlue)
+                            .foregroundColor(FriendlyTheme.infoBlue)
                     }
                     
                     VStack(spacing: 4) {
@@ -270,7 +296,7 @@ struct MetabolicHubWidget: View {
                         HStack(spacing: 2) {
                             Text("0")
                                 .font(.system(size: 18, weight: .bold, design: .rounded))
-                                .foregroundColor(FriendlyTheme.calmBlue)
+                                .foregroundColor(FriendlyTheme.infoBlue)
                             Image(systemName: "drop")
                                 .font(.system(size: 14))
                                 .foregroundColor(FriendlyTheme.textSecondary)
@@ -290,7 +316,7 @@ struct MetabolicHubWidget: View {
                     
                     Text("\(metabolicGoals.first?.dailyCalorieTarget ?? 2000)")
                         .font(.system(size: 22, weight: .bold, design: .rounded))
-                        .foregroundColor(FriendlyTheme.calmBlue)
+                        .foregroundColor(FriendlyTheme.budgetOrange)
                         .padding(.bottom, 8)
                     
                     ZStack {
@@ -300,7 +326,7 @@ struct MetabolicHubWidget: View {
                         
                         Circle()
                             .trim(from: 0.0, to: 0.75) // Mock progress
-                            .stroke(FriendlyTheme.calmBlue, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                            .stroke(FriendlyTheme.budgetOrange, style: StrokeStyle(lineWidth: 16, lineCap: .round))
                             .frame(width: 140, height: 140)
                             .rotationEffect(.degrees(-90))
                         
@@ -325,7 +351,7 @@ struct MetabolicHubWidget: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Text("0")
                             .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundColor(FriendlyTheme.calmBlue)
+                            .foregroundColor(FriendlyTheme.infoBlue)
                     }
                     
                     VStack(spacing: 4) {
@@ -334,7 +360,7 @@ struct MetabolicHubWidget: View {
                             .foregroundColor(FriendlyTheme.textSecondary)
                         Text("0")
                             .font(.system(size: 18, weight: .bold, design: .rounded))
-                            .foregroundColor(FriendlyTheme.calmBlue)
+                            .foregroundColor(FriendlyTheme.infoBlue)
                     }
                 }
                 .frame(width: 80)
@@ -348,14 +374,50 @@ struct MetabolicHubWidget: View {
                 Button(action: { showFoodLogger = true }) {
                     Text("View All Meals")
                         .font(.system(size: 14, weight: .bold, design: .rounded))
-                        .foregroundColor(FriendlyTheme.apexGreen)
+                        .foregroundColor(FriendlyTheme.textSecondary)
                 }
                 Spacer()
             }
-            .padding(.vertical, 20)
+            .padding(.top, 4)
+            .padding(.bottom, 20)
         }
+        .padding(.top, 16)
         .background(FriendlyTheme.midnightMatteLight)
         .cornerRadius(24)
+    }
+}
+
+// MARK: - Advice Tile View
+struct AdviceTileView: View {
+    var title: String
+    var description: String
+    var accentColor: Color
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Rectangle()
+                .fill(accentColor)
+                .frame(height: 3)
+                .cornerRadius(1.5)
+                .padding(.bottom, 4)
+            
+            Text(title)
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .foregroundColor(.white)
+                .lineLimit(1)
+            
+            Text(description)
+                .font(.system(size: 12, weight: .regular))
+                .foregroundColor(FriendlyTheme.textSecondary)
+                .lineLimit(3)
+                .multilineTextAlignment(.leading)
+            
+            Spacer(minLength: 0)
+        }
+        .padding(16)
+        .frame(width: 200, height: 120)
+        .background(FriendlyTheme.midnightMatteLight)
+        .cornerRadius(12)
     }
 }
 
