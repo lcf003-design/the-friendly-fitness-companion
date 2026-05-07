@@ -3,6 +3,7 @@ import SwiftData
 
 struct ForgeSessionView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var appState: AppState
     @AppStorage("preferredUnit") private var preferredUnit: String = "lbs"
     
@@ -300,6 +301,7 @@ struct ForgeSessionView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Close") {
                         appState.showLiveForge = false
+                        dismiss()
                     }
                     .foregroundColor(Color(white: 0.6))
                 }
@@ -400,6 +402,7 @@ struct ForgeSessionView: View {
     private func finishSession() {
         HapticManager.shared.medium()
         appState.showLiveForge = false
+        dismiss()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             appState.showWorkoutSummary = true
         }
